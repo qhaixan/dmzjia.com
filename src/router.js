@@ -25,24 +25,16 @@ export default new Router({
       path: '/test',
       name: 'test',
       component: () => import('./views/Test.vue')
-    }/*,
+    },
     {
-      path: '/user/:id',
-      component: () => import('./views/Test.vue')
+      path: '/admin',
+      component: () => import('./views/Admin/Menu.vue'),
       children: [
         {
-          // UserProfile will be rendered inside User's <router-view>
-          // when /user/:id/profile is matched
-          path: 'profile',
-          component: UserProfile
-        },
-        {
-          // UserPosts will be rendered inside User's <router-view>
-          // when /user/:id/posts is matched
-          path: 'posts',
-          component: UserPosts
+          path: 'users',
+          component: () => import('./views/Admin/User.vue')
         }
       ]
-    }*/
+    }
   ]
 })

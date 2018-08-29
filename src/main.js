@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import VueCookies from 'vue-cookies'
-import './firebase'
+import firebase from 'firebase'
 import VueFire from 'vuefire'
 
 Vue.use(VueCookies)

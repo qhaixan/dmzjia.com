@@ -1,20 +1,20 @@
 <template id="">
   <div class="">
     <h1>Test</h1>
-    <mutations/>
-    <getters id="5"/>
-    <register/>
+    <mutations/><hr>
+    <getters id="2" /><hr>
+    <add/><hr>
   </div>
 </template>
 <script>
 import mutations from '@/components/Test/Mutations'
 import getters from '@/components/Test/Getters'
-import register from '@/components/Test/CreateUser'
+import add from '@/components/Test/AddProduct'
   export default{
     components: {
       mutations,
       getters,
-      register
+      add
     }
   }
 </script>

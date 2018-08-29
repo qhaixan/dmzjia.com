@@ -1,6 +1,6 @@
 <template id="">
   <div class="">
-    <h3>Getters + component passing</h3>
+    <h3>Getters + component param</h3>
     &lt;getters id={{id}}/&gt; //change in @/view/Test.vue<br>
     {{name}}
   </div>
@@ -13,7 +13,7 @@
       }
     },
     props: {
-      id: Number
+      id: String
     },
     mounted () {
       var id = parseInt(this.id)

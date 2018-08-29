@@ -27,12 +27,12 @@ export default new Router({
       component: () => import('./views/Test.vue')
     },
     {
-      path: '/admin',
-      component: () => import('./views/Admin/Menu.vue'),
+      path: '/controlpanel',
+      component: () => import('./views/ControlPanel/Menu.vue'),
       children: [
         {
           path: 'users',
-          component: () => import('./views/Admin/User.vue')
+          component: () => import('./views/ControlPanel/User.vue')
         }
       ]
     }

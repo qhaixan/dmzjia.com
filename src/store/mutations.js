@@ -11,8 +11,8 @@ export default {
       state.public.overlay.content=null
     }
   },
-  public_dialogContent (state,content) {
-    state.public.overlay.content = content
-    state.public.overlay.width = "300"
+  public_dialogContent (state,overlay) {
+    state.public.overlay.content = overlay.content
+    state.public.overlay.width = overlay.width
   }
 };

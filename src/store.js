@@ -14,6 +14,12 @@ export default new Vuex.Store({
         drawer: null
       }
     },
+    public: {
+      overlay: {
+        show: false,
+        content: ''
+      }
+    },
     test: {
       count:0,
       employee:[

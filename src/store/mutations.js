@@ -4,5 +4,8 @@ export default {
   },
   loadCookies (state, cookies) {
     state.test.count = cookies
+  },
+  public_dialogPop (state) {
+    state.public.overlay.show = !state.public.overlay.show
   }
 };

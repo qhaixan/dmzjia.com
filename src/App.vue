@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <navbar/>
-    <router-view/>
+    <v-app>
+      <navbar/>
+      <router-view/>
 
-    <div class="overlay" @click="hide" v-if="$store.state.public.overlay.show">
-      <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
-        <popup/>
-      </v-dialog>
-    </div>
+      <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
 
+          <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
+            <popup/>
+          </v-dialog>
+
+      </div>
+    </v-app>
   </div>
 </template>
 <script>
+  import { mapState } from 'vuex';
   import popup from '@/views/Public/popup'
   import navbar from '@/views/Public/navbar'
   export default{
@@ -30,16 +34,27 @@
       }
     },
     created(){
-      /*
-      if(!this.$cookies.isKey("user_session")) {
-        var A = Math.floor(Math.random() * 100);
-        this.$cookies.set("user_session",A)
-      }*/
+      if(this.$cookies.isKey("uid")) {
+        this.$store.state.session.uid = this.$cookies.get('uid')
+      }
+    },
+    computed: {
+      uid () {
+        return this.$cookies.get('uid')
+      }
+    },
+    watch: {
+      uid (v, o) {
+        this.$store.state.session.uid = v
+        if(v==null){
+          this.$cookies.remove("uid")
+        }
+      }
     }
   }
 </script>
 <style scoped>
-.overlay{
+.overlays{
   height:100vh;
   width:100vw;
   position:absolute;

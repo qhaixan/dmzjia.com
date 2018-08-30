@@ -1,6 +1,6 @@
 <template lang="html">
   <v-toolbar
-    color="blue darken-3"
+    color="teal darken-3"
     dark
     app
     :clipped-left="$vuetify.breakpoint.mdAndUp"

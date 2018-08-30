@@ -1,5 +1,5 @@
 <template lang="html">
-  <v-app id="inspire">
+  <div id="inspire">
     <sideMenu />
     <topMenu />
     <v-content>
@@ -10,7 +10,7 @@
       </v-container-->
     </v-content>
 
-  </v-app>
+  </div>
 </template>
 
 <script>

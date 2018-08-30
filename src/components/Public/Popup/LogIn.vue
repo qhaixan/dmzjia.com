@@ -1,7 +1,7 @@
 <template lang="html">
-<div class="">
+<div class="cyan lighten-4">
   <div class="" style="text-align:center;padding:20px;">
-    <h2>Registration</h2>
+    <h2>Log In</h2>
   </div>
   <div style="padding:30px;">
     <v-form ref="form" v-model="valid" lazy-validation>
@@ -32,20 +32,12 @@
             required>
       </v-text-field>
 
-      <div class="" style="text-align:right;">
-        <span class="clear" @click="clear">clear</span>
-        <v-btn :disabled="!valid" @click="submit" :loading="isLoading">
-          submit
-        </v-btn>
-      </div>
-
-
+      <v-btn :disabled="!valid" @click="submit" :loading="isLoading">
+        submit
+      </v-btn>
+      <v-btn @click="clear">clear</v-btn>
     </v-form>
   </div>
-  <div class="" style="text-align:center;padding:10px;">
-    <span class="toLogin">Have an account? Log in here</span>
-  </div>
-
 
 </div>
 </template>
@@ -120,15 +112,5 @@ export default {
 }
 </script>
 
-<style scoped>
-.clear{
-  font-weight: 600;
-  margin: 10px;
-}
-.clear:hover {
-  cursor: pointer;
-}
-.toLogin:hover {
-  cursor: pointer;
-}
+<style lang="css">
 </style>

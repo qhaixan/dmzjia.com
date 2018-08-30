@@ -1,15 +1,20 @@
 <template lang="html">
 <div class="" style="background-color:white;">
-<register v-if="content=='register'"/>
+
+<register           v-if="content=='register'"/>
+<register_success   v-else-if="content=='success'"/>
+
 </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import register from '@/components/Public/Popup/Register'
+import register_success from '@/components/Public/Popup/RegisterSuccess'
 export default {
   components: {
-    register
+    register,
+    register_success
   },
   computed: {
     content () {

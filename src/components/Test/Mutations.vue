@@ -1,6 +1,6 @@
 <template id="">
   <div class="">
-    <h2>Mutations + cookies</h2>
+    <h2>Mutations + cookies + watch</h2>
     {{$store.state.test.count}}
     <v-btn type="button" @click="add">+1</v-btn>
   </div>

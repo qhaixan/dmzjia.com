@@ -15,37 +15,54 @@
   </div>
 </template>
 <script>
+  import { usersRef } from '@/firebaseConfig'
   import { mapState } from 'vuex';
   import popup from '@/views/Public/popup'
   import navbar from '@/views/Public/navbar'
   export default{
+    firebase: {
+      users: usersRef
+    },
     components: {
       navbar,
       popup
     },
-    data() {
-      return {
-        style:'background-color:blue;'
-      }
-    },
     methods: {
       hide(){
         this.$store.commit('public_dialogPop')
+      },
+      getUser(uid){
+        var self = this
+        usersRef.child(uid).once('value').then(function(snapshot) {
+          self.setRole(snapshot.val().role)
+          self.setName(snapshot.val().id)
+        });
+      },
+      setRole(r){
+        this.$store.state.session.role = r
+      },
+      setName(n){
+        this.$store.state.session.name = n
       }
     },
     created(){
+
+    },
+    mounted(){
       if(this.$cookies.isKey("uid")) {
-        this.$store.state.session.uid = this.$cookies.get('uid')
+        var uid = this.$cookies.get('uid')
+        this.$store.state.session.uid = uid
+        this.getUser(uid)
       }
     },
     computed: {
       uid () {
-        return this.$cookies.get('uid')
+        return this.$store.state.session.uid
       }
     },
     watch: {
       uid (v, o) {
-        this.$store.state.session.uid = v
+        this.$cookies.set('uid',v)
         if(v==null){
           this.$cookies.remove("uid")
         }

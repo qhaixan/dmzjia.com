@@ -1,43 +1,63 @@
 <template lang="html">
-<div class="cyan lighten-4">
+<div class="">
   <div class="" style="text-align:center;padding:20px;">
-    <h2>Log In</h2>
+    <h2>Login</h2>
   </div>
   <div style="padding:30px;">
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
             v-if="exist"
-            v-on:change="change"
             v-model="name"
-            :rules="[nameRules.exist]"
-            :counter="nameLimit"
+            :rules="[nameRules.required]"
             label="Username"
             required>
       </v-text-field>
       <v-text-field
             v-else
+            @keydown.native="changeName"
             v-model="name"
-            :rules="[nameRules.required, nameRules.min, nameRules.max]"
-            :counter="nameLimit"
+            :rules="[nameRules.notFound]"
             label="Username"
             required>
       </v-text-field>
+
       <v-text-field
+            v-if="match"
             v-model="password"
             :append-icon="showPw ? 'visibility_off' : 'visibility'"
-            :rules="[pwRules.required, pwRules.min]"
+            :rules="[pwRules.required]"
+            :type="showPw ? 'text' : 'password'"
+            label="Password"
+            @click:append="showPw = !showPw"
+            required>
+      </v-text-field>
+      <v-text-field
+            v-else
+            @keydown.native="changePw"
+            v-model="password"
+            :append-icon="showPw ? 'visibility_off' : 'visibility'"
+            :rules="[pwRules.unmatch]"
             :type="showPw ? 'text' : 'password'"
             label="Password"
             @click:append="showPw = !showPw"
             required>
       </v-text-field>
 
-      <v-btn :disabled="!valid" @click="submit" :loading="isLoading">
-        submit
-      </v-btn>
-      <v-btn @click="clear">clear</v-btn>
+
+      <div class="" style="text-align:right;">
+        <span class="clear" @click="clear">clear</span>
+        <v-btn :disabled="!valid" @click="submit" :loading="isLoading">
+          submit
+        </v-btn>
+      </div>
+
+
     </v-form>
   </div>
+  <div class="" style="text-align:center;padding:10px;">
+    <span class="toReg" @click="toReg">New here? Register now</span>
+  </div>
+
 
 </div>
 </template>
@@ -48,54 +68,69 @@ export default {
   firebase: {
     users: usersRef
   },
-
   data: () => ({
-    exist: false,
+    exist: true,
+    match: true,
     valid: true,
     name: '',
-    nameLimit: 36,
     nameRules: {
       required: value => !!value || 'Required.',
-      min: v => v.length >= 5 || 'Min 5 characters',
-      max: v => v.length <= 36 || 'Max 36 characters',
-      exist: v => v.length <= 0 ||'This username has been taken'
+      notFound: v => v.length <= 0 ||'Username not found'
     },
     password: '',
     showPw: false,
-    pwLimit: 5,
     pwRules: {
       required: value => !!value || 'Required.',
-      min: v => v.length >= 5 || 'Min 5 characters',
+      unmatch: v => v.length <= 0 ||'Password not matched'
     },
     isLoading: false
   }),
 
   methods: {
+    checkPw(key) {
+      var k = null
+      usersRef.child(key).once('value', function (snapshot) {
+        k = snapshot.val().pw
+      });
+      return k
+    },
     submit() {
       this.isLoading = true
       if (this.$refs.form.validate()) {
-        var exist = false;
-        usersRef.orderByChild('id').equalTo(this.name).on('value', function (snapshot) {
-          snapshot.forEach(function(childSnapshot) {
-            var key = childSnapshot.key;
-            var data = childSnapshot.val();
-            exist=true;
-          });
+
+        var key = null
+        usersRef.orderByChild('id').equalTo(this.name).once('value', function (snapshot) {
+          for(var k in snapshot.val())
+            key = k
         });
-        if(!exist){
-          usersRef.push({ id: this.name, pw: this.password })
-          .then((snap)=>{
-            this.login(snap.key)
-          })
+        if(key==null){
+          this.exist=false
+          var n = this.name
+          var self = this
+          this.name = ''
+          setTimeout(function () {
+            self.name = n
+          }, 10)
         }else{
-            this.exist=exist
+          if(this.checkPw(key)==this.password){
+            this.login(key)
+          }else{
+            this.match = false
+            var p = this.password
+            var self = this
+            this.password = ''
+            setTimeout(function () {
+              self.password = p
+            }, 10)
+
+          }
         }
       }
       this.isLoading = false
     },
     login(key) {
-      this.$cookies.set('uid',key)
-      this.$store.commit('public_dialogContent',{content:'success',width:'250'})
+      this.$store.state.session.uid = key
+      this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
       var self = this
       setTimeout(function () {
         self.$store.commit('public_dialogPop')
@@ -105,12 +140,28 @@ export default {
     clear() {
       this.$refs.form.reset()
     },
-    change() {
-      this.exist = false
+    changeName() {
+      this.exist = true
+    },
+    changePw() {
+      this.match = true
+    },
+    toReg(){
+      this.$store.commit('public_dialogContent',{content:'register',width:'350'})
     }
   }
 }
 </script>
 
-<style lang="css">
+<style scoped>
+.clear{
+  font-weight: 600;
+  margin: 10px;
+}
+.clear:hover {
+  cursor: pointer;
+}
+.toReg:hover {
+  cursor: pointer;
+}
 </style>

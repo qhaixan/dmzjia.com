@@ -2,7 +2,9 @@
 <div class="" style="background-color:white;">
 
 <register           v-if="content=='register'"/>
-<register_success   v-else-if="content=='success'"/>
+<register_success   v-else-if="content=='register_success'"/>
+<login              v-else-if="content=='login'"/>
+<logout             v-else-if="content=='logout'"/>
 
 </div>
 </template>
@@ -11,10 +13,14 @@
 import { mapState } from 'vuex'
 import register from '@/components/Public/Popup/Register'
 import register_success from '@/components/Public/Popup/RegisterSuccess'
+import login from '@/components/Public/Popup/LogIn'
+import logout from '@/components/Public/Popup/Logout'
 export default {
   components: {
     register,
-    register_success
+    register_success,
+    login,
+    logout
   },
   computed: {
     content () {

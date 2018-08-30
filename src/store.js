@@ -10,7 +10,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     session: {
-      uid: null
+      uid: null,
+      name: null,
+      role: 0
     },
     controlpanel: {
       menu: {

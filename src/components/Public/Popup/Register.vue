@@ -43,7 +43,7 @@
     </v-form>
   </div>
   <div class="" style="text-align:center;padding:10px;">
-    <span class="toLogin">Have an account? Log in here</span>
+    <span class="toLogin" @click="toLogin">Have an account? Log in here</span>
   </div>
 
 
@@ -56,7 +56,6 @@ export default {
   firebase: {
     users: usersRef
   },
-
   data: () => ({
     exist: false,
     valid: true,
@@ -83,15 +82,11 @@ export default {
       this.isLoading = true
       if (this.$refs.form.validate()) {
         var exist = false;
-        usersRef.orderByChild('id').equalTo(this.name).on('value', function (snapshot) {
-          snapshot.forEach(function(childSnapshot) {
-            var key = childSnapshot.key;
-            var data = childSnapshot.val();
-            exist=true;
-          });
+        usersRef.orderByChild('id').equalTo(this.name).once('value', function (snapshot) {
+          exist=true;
         });
         if(!exist){
-          usersRef.push({ id: this.name, pw: this.password })
+          usersRef.push({ id: this.name, pw: this.password, role:1 })
           .then((snap)=>{
             this.login(snap.key)
           })
@@ -102,8 +97,8 @@ export default {
       this.isLoading = false
     },
     login(key) {
-      this.$cookies.set('uid',key)
-      this.$store.commit('public_dialogContent',{content:'success',width:'250'})
+      this.$store.state.session.uid = key
+      this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
       var self = this
       setTimeout(function () {
         self.$store.commit('public_dialogPop')
@@ -115,6 +110,9 @@ export default {
     },
     change() {
       this.exist = false
+    },
+    toLogin(){
+      this.$store.commit('public_dialogContent',{content:'login',width:'350'})
     }
   }
 }

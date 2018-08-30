@@ -1,14 +1,22 @@
 <template id="">
   <div class="">
-    <h3>Add Product (Firebase)</h3>
+    <h2>Add Product (Firebase)</h2>
     <div class="list">
       <ul>
         <li v-for="p in products">{{p.desc}}</li>
       </ul>
     </div>
     count: {{productCount()}}<br>
-    description: <input type="text" v-model="desc" @keydown.enter="add"><br>
-    <button @click="add">Add</button>
+    <v-layout row wrap>
+
+      <v-flex xs12 sm6 md3 lg2>
+        <v-text-field label="description:" v-model="desc" @keydown.enter="add"/>
+      </v-flex>
+      <v-flex xs12 sm6 md3>
+        <v-btn @click="add">Add</v-btn>
+      </v-flex>
+    </v-layout>
+
   </div>
 </template>
 <script>

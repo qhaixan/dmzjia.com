@@ -1,8 +1,8 @@
 <template id="">
   <div class="">
-    <h3>Mutations + cookies</h3>
+    <h2>Mutations + cookies</h2>
     {{$store.state.test.count}}
-    <button type="button" @click="add">+1</button>
+    <v-btn type="button" @click="add">+1</v-btn>
   </div>
 </template>
 <script>

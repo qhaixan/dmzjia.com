@@ -1,6 +1,5 @@
 <template id="">
   <div class="">
-    <h1>Test</h1>
     <mutations/><hr>
     <getters id="2" /><hr>
     <add/><hr>

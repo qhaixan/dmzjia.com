@@ -9,6 +9,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    controlpanel: {
+      menu: {
+        drawer: null
+      }
+    },
     test: {
       count:0,
       employee:[

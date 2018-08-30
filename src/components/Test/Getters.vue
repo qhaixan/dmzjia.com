@@ -1,6 +1,6 @@
 <template id="">
   <div class="">
-    <h3>Getters + component param</h3>
+    <h2>Getters + component param</h2>
     &lt;getters id={{id}}/&gt; //change in @/view/Test.vue<br>
     {{name}}
   </div>

@@ -6,6 +6,7 @@
   </div>
 </template>
 <script>
+  import { mapState } from 'vuex';
   export default{
     methods: {
       add() {
@@ -18,6 +19,16 @@
         var A = this.$cookies.get('test_count')
         this.$store.commit('loadCookies',A)
       }
-    }
+    },
+    computed: {
+      count () {
+        return this.$store.state.test.count
+      }
+    },
+    watch: {
+      count (v, o) {
+        console.log(o)
+      }
+    },
   }
 </script>

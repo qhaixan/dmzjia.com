@@ -1,11 +1,21 @@
 <template lang="html">
 <div class="" style="background-color:white;">
-  ss
+<register v-if="content=='register'"/>
 </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import register from '@/components/Public/Popup/Register'
 export default {
+  components: {
+    register
+  },
+  computed: {
+    content () {
+      return this.$store.state.public.overlay.content
+    }
+  }
 }
 </script>
 

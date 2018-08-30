@@ -4,7 +4,7 @@
     <router-view/>
 
     <div class="overlay" @click="hide" v-if="$store.state.public.overlay.show">
-      <v-dialog v-model="$store.state.public.overlay.show" max-width="500">
+      <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
         <popup/>
       </v-dialog>
     </div>

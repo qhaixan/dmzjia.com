@@ -18,6 +18,7 @@ export default {
   methods: {
     reg(){
       this.$store.commit('public_dialogPop')
+      this.$store.commit('public_dialogContent','register')
     }
   }
 }

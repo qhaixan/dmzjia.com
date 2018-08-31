@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
 
-      <navbar v-if="!$route.path.startsWith('/controlpanel')"/>
+      <navbar v-if="showNav"/>
       <router-view/>
       <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
 
@@ -40,13 +40,12 @@
       },
       setRole(r){
         this.$store.state.session.role = r
+        this.$cookies.set('role',r)
       },
       setName(n){
         this.$store.state.session.name = n
+        this.$cookies.set('username',n)
       }
-    },
-    created(){
-
     },
     mounted(){
       if(this.$cookies.isKey("uid")) {
@@ -58,13 +57,26 @@
     computed: {
       uid () {
         return this.$store.state.session.uid
-      }
+      },
+      showNav() {
+        var path = this.$route.path
+        if(path.startsWith('/controlpanel'))
+          return false
+        else if(path.startsWith('/error'))
+          return false
+        return true
+      },
     },
     watch: {
       uid (v, o) {
+
         this.$cookies.set('uid',v)
         if(v==null){
           this.$cookies.remove("uid")
+          this.$cookies.remove("role")
+          this.$cookies.remove("username")
+        }else{
+          this.storeUser(v)
         }
       }
     }

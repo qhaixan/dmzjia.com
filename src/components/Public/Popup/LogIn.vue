@@ -24,6 +24,7 @@
       <v-text-field
             v-if="match"
             v-model="password"
+            @keyup.enter.native="submit"
             :append-icon="showPw ? 'visibility_off' : 'visibility'"
             :rules="[pwRules.required]"
             :type="showPw ? 'text' : 'password'"
@@ -96,7 +97,7 @@ export default {
     },
     submit() {
       this.isLoading = true
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate()&&this.valid) {
 
         var key = null
         usersRef.orderByChild('id').equalTo(this.name).once('value', function (snapshot) {
@@ -153,6 +154,30 @@ export default {
     },
     toReg(){
       this.$store.commit('public_dialogContent',{content:'register',width:'350'})
+    },
+    storeUser(uid){
+      this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
+      var self = this
+      usersRef.child(uid).once('value').then(function(snapshot) {
+        self.setRole(snapshot.val().role)
+        self.setName(snapshot.val().id)
+      });
+      setTimeout(function () {
+        self.$store.commit('public_dialogPop')
+      }, 2000)
+    },
+    setRole(r){
+      this.$store.state.session.role = r
+    },
+    setName(n){
+      this.$store.state.session.name = n
+    }
+  },
+  mounted(){
+    if(this.$cookies.isKey("uid")) {
+      var uid = this.$cookies.get('uid')
+      this.$store.state.session.uid = uid
+      this.storeUser(uid)
     }
   }
 }

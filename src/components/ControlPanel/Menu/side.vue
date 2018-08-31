@@ -76,7 +76,6 @@ export default {
   data() {
     return {
       items: [
-        { icon: 'contacts', text: 'Contacts' },
         {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',

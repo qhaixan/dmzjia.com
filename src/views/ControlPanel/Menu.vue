@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="inspire">
+  <div id="inspire" v-if="$store.state.session.role>1">
     <sideMenu />
     <topMenu />
     <v-content>
@@ -11,6 +11,7 @@
     </v-content>
 
   </div>
+  <span v-else>Error 500</span>
 </template>
 
 <script>

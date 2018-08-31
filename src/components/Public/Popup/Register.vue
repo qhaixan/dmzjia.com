@@ -7,7 +7,7 @@
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
             v-if="exist"
-            v-on:change="change"
+            @keydown.native="change"
             v-model="name"
             :rules="[nameRules.exist]"
             :counter="nameLimit"
@@ -22,6 +22,7 @@
             label="Username"
             required>
       </v-text-field>
+
       <v-text-field
             v-model="password"
             :append-icon="showPw ? 'visibility_off' : 'visibility'"
@@ -29,6 +30,26 @@
             :type="showPw ? 'text' : 'password'"
             label="Password"
             @click:append="showPw = !showPw"
+            required>
+      </v-text-field>
+
+      <v-text-field
+            v-if="password!=password2"
+            v-model="password2"
+            :append-icon="showPw2 ? 'visibility_off' : 'visibility'"
+            :rules="[pwRules.match]"
+            :type="showPw2 ? 'text' : 'password'"
+            label="Confirm Password"
+            @click:append="showPw2 = !showPw2"
+            required>
+      </v-text-field>
+      <v-text-field
+            v-else
+            v-model="password2"
+            :append-icon="showPw2 ? 'visibility_off' : 'visibility'"
+            :type="showPw2 ? 'text' : 'password'"
+            label="Confirm Password"
+            @click:append="showPw2 = !showPw2"
             required>
       </v-text-field>
 
@@ -70,9 +91,12 @@ export default {
     password: '',
     showPw: false,
     pwLimit: 5,
+    password2: '',
+    showPw2: false,
     pwRules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 5 || 'Min 5 characters',
+      match: v => v.length <= 0 || 'Confirm password does not match',
     },
     isLoading: false
   }),
@@ -83,10 +107,13 @@ export default {
       if (this.$refs.form.validate()) {
         var exist = false;
         usersRef.orderByChild('id').equalTo(this.name).once('value', function (snapshot) {
-          exist=true;
+          if(snapshot.val()!=null)
+            exist=true;
         });
         if(!exist){
-          usersRef.push({ id: this.name, pw: this.password, role:1 })
+          var md5 = require('js-md5')
+          var pw = md5(this.password)
+          usersRef.push({ id: this.name, pw: pw, role:1 })
           .then((snap)=>{
             this.login(snap.key)
           })
@@ -98,6 +125,8 @@ export default {
     },
     login(key) {
       this.$store.state.session.uid = key
+      this.$store.state.session.name = this.name
+      this.$store.state.session.role = 1
       this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
       var self = this
       setTimeout(function () {

@@ -87,10 +87,10 @@ export default {
   }),
 
   methods: {
-    checkPw(key) {
-      var k = null
+    getUser(key) {
+      var k = {}
       usersRef.child(key).once('value', function (snapshot) {
-        k = snapshot.val().pw
+        k = snapshot.val()
       });
       return k
     },
@@ -112,8 +112,11 @@ export default {
             self.name = n
           }, 10)
         }else{
-          if(this.checkPw(key)==this.password){
-            this.login(key)
+          var user = this.getUser(key)
+          var md5 = require('js-md5')
+          var pw = md5(this.password)
+          if(user.pw==pw){
+            this.login(key,user)
           }else{
             this.match = false
             var p = this.password
@@ -128,8 +131,10 @@ export default {
       }
       this.isLoading = false
     },
-    login(key) {
+    login(key,user) {
       this.$store.state.session.uid = key
+      this.$store.state.session.name = user.id
+      this.$store.state.session.role = user.role
       this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
       var self = this
       setTimeout(function () {

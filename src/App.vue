@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <v-app>
-      <navbar/>
-      <router-view/>
 
+      <navbar v-if="!$route.path.startsWith('/controlpanel')"/>
+      <router-view/>
       <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
 
           <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
@@ -18,7 +18,7 @@
   import { usersRef } from '@/firebaseConfig'
   import { mapState } from 'vuex';
   import popup from '@/views/Public/popup'
-  import navbar from '@/views/Public/navbar'
+  import navbar from '@/views/Public/Navbar'
   export default{
     firebase: {
       users: usersRef
@@ -31,7 +31,7 @@
       hide(){
         this.$store.commit('public_dialogPop')
       },
-      getUser(uid){
+      storeUser(uid){
         var self = this
         usersRef.child(uid).once('value').then(function(snapshot) {
           self.setRole(snapshot.val().role)
@@ -52,7 +52,7 @@
       if(this.$cookies.isKey("uid")) {
         var uid = this.$cookies.get('uid')
         this.$store.state.session.uid = uid
-        this.getUser(uid)
+        this.storeUser(uid)
       }
     },
     computed: {

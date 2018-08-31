@@ -56,7 +56,7 @@
 
           </v-list-tile>
         </v-list-group>
-        <v-list-tile v-else @click="" :key="item.text">
+        <v-list-tile v-else @click="$router.push({ name:item.route })" :key="item.text">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -85,7 +85,8 @@ export default {
           children: [
             { icon: 'people', text: 'Manage Users', route: 'users' }
           ]
-        }
+        },
+        { icon: 'exit_to_app', text: 'Exit Control Panel', route:'home' }
       ]
 
     }

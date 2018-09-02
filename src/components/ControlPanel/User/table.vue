@@ -1,15 +1,30 @@
 <template lang="html">
-  <v-data-table
-    :headers="headers"
-    :items="users"
-    hide-actions
-    class="elevation-1"
-  >
-    <template slot="items" slot-scope="props">
-      <td>{{ props.item.id }}</td>
-      <td class="text-xs">{{ props.item.role }}</td>
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-title>
+      Users List
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search by username"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+
+
+    <v-data-table
+      :headers="headers"
+      :items="users"
+      :search="search"
+      class="elevation-1"
+    >
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.id }}</td>
+        <td class="text-xs">{{ props.item.role }}</td>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -20,6 +35,7 @@
     },
     data () {
       return {
+        search: '',
         headers: [
           {
             text: 'Username',
@@ -51,6 +67,9 @@
       });
     },
     methods:{
+      filtered(name){
+        return name.includes(this.filter)
+      },
       loadUsers(users){
         var size = Object.keys(users).length
         var keys = Object.values(users)

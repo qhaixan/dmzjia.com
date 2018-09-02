@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <tableUser/>
+    <tableUser style="margin-bottom:80px;"/>
     <v-btn
       fab
       bottom

@@ -6,6 +6,22 @@
   <div style="padding:30px;">
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
+            v-if="existMail"
+            @keydown.native="changeMail"
+            v-model="email"
+            :rules="[mailRules.exist]"
+            label="Email"
+            required>
+      </v-text-field>
+      <v-text-field
+            v-else
+            v-model="email"
+            :rules="[mailRules.required, mailRules.valid]"
+            label="Email"
+            required>
+      </v-text-field>
+
+      <v-text-field
             v-if="exist"
             @keydown.native="change"
             v-model="name"
@@ -55,7 +71,7 @@
 
       <div class="" style="text-align:right;">
         <span class="clear" @click="clear">clear</span>
-        <v-btn :disabled="!valid" @click="submit" :loading="isLoading">
+        <v-btn :disabled="!valid" @click="submit" :loading="isLoading" color="info">
           submit
         </v-btn>
       </div>
@@ -79,6 +95,7 @@ export default {
   },
   data: () => ({
     exist: false,
+    existMail: false,
     valid: true,
     name: '',
     nameLimit: 36,
@@ -87,6 +104,12 @@ export default {
       min: v => v.length >= 5 || 'Min 5 characters',
       max: v => v.length <= 36 || 'Max 36 characters',
       exist: v => v.length <= 0 ||'This username has been taken'
+    },
+    email:'',
+    mailRules: {
+      required: value => !!value || 'Required.',
+      exist: v => v.length <= 0 ||'This email has been registered.',
+      valid: v => /.+@.+/.test(v) || 'E-mail must be valid'
     },
     password: '',
     showPw: false,
@@ -105,20 +128,30 @@ export default {
     submit() {
       this.isLoading = true
       if (this.$refs.form.validate()) {
-        var exist = false;
+        var exist = '';
+        usersRef.orderByChild('email').equalTo(this.email).once('value', function (snapshot) {
+          if(snapshot.val()!=null)
+            exist='email';
+        });
+        if(exist=='')
         usersRef.orderByChild('id').equalTo(this.name).once('value', function (snapshot) {
           if(snapshot.val()!=null)
-            exist=true;
+            exist='username';
         });
-        if(!exist){
+
+        if(exist==''){
           var md5 = require('js-md5')
           var pw = md5(this.password)
-          usersRef.push({ id: this.name, pw: pw, role:1 })
+          usersRef.push({ id: this.name, pw: pw, role:1, email:this.email })
           .then((snap)=>{
             this.login(snap.key)
           })
         }else{
-            this.exist=exist
+          if(exist=='email'){
+            this.existMail=true
+          }else{
+            this.exist=true
+          }
         }
       }
       this.isLoading = false
@@ -139,6 +172,9 @@ export default {
     },
     change() {
       this.exist = false
+    },
+    changeMail() {
+      this.existMail = false
     },
     toLogin(){
       this.$store.commit('public_dialogContent',{content:'login',width:'350'})

@@ -47,7 +47,7 @@
 
       <div class="" style="text-align:right;">
         <span class="clear" @click="clear">clear</span>
-        <v-btn :disabled="!valid" @click="submit" :loading="isLoading">
+        <v-btn :disabled="!valid" @click="submit" :loading="isLoading" color="success">
           submit
         </v-btn>
       </div>

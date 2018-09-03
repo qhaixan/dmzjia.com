@@ -29,7 +29,7 @@
     },
     methods: {
       hide(){
-        this.$store.commit('public_dialogPop')
+        this.$store.commit('public_dialogPop',false)
       },
       storeUser(uid){
         var self = this

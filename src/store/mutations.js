@@ -5,8 +5,8 @@ export default {
   loadCookies (state, cookies) {
     state.test.count = cookies
   },
-  public_dialogPop (state) {
-    state.public.overlay.show = !state.public.overlay.show
+  public_dialogPop (state,value) {
+    state.public.overlay.show = value
     if(!state.public.overlay.show){
       state.public.overlay.content=null
     }

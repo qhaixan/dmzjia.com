@@ -21,11 +21,11 @@ export default {
   },
   methods: {
     login(){
-      this.$store.commit('public_dialogPop')
+      this.$store.commit('public_dialogPop',true)
       this.$store.commit('public_dialogContent',{content:'login',width:'350'})
     },
     logout(){
-      this.$store.commit('public_dialogPop')
+      this.$store.commit('public_dialogPop',true)
       this.$store.commit('public_dialogContent',{content:'logout',width:'250'})
     }
   },

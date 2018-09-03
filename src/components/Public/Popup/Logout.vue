@@ -28,11 +28,11 @@ export default {
       this.$store.state.session.name = null
       this.$store.state.session.role = 0
       setTimeout(function () {
-        self.$store.commit('public_dialogPop')
+        self.$store.commit('public_dialogPop',false)
       }, 2000)
     },
     cancel(){
-      this.$store.commit('public_dialogPop')
+      this.$store.commit('public_dialogPop',false)
     }
   }
 }

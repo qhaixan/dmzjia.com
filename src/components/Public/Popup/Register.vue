@@ -163,7 +163,7 @@ export default {
       this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
       var self = this
       setTimeout(function () {
-        self.$store.commit('public_dialogPop')
+        self.$store.commit('public_dialogPop',false)
       }, 2000)
 
     },

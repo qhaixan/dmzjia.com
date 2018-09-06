@@ -14,17 +14,20 @@
 
 
     <v-data-table
+      expand=true
       :headers="headers"
       :items="users"
       :search="search"
+      :loading="!loaded"
       class="elevation-1"
     >
+      <v-progress-linear slot="progress" color="teal lighten-3" indeterminate></v-progress-linear>
       <template slot="items" slot-scope="props">
         <td>{{ props.item.id }}</td>
         <td class="text-xs">{{ props.item.role }}</td>
         <td class="text-xs" style="font-weight:600;">
           <span v-if="props.item.status" style="color:green;">Online</span>
-          <span v-else style="color:grey;">Offline</span>
+          <span v-else style="color:#bcbcbc;">Offline</span>
         </td>
       </template>
     </v-data-table>
@@ -41,18 +44,19 @@
     data () {
       return {
         search: '',
+        loaded: false,
         tempOnline: null,
         headers: [
           {
             text: 'Username',
             align: 'left',
-            sortable: true,
+            //sortable: true,
             value: 'id'
           },
           { text: 'Role', value: 'role' },
           { text: 'Status', value: 'status' }
         ],
-        users:[],
+        users:[]/*,
         desserts: [
           {
             value: false,
@@ -64,7 +68,7 @@
             id: 'Ice cream sandwich',
             role: 237
           }
-        ]
+        ]*/
       }
     },
     mounted(){
@@ -87,9 +91,6 @@
           i+=1;
         }
 
-
-        //cconsole.log(users['-LLDV2D6IulJg8Xxy30J'])
-
         this.users = []
         for(var i=0;i < size;i++){
           var r = this.roleTitle(user[i].role)
@@ -100,6 +101,7 @@
             status: s
           })
         }
+        this.loaded = true
       },
       getStatus(s){
         if(s){

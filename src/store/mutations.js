@@ -12,6 +12,7 @@ export default {
     }
   },
   public_dialogContent (state,overlay) {
+    state.public.overlay.show = true
     state.public.overlay.content = overlay.content
     state.public.overlay.width = overlay.width
   }

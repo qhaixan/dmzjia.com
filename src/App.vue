@@ -15,7 +15,7 @@
 </template>
 <script>
   import { usersRef } from '@/firebaseConfig'
-  import { currentRef } from '@/firebaseConfig'
+  import { onlineRef } from '@/firebaseConfig'
   import { info } from '@/firebaseConfig'
   import { mapState } from 'vuex'
   import popup from '@/views/Public/popup'
@@ -54,13 +54,16 @@
         this.$store.state.session.uid = uid
         this.storeUser(uid)
 
-        var onRef = usersRef.child(uid).child('online')
-        var online = info.child('connected')
-        online.on("value",function(snap){
+        var userStatus = usersRef.child(uid).child('online')
+        var onlineUsers = onlineRef.child(uid)
+        var checkOnline = info.child('connected')
+        checkOnline.on("value",function(snap){
           if(snap.val()){
-            onRef.onDisconnect().remove()
+            onlineUsers.onDisconnect().remove()
+            userStatus.onDisconnect().remove()
 
-            onRef.set(true)
+            onlineUsers.set(true)
+            userStatus.set(true)
           }
         });
       }

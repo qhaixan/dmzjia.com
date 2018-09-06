@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <v-app>
-
       <navbar v-if="showNav"/>
       <router-view/>
       <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
@@ -16,7 +15,9 @@
 </template>
 <script>
   import { usersRef } from '@/firebaseConfig'
-  import { mapState } from 'vuex';
+  import { currentRef } from '@/firebaseConfig'
+  import { info } from '@/firebaseConfig'
+  import { mapState } from 'vuex'
   import popup from '@/views/Public/popup'
   import navbar from '@/views/Public/Navbar'
   export default{
@@ -52,7 +53,18 @@
         var uid = this.$cookies.get('uid')
         this.$store.state.session.uid = uid
         this.storeUser(uid)
+
+        var onRef = usersRef.child(uid).child('online')
+        var online = info.child('connected')
+        online.on("value",function(snap){
+          if(snap.val()){
+            onRef.onDisconnect().remove()
+
+            onRef.set(true)
+          }
+        });
       }
+
     },
     computed: {
       uid () {

@@ -22,6 +22,10 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.id }}</td>
         <td class="text-xs">{{ props.item.role }}</td>
+        <td class="text-xs" style="font-weight:600;">
+          <span v-if="props.item.status" style="color:green;">Online</span>
+          <span v-else style="color:grey;">Offline</span>
+        </td>
       </template>
     </v-data-table>
   </v-card>
@@ -29,6 +33,7 @@
 
 <script>
   import { usersRef } from '@/firebaseConfig'
+  import { currentRef } from '@/firebaseConfig'
   export default {
     firebase: {
       users: usersRef
@@ -36,6 +41,7 @@
     data () {
       return {
         search: '',
+        tempOnline: null,
         headers: [
           {
             text: 'Username',
@@ -43,7 +49,8 @@
             sortable: true,
             value: 'id'
           },
-          { text: 'Role', value: 'role' }
+          { text: 'Role', value: 'role' },
+          { text: 'Status', value: 'status' }
         ],
         users:[],
         desserts: [
@@ -72,18 +79,33 @@
       },
       loadUsers(users){
         var size = Object.keys(users).length
-        var keys = Object.values(users)
+        var user = Object.values(users)
+        var keys = []
+        var i=0
+        for(var k in users){
+          keys[i] = k
+          i+=1;
+        }
+
 
         //cconsole.log(users['-LLDV2D6IulJg8Xxy30J'])
 
         this.users = []
         for(var i=0;i < size;i++){
-          var r = this.roleTitle(keys[i].role)
+          var r = this.roleTitle(user[i].role)
+          var s = this.getStatus(user[i].online)
           this.users.push({
-            id: keys[i].id,
+            id: user[i].id,
             role: r,
+            status: s
           })
         }
+      },
+      getStatus(s){
+        if(s){
+          return true
+        }
+        return false
       },
       roleTitle(r){
         if(r==1){

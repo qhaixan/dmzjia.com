@@ -1,13 +1,11 @@
 <template lang="html">
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/test">Test</router-link>
+    <router-link v-for="r in routes" :to="r.link">{{r.text}} | </router-link>
     <template v-if="uid!=null">
-      <span v-if="role>1"> | <router-link to="/controlpanel">Control Panel</router-link></span>
-      <span> | <a>{{username}}</a> | <a @click="logout">Logout</a></span>
+      <span v-if="role>1"><router-link to="/controlpanel">Control Panel | </router-link></span>
+      <span><a>{{username}} | </a><a @click="logout">Logout</a></span>
     </template>
-    <span v-else> | <a @click="login">Login</a></span>
+    <span v-else><a @click="login">Login</a></span>
   </div>
 </template>
 
@@ -16,7 +14,20 @@ import { mapState } from 'vuex';
 export default {
   data(){
     return {
-      register:true
+      routes:[
+        {
+          text:'Home',
+          link:'/'
+        },
+        {
+          text:'About',
+          link:'/about'
+        },
+        {
+          text:'Test',
+          link:'/test'
+        }
+      ]
     }
   },
   methods: {

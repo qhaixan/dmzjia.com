@@ -1,8 +1,9 @@
 <template id="">
   <div class="">
-    <mutations/><hr>
-    <getters id="2" /><hr>
-    <add/><hr>
+    <mutations style="background:#ed6a75"/>
+    <getters id="2" style="background:#6a8fed"/>
+    <add style="background:#bfed6a"/>
+    is mobile: {{$store.state.isMobile}}
   </div>
 </template>
 <script>

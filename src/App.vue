@@ -1,14 +1,14 @@
 <template>
-  <div id="app">
+  <div id="app" ref="app">
     <v-app>
       <navbar v-if="showNav"/>
       <router-view/>
+      <div v-if="isMobile" style="margin-bottom:56px;"></div>
+      <!--overlay & popup-->
       <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
-
-          <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
-            <popup/>
-          </v-dialog>
-
+        <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
+          <popup/>
+        </v-dialog>
       </div>
     </v-app>
   </div>
@@ -19,7 +19,7 @@
   import { info } from '@/firebaseConfig'
   import { mapState } from 'vuex'
   import popup from '@/views/Public/popup'
-  import navbar from '@/views/Public/Navbar'
+  import navbar from '@/views/Public/navbar'
   export default{
     firebase: {
       users: usersRef
@@ -74,9 +74,25 @@
         }else{
           this.$store.state.session.uid = null
         }
+      },
+      checkAgent(){
+        if( navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
+          ){
+            this.$store.state.isMobile = true
+        }
+        else {
+            this.$store.state.isMobile = false
+        }
       }
     },
     mounted(){
+      this.checkAgent()
       this.checkCookies()
     },
     computed: {
@@ -89,11 +105,18 @@
       showNav() {
         var path = this.$route.path
         if(path.startsWith('/controlpanel'))
+        {
           return false
+        }
         else if(path.startsWith('/error'))
+        {
           return false
+        }
         return true
       },
+      isMobile () {
+        return this.$store.state.isMobile
+      }
     },
     watch: {
       uid (v, o) {

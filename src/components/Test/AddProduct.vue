@@ -8,11 +8,15 @@
     </div>
     count: {{productCount()}}<br>
     <v-layout row wrap>
-
-      <v-flex xs12 sm6 md3 lg2>
-        <v-text-field label="description:" v-model="desc" @keydown.enter="add"/>
+      <v-flex xs6 sm3 md2>
+        <v-text-field
+          label="Name"
+          solo
+          v-model="desc"
+          @keydown.enter="add"
+        ></v-text-field>
       </v-flex>
-      <v-flex xs12 sm6 md3>
+      <v-flex xs6 sm3 md2>
         <v-btn @click="add">Add</v-btn>
       </v-flex>
     </v-layout>

@@ -1,5 +1,5 @@
 git remote -v
-git remote add https://999kaitokid@gitlab.com/999kaitokid/sample.git
+git remote add origin https://999kaitokid@gitlab.com/999kaitokid/sample.git
 git remote set-url https://999kaitokid@gitlab.com/999kaitokid/sample.git
 
 git clone https://999kaitokid@gitlab.com/999kaitokid/sample.git

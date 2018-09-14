@@ -1,6 +1,7 @@
 <template lang="html">
   <div id="nav">
     <template v-if="isMobile">
+      <authMenu/>
       <v-bottom-nav
       :active.sync="bottomNav"
       :value="true"
@@ -30,8 +31,12 @@
 </template>
 
 <script>
+import authMenu from '@/components/Public/navbar/auth'
 import { mapState } from 'vuex';
 export default {
+  components:{
+    authMenu
+  },
   data(){
     return {
       bottomNav:null,
@@ -79,9 +84,6 @@ export default {
     },
     isMobile () {
       return this.$store.state.isMobile
-    },
-    bottomNav() {
-      return this.bottomNav
     },
     curNavName(){
       return this.$route.name

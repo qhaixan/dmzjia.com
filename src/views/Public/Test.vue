@@ -18,3 +18,5 @@ import add from '@/components/Test/AddProduct'
     }
   }
 </script>
+<style scoped>
+</style>

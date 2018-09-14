@@ -32,3 +32,5 @@
     },
   }
 </script>
+<style scoped>
+</style>

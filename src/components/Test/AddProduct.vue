@@ -47,7 +47,7 @@
     }
   }
 </script>
-<style scoped="scoped">
+<style scoped>
   .list{
     height: 100px;
     width: 180px;

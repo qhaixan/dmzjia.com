@@ -39,15 +39,16 @@
           self.setName(snapshot.val().id)
         });
 
-        var userStatus = usersRef.child(uid).child('online')
+        //var userStatus = usersRef.child(uid).child('online')
         var onlineUsers = onlineRef.child(uid)
         var checkOnline = info.child('connected')
+        var sessionKey = this.sessionKey
         checkOnline.on("value",function(snap){
           if(snap.val()){
-            onlineUsers.onDisconnect().remove()
-            userStatus.onDisconnect().remove()
-            onlineUsers.set(true)
-            userStatus.set(true)
+            onlineUsers.child(sessionKey).onDisconnect().remove()
+            //userStatus.onDisconnect().remove()
+            onlineUsers.child(sessionKey).set(true)
+            //userStatus.set(true)
           }
         });
 
@@ -89,9 +90,14 @@
         else {
             this.$store.state.isMobile = false
         }
+      },
+      setRandomKey(){
+        var key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+        this.$store.state.session.randomKey = key
       }
     },
     mounted(){
+      this.setRandomKey()
       this.checkAgent()
       this.checkCookies()
     },
@@ -116,6 +122,9 @@
       },
       isMobile () {
         return this.$store.state.isMobile
+      },
+      sessionKey(){
+        return this.$store.state.session.randomKey
       }
     },
     watch: {
@@ -126,7 +135,7 @@
           this.$cookies.remove("uid")
           this.$cookies.remove("role")
           this.$cookies.remove("username")
-          usersRef.child(o).child('online').remove()
+          //usersRef.child(o).child('online').remove()
           onlineRef.child(o).remove()
 
           this.$store.state.session.name = null

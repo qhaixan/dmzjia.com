@@ -14,7 +14,7 @@
 
 
     <v-data-table
-      expand=true
+      expand
       :headers="headers"
       :items="users"
       :search="search"
@@ -26,7 +26,7 @@
         <td>{{ props.item.id }}</td>
         <td class="text-xs">{{ props.item.role }}</td>
         <td class="text-xs" style="font-weight:600;">
-          <span v-if="props.item.status" style="color:green;">Online</span>
+          <span v-if="props.item.status>0" style="color:green;">Online</span>
           <span v-else style="color:#bcbcbc;">Offline</span>
         </td>
       </template>
@@ -37,6 +37,7 @@
 <script>
   import { usersRef } from '@/firebaseConfig'
   import { currentRef } from '@/firebaseConfig'
+  import { onlineRef } from '@/firebaseConfig'
   export default {
     firebase: {
       users: usersRef
@@ -73,13 +74,19 @@
     },
     mounted(){
       var self = this
-      usersRef.on('value', function (snapshot) {
-        self.loadUsers(snapshot.val())
+      onlineRef.on("value",function(snap){
+        self.updateUsers()
       });
     },
     methods:{
       filtered(name){
         return name.includes(this.filter)
+      },
+      updateUsers(){
+        var self = this
+        usersRef.once('value', function (snapshot) {
+          self.loadUsers(snapshot.val())
+        });
       },
       loadUsers(users){
         var size = Object.keys(users).length
@@ -92,22 +99,33 @@
         }
 
         this.users = []
+
         for(var i=0;i < size;i++){
           var r = this.roleTitle(user[i].role)
-          var s = this.getStatus(user[i].online)
+
+
           this.users.push({
             id: user[i].id,
             role: r,
-            status: s
+            status: 0
           })
+          this.getStatus(keys[i],i)
         }
         this.loaded = true
       },
-      getStatus(s){
-        if(s){
-          return true
+      getStatus(key,i){
+        var self = this
+
+        onlineRef.child(key).once('value').then(function(snapshot) {
+          self.updateStatus(snapshot.val(),i)
+        });
+      },
+      updateStatus(val,i){
+        if(val){
+          this.users[i].status = Object.keys(val).length
+        }else{
+          this.users[i].status = null
         }
-        return false
       },
       roleTitle(r){
         if(r==1){

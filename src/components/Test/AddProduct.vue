@@ -8,7 +8,7 @@
     </div>
     count: {{productCount()}}<br>
     <v-layout row wrap>
-      <v-flex xs6 sm3 md2>
+      <v-flex xs8 sm3 md2>
         <v-text-field
           label="Name"
           solo
@@ -16,7 +16,7 @@
           @keydown.enter="add"
         ></v-text-field>
       </v-flex>
-      <v-flex xs6 sm3 md2>
+      <v-flex xs4 sm3 md2>
         <v-btn @click="add">Add</v-btn>
       </v-flex>
     </v-layout>

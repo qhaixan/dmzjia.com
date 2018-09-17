@@ -27,6 +27,17 @@ export default new Router({
       component: () => import('./views/Public/Test.vue')
     },
     {
+      path: '/user',
+      component: () => import('./views/User/index.vue'),
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('./views/User/Profile.vue')
+        }
+      ]
+    },
+    {
       path: '/controlpanel',
       component: () => import('./views/ControlPanel/Menu.vue'),
       children: [
@@ -36,6 +47,9 @@ export default new Router({
           component: () => import('./views/ControlPanel/User.vue')
         }
       ]
+    },
+    {
+      path: '/*', redirect: '/'
     }
   ]
 })

@@ -13,7 +13,8 @@ export default new Vuex.Store({
     session: {
       uid: null,
       name: null,
-      role: 0
+      role: 0,
+      randomKey: null
     },
     controlpanel: {
       menu: {

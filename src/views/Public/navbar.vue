@@ -1,29 +1,14 @@
 <template lang="html">
   <div id="nav">
     <template v-if="isMobile">
-      <authMenu style="position:fixed;bottom:66px;right:10px;"/>
-      <v-bottom-nav
-      :active.sync="bottomNav"
-      :value="true"
-      fixed
-      color="white"
-      >
-        <v-btn v-for="r in routes"
-          color="teal"
-          flat
-          :value="r.route"
-        >
-          <span>{{r.text}}</span>
-          <v-icon>{{r.icon}}</v-icon>
-        </v-btn>
-      </v-bottom-nav>
+      <mobileNav :routes="routes"/>
     </template>
 
     <template v-else>
-      <router-link v-for="r in routes" :to="r.link">{{r.text}} | </router-link>
+      <router-link v-for="r in routes" :to="r.link" :key="r.link">{{r.text}} | </router-link>
       <template v-if="uid!=null">
         <span v-if="role>1"><router-link to="/controlpanel">Control Panel | </router-link></span>
-        <span><a>{{username}} | </a><a @click="logout">Logout</a></span>
+        <span><router-link to="/user/profile">{{username}} | </router-link><a @click="logout">Logout</a></span>
       </template>
       <span v-else><a @click="login">Login</a></span>
     </template>
@@ -31,15 +16,14 @@
 </template>
 
 <script>
-import authMenu from '@/components/Public/navbar/auth'
+import mobileNav from '@/components/Public/navbar/mobileNav'
 import { mapState } from 'vuex';
 export default {
   components:{
-    authMenu
+    mobileNav
   },
   data(){
     return {
-      bottomNav:null,
       routes:[
         {
           text:'Home',
@@ -82,25 +66,12 @@ export default {
     },
     isMobile () {
       return this.$store.state.isMobile
-    },
-    curNavName(){
-      return this.$route.name
     }
   },
   mounted() {
-    if(this.$route.path=='/'){
-      this.bottomNav = this.$route.name
-    }
+
   },
-  watch: {
-    bottomNav (v,o){
-      this.$router.push({name: v})
-    },
-    curNavName (v,o){
-      if(this.bottomNav==null)
-        this.bottomNav = this.$route.name
-    }
-  }
+
 }
 </script>
 

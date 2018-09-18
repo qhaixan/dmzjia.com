@@ -1,13 +1,14 @@
 <template lang="html">
-  <v-bottom-nav
+  <v-bottom-nav style="background:black;"
   :active.sync="bottomNav"
   :value="true"
   fixed
-  color="white"
+  :color="bg"
   >
     <v-btn v-for="r in routes"
+      dark
       :key="r.link"
-      color="teal"
+      :color="btnColor(r.route)"
       flat
       :value="r.route"
     >
@@ -16,7 +17,7 @@
     </v-btn>
     <v-btn v-if="uid==null"
       key="/login"
-      color="teal"
+      :color="color"
       flat
       value="login"
       @click="login"
@@ -25,8 +26,9 @@
       <v-icon>input</v-icon>
     </v-btn>
     <v-btn v-else
+      dark
       key="/profile"
-      color="teal"
+      :color="btnColor('profile')"
       flat
       value="profile"
     >
@@ -41,6 +43,9 @@ export default {
   data(){
     return {
       bottomNav:null,
+      color:'white',
+      selected:'#d10000',
+      bg:'black'
     }
   },
   props: {
@@ -54,6 +59,14 @@ export default {
   methods :{
     login(){
       this.$store.commit('public_dialogContent',{content:'login',width:'350'})
+    },
+    btnColor(r){
+      if(r==this.bottomNav){
+        return this.selected
+      }
+      else {
+        return this.color
+      }
     }
   },
   computed:{

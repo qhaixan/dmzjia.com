@@ -25,7 +25,8 @@ export default {
     fade(){
       var self = this
       setTimeout(function () {
-        self.$store.commit('public_dialogPop',false)
+        //self.$store.commit('public_dialogPop',false)
+        location.reload()
       }, 2000)
     }
   }

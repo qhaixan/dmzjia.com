@@ -8,6 +8,7 @@
     <v-btn @click="logout">Logout</v-btn>
   </div>
   <div class="" v-else>
+    You are not logged in. Redirecting...
   </div>
 </template>
 
@@ -27,7 +28,17 @@ export default {
     },
     toCP(){
       this.$router.push('/controlpanel')
+    },
+    redirect(){
+      if(!this.$cookies.isKey("uid")) {
+        this.$router.push({name:'home'})
+      }
     }
+  },
+  mounted(){
+    setTimeout(function () {
+      this.redirect()
+    }, 1000)
   },
   watch:{
     uid(v,o){

@@ -1,11 +1,7 @@
 <template lang="html">
   <div class="" v-if="uid">
-    <h1>My profile</h1>
-    {{username}}
-    <br>
-    <v-btn @click="toCP" v-if="role>1">ControlPanel</v-btn>
-    <br>
-    <v-btn @click="logout">Logout</v-btn>
+    <MobilePicture v-if="isMobile"/>
+    <Picture v-else/>
   </div>
   <div class="" v-else>
     Logged out. Redirecting...
@@ -13,25 +9,22 @@
 </template>
 
 <script>
+import MobilePicture from '@/components/User/Profile/MobilePicture'
+import Picture from '@/components/User/Profile/Picture'
 export default {
+  components:{
+    MobilePicture,
+    Picture
+  },
   computed:{
     uid(){
       return this.$store.state.session.uid
     },
-    role () {
-      return this.$store.state.session.role
-    },
-    username () {
-      return this.$store.state.session.name
+    isMobile () {
+      return this.$store.state.isMobile
     }
   },
   methods:{
-    logout(){
-      this.$store.commit('public_dialogContent',{content:'logout',width:'250'})
-    },
-    toCP(){
-      this.$router.push('/controlpanel')
-    },
     redirect(){
       if(!this.$cookies.isKey("uid")) {
         this.$router.push({name:'home'})

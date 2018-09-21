@@ -1,6 +1,6 @@
 <template>
   <div id="app" ref="app">
-    <v-app>
+    <v-app dark style="background:black;">
       <navbar v-if="showNav"/>
       <router-view/>
       <div v-if="isMobile" style="margin-bottom:56px;"></div>
@@ -130,7 +130,6 @@
     watch: {
       uid (v, o) {
 
-        this.$cookies.set('uid',v)
         if(v==null){
           this.$cookies.remove("uid")
           this.$cookies.remove("role")
@@ -142,6 +141,7 @@
           this.$store.state.session.role = 0
           this.$store.commit('public_dialogContent',{content:'logout',width:'250'})
         }else{
+          this.$cookies.set('uid',v)
           this.storeUser(v)
         }
       },
@@ -158,7 +158,7 @@
   position:absolute;
   top:0;
   left:0;
-  background-color: rgba(158, 158, 158, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .hello{
   background-color: white;

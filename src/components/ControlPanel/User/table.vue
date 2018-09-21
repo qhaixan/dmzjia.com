@@ -26,7 +26,7 @@
         <td>{{ props.item.id }}</td>
         <td class="text-xs">{{ props.item.role }}</td>
         <td class="text-xs" style="font-weight:600;">
-          <span v-if="props.item.status>0" style="color:green;">Online</span>
+          <span v-if="props.item.status>0" style="color:#5eff42;">Online</span>
           <span v-else style="color:#bcbcbc;">Offline</span>
         </td>
       </template>

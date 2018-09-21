@@ -1,14 +1,14 @@
 <template lang="html">
   <div class="" v-if="uid">
     <h1>My profile</h1>
-    {{uid}}
+    {{username}}
     <br>
-    <v-btn @click="toCP">ControlPanel</v-btn>
+    <v-btn @click="toCP" v-if="role>1">ControlPanel</v-btn>
     <br>
     <v-btn @click="logout">Logout</v-btn>
   </div>
   <div class="" v-else>
-    You are not logged in. Redirecting...
+    Logged out. Redirecting...
   </div>
 </template>
 
@@ -20,6 +20,9 @@ export default {
     },
     role () {
       return this.$store.state.session.role
+    },
+    username () {
+      return this.$store.state.session.name
     }
   },
   methods:{

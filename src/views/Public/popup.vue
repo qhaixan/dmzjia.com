@@ -1,5 +1,5 @@
 <template lang="html">
-<div class="" style="background-color:white;">
+<div class="" style="background-color:#303030;">
 
 <register           v-if="content=='register'"/>
 <register_success   v-else-if="content=='register_success'"/>

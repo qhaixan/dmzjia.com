@@ -119,7 +119,7 @@ export default {
     pwRules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 5 || 'Min 5 characters',
-      match: v => v.length <= 0 || 'Confirm password does not match',
+      match: v => v.length < 0 || 'Confirm password does not match',
     },
     isLoading: false
   }),
@@ -139,20 +139,24 @@ export default {
             exist='username';
         });
 
-        if(exist==''){
+        var pwMatch = (this.password==this.password2)
+        if(exist=='' && pwMatch){
           var md5 = require('js-md5')
           var pw = md5(this.password)
           usersRef.push({ id: this.name, pw: pw, role:1, email:this.email })
           .then((snap)=>{
             this.login(snap.key)
           })
-        }else{
+        }else if(exist!=''){
           if(exist=='email'){
             this.existMail=true
           }else{
             this.exist=true
           }
+        }else{
+
         }
+
       }
       this.isLoading = false
     },

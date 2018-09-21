@@ -1,0 +1,14 @@
+* {box-sizing: border-box;}
+.wrapper {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 5px;
+}
+.wrapper > * {
+  padding: 10px;
+}
+.wrapperD > * {
+  border: solid;
+  border-width: thin;
+}

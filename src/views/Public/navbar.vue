@@ -36,12 +36,6 @@ export default {
           icon:'help',
           route:'about',
           link:'/about'
-        },
-        {
-          text:'Test',
-          icon:'create',
-          route:'test',
-          link:'/test'
         }
       ]
     }

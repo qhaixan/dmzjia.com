@@ -1,13 +1,18 @@
 <template>
-  <div class="home">
-    <h1>Home</h1>
+  <div class="wrapper">
+    <Carousel/>
   </div>
 </template>
 
 <script>
+import Carousel from '@/components/Public/Home/Carousel'
 export default {
-  name: 'home'
+  components:{
+    Carousel
+  }
 }
 </script>
 <style scoped>
+@import './../../static/styles/grid.css';
+@import './../../static/styles/grid-home.css';
 </style>

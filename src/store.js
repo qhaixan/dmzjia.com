@@ -10,6 +10,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isMobile: true,
+    common: {
+      title: 'website'
+    },
     session: {
       uid: null,
       name: null,

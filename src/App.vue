@@ -1,15 +1,25 @@
 <template>
-  <div id="app" ref="app">
+  <div id="app" ref="app" v-cloak>
     <v-app dark style="background:black;">
+      <!--show nav outside control panel-->
       <navbar v-if="showNav"/>
+
+      <!--space behind pc nav-->
+      <div v-if="!isMobile && showNav" style="margin-top:43px;"></div>
+
+      <!--content-->
       <router-view/>
+
+      <!--space behind bottom nav-->
       <div v-if="isMobile" style="margin-bottom:56px;"></div>
+
       <!--overlay & popup-->
       <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
         <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
           <popup/>
         </v-dialog>
       </div>
+
     </v-app>
   </div>
 </template>
@@ -131,6 +141,7 @@
       uid (v, o) {
 
         if(v==null){
+          alert('state deleted')
           this.$cookies.remove("uid")
           this.$cookies.remove("role")
           this.$cookies.remove("username")

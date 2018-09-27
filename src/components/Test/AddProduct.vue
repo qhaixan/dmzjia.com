@@ -1,5 +1,5 @@
 <template id="">
-  <div class="">
+  <div class="" style="margin-top:400px;">
     <h2>Add Product (Firebase)</h2>
     <div class="list">
       <ul>

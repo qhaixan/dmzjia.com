@@ -2,12 +2,17 @@
   <div class="">
     <h2>最近添加：</h2>
     <div class="list-box">
-      <div class="list-item" v-for="(a,i) in anime" :key="i">
-        <div class="image">
-          <img src="a.imgH">
+      <router-link
+        v-for="(a,i) in anime" :key="i"
+        :to="{ name: 'watch', params: { id: a.id } }">
+        <div class="list-item">
+          <div class="image">
+            <img :src="a.image">
+          </div>
+          <div class="name">{{a.title}}</div>
+
         </div>
-        {{a.title}}
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -24,10 +29,18 @@ export default {
     loadAnime(list){
       this.anime=[]
       var anime = Object.values(list)
+      var keys = []
+      var i=0
+      for(var k in list){
+        keys[i] = k
+        i+=1;
+      }
       for(var i=0;i<anime.length;i++){
         console.log(anime[i].title)
         this.anime.push({
-          title:anime[i].title
+          id: keys[i],
+          title:anime[i].title,
+          image:anime[i].imgH
         })
       }
       this.anime.reverse()
@@ -35,7 +48,7 @@ export default {
   },
   mounted(){
     var self = this
-    animeRef.orderByChild("publish").equalTo(true).limitToLast(5).on("value",function(snapshot){
+    animeRef.orderByChild("publish").equalTo(true).limitToLast(8).on("value",function(snapshot){
       self.loadAnime(snapshot.val())
     });
   }
@@ -43,22 +56,32 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: white;
+}
 .list-box{
-  border: solid;
+  border: none;
   border-width: thin;
   border-color: grey;
+  border-bottom: none;
 }
 .list-item{
   border-bottom: solid;
   border-width: thin;
   border-color: grey;
   padding: 5px;
+  display: flex;
 }
-.list-item > * {
-  float: left;
-}
+
 .image{
   max-width: 30vw;
   width: 100px;
+}
+.image > img {
+  max-width: 100%;
+}
+.name {
+  padding-left: 5px;
 }
 </style>

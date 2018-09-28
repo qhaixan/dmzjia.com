@@ -22,6 +22,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Public/About.vue')
     },
     {
+      path: '/anime/:id',
+      name: 'watch',
+      component: () => import('./views/Public/Watch.vue')
+    },
+    {
       path: '/test',
       name: 'test',
       component: () => import('./views/Public/Test.vue')

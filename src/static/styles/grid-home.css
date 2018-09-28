@@ -5,19 +5,22 @@
 
 .wrapper {
   grid-template-areas:
-    'carousel';
+    'carousel'
+    'latest';
 }
 @media (min-width: 500px) {
   .wrapper {
     grid-template-columns: 1fr;
     grid-template-areas:
-    "carousel carousel";
+    'carousel'
+    'latest';
   }
 }
 @media (min-width: 700px) {
   .wrapper {
     grid-template-columns: 1fr;
     grid-template-areas:
-    "carousel carousel";
+    'carousel'
+    'latest';
   }
 }

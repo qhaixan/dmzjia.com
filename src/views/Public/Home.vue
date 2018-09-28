@@ -1,14 +1,17 @@
 <template>
   <div class="wrapper">
     <Carousel class="carousel"/>
+    <Latest class="latest"/>
   </div>
 </template>
 
 <script>
 import Carousel from '@/components/Public/Home/Carousel'
+import Latest from '@/components/Public/Home/Latest'
 export default {
   components:{
-    Carousel
+    Carousel,
+    Latest
   }
 }
 </script>

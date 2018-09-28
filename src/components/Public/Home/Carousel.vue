@@ -2,7 +2,11 @@
   <v-carousel
     v-if="cards"
     hide-delimiters
-    :value='1'
+    :interval="interval"
+    @click.native="click"
+    @mouseleave.native="hover(false)"
+    @mouseover.native="hover(true)"
+
     >
     <v-carousel-item
       class="image"
@@ -12,7 +16,9 @@
       @click="$router.push({ name: 'watch', params: { id: item.id } })"
     >
       <div class="title">
-        <v-chip :small="isMobile"><span class="font">{{item.title}}</span></v-chip>
+        <v-chip
+          color="black"
+        ><span class="font" style="color:white;">{{item.title}}</span></v-chip>
       </div>
     </v-carousel-item>
 
@@ -26,11 +32,25 @@ import { featureRef } from '@/firebaseConfig'
 export default {
   data(){
     return {
-      cards: []
+      cards: [],
+      interval:'2000'
     }
   },
   methods:{
+    click (e) {
+      if(e.target.className=='v-icon material-icons theme--dark'){
+        this.interval='5000'
+      }
+    },
+    hover (h) {
+      if(h){
+        //this.interval='500000000'
+      }else{
+        //this.interval='2000'
+      }
+    },
     loadCarousel(featured){
+      var self = this
       this.cards = []
       var keys = Object.values(featured)
       for(var i=0;i<keys.length;i++){

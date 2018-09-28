@@ -22,6 +22,16 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Public/About.vue')
     },
     {
+      path: '/list',
+      name: 'list',
+      component: () => import('./views/Public/List.vue')
+    },
+    {
+      path: '/comment',
+      name: 'comment',
+      component: () => import('./views/Public/Comment.vue')
+    },
+    {
       path: '/anime/:id',
       name: 'watch',
       component: () => import('./views/Public/Watch.vue')

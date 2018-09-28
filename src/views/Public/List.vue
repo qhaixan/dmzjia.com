@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    <h2>最近添加：</h2>
     <div class="list-box">
       <router-link
         v-for="(a,i) in anime" :key="i"
@@ -59,39 +58,4 @@ export default {
 </script>
 
 <style scoped>
-a {
-  text-decoration: none;
-  color: white;
-}
-.list-box{
-  border: none;
-  border-width: thin;
-  border-color: grey;
-  border-bottom: none;
-}
-.list-item{
-  border-bottom: solid;
-  border-width: thin;
-  border-color: #333333;
-  padding: 5px;
-  display: flex;
-}
-
-.image{
-  max-width: 30vw;
-  width: 100px;
-}
-.image > img {
-  max-width: 100%;
-}
-.name {
-  padding-left: 5px;
-  white-space: nowrap;
-  width: 69vw;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.name > span {
-  color: grey;
-}
 </style>

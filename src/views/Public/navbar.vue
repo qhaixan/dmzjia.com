@@ -20,16 +20,22 @@ export default {
     return {
       routes:[
         {
-          text:'Home',
+          text:'首页',
           icon:'home',
           route:'home',
           link:'/'
         },
         {
-          text:'About',
-          icon:'help',
-          route:'about',
-          link:'/about'
+          text:'列表',
+          icon:'list',
+          route:'list',
+          link:'/list'
+        },
+        {
+          text:'留言区',
+          icon:'textsms',
+          route:'comment',
+          link:'/comment'
         }
       ]
     }

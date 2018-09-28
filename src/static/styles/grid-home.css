@@ -1,24 +1,23 @@
 .carousel {
   grid-area: carousel;
-
 }
 
 
 .wrapper {
   grid-template-areas:
-    "carousel";
+    'carousel';
 }
 @media (min-width: 500px) {
   .wrapper {
     grid-template-columns: 1fr;
     grid-template-areas:
-    "carousel";
+    "carousel carousel";
   }
 }
 @media (min-width: 700px) {
   .wrapper {
     grid-template-columns: 1fr;
     grid-template-areas:
-    "carousel";
+    "carousel carousel";
   }
 }

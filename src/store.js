@@ -11,7 +11,7 @@ export default new Vuex.Store({
   state: {
     isMobile: true,
     common: {
-      title: 'website'
+      title: 'DMZ家'
     },
     session: {
       uid: null,

@@ -12,5 +12,9 @@ export const db = app.database();
 export const info = db.ref('.info');
 export const onlineRef = db.ref('online');
 export const mobileRef = db.ref('mobileOnline');
+
+
 export const usersRef = db.ref('users');
+export const animeRef = db.ref('anime');
+export const featureRef = db.ref('recommendations');
 export const testAddRef = db.ref('testAdd');

@@ -10,8 +10,6 @@
 </template>
 
 <script>
-//import mobileNav from '@/components/Public/navbar/mobileNav'
-//import pcNav from '@/components/Public/navbar/pcNav'
 import { mapState } from 'vuex';
 export default {
   components:{

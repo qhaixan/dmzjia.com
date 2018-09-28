@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Carousel/>
+    <Carousel class="carousel"/>
   </div>
 </template>
 
@@ -15,4 +15,8 @@ export default {
 <style scoped>
 @import './../../static/styles/grid.css';
 @import './../../static/styles/grid-home.css';
+.carousel{
+  height: 0;
+  padding-top: 56.25%;
+}
 </style>

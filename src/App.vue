@@ -26,6 +26,7 @@
 <script>
   import { usersRef } from '@/firebaseConfig'
   import { onlineRef } from '@/firebaseConfig'
+  import { mobileRef } from '@/firebaseConfig'
   import { info } from '@/firebaseConfig'
   import { mapState } from 'vuex'
   import popup from '@/views/Public/popup'
@@ -42,6 +43,35 @@
       hide(){
         this.$store.commit('public_dialogPop',false)
       },
+      uploadUser(){
+        var checkOnline = info.child('connected')
+        var sessionKey = this.sessionKey
+
+        if(!this.$store.state.isMobile){
+          var onlineUsers = onlineRef.child(uid)
+          checkOnline.on("value",function(snap){
+            if(snap.val()){
+              onlineUsers.child(sessionKey).onDisconnect().remove()
+              onlineUsers.child(sessionKey).set(true)
+            }
+          });
+
+          var self = this
+          onlineUsers.on("value",function(snap){//if user logout on other tab
+            if(snap.val()==null){
+              self.$store.state.session.uid = null
+            }
+          });
+        }else{
+          var mobileUsers = mobileRef.child(uid)
+          checkOnline.on("value",function(snap){
+            if(snap.val()){
+              mobileUsers.child(sessionKey).onDisconnect().remove()
+              mobileUsers.child(sessionKey).set(true)
+            }
+          });
+        }
+      },
       storeUser(uid){
         var self = this
         usersRef.child(uid).once('value').then(function(snapshot) {
@@ -49,25 +79,7 @@
           self.setName(snapshot.val().id)
         });
 
-        //var userStatus = usersRef.child(uid).child('online')
-        var onlineUsers = onlineRef.child(uid)
-        var checkOnline = info.child('connected')
-        var sessionKey = this.sessionKey
-        checkOnline.on("value",function(snap){
-          if(snap.val()){
-            onlineUsers.child(sessionKey).onDisconnect().remove()
-            //userStatus.onDisconnect().remove()
-            onlineUsers.child(sessionKey).set(true)
-            //userStatus.set(true)
-          }
-        });
-
-        var self = this
-        onlineUsers.on("value",function(snap){//if user logout on other tab
-          if(snap.val()==null){
-            self.$store.state.session.uid = null
-          }
-        });
+        this.uploadUser()
       },
       setRole(r){
         this.$store.state.session.role = r
@@ -104,6 +116,14 @@
       setRandomKey(){
         var key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
         this.$store.state.session.randomKey = key
+      },
+      removeOnline(uid){
+        if(!this.$store.state.isMobile){
+          onlineRef.child(uid).remove()
+        }else{
+          key = this.$store.state.session.randomKey
+          mobileRef.child(uid).child(key).remove()
+        }
       }
     },
     mounted(){
@@ -139,14 +159,13 @@
     },
     watch: {
       uid (v, o) {
-
         if(v==null){
-          alert('state deleted')
           this.$cookies.remove("uid")
           this.$cookies.remove("role")
           this.$cookies.remove("username")
-          //usersRef.child(o).child('online').remove()
-          onlineRef.child(o).remove()
+
+          this.removeOnline(o)
+          //onlineRef.child(o).remove()
 
           this.$store.state.session.name = null
           this.$store.state.session.role = 0

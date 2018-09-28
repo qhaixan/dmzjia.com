@@ -26,6 +26,7 @@
 <script>
   import { usersRef } from '@/firebaseConfig'
   import { onlineRef } from '@/firebaseConfig'
+  import { mobileRef } from '@/firebaseConfig'
   import { info } from '@/firebaseConfig'
   import { mapState } from 'vuex'
   import popup from '@/views/Public/popup'
@@ -42,6 +43,38 @@
       hide(){
         this.$store.commit('public_dialogPop',false)
       },
+      uploadUser(uid){
+
+        var checkOnline = info.child('connected')
+        var sessionKey = this.sessionKey
+        if(this.isMobile){
+          var mobileUsers = mobileRef.child(uid)
+          checkOnline.on("value",function(snap){
+            if(snap.val()){
+              mobileUsers.child(sessionKey).onDisconnect().remove()
+              mobileUsers.child(sessionKey).set(true)
+            }
+          });
+        }else{
+          var onlineUsers = onlineRef.child(uid)
+          checkOnline.on("value",function(snap){
+            if(snap.val()){
+              onlineUsers.child(sessionKey).onDisconnect().remove()
+              onlineUsers.child(sessionKey).set(true)
+            }
+          });
+          var self = this
+          onlineUsers.on("value",function(snap){//if user logout on other tab
+            if(snap.val()==null){
+              self.$store.state.session.uid = null
+            }
+          });
+        }
+
+      },
+      removeOnline(uid){
+        onlineRef.child(uid).remove()
+      },
       storeUser(uid){
         var self = this
         usersRef.child(uid).once('value').then(function(snapshot) {
@@ -49,25 +82,9 @@
           self.setName(snapshot.val().id)
         });
 
-        //var userStatus = usersRef.child(uid).child('online')
-        var onlineUsers = onlineRef.child(uid)
-        var checkOnline = info.child('connected')
-        var sessionKey = this.sessionKey
-        checkOnline.on("value",function(snap){
-          if(snap.val()){
-            onlineUsers.child(sessionKey).onDisconnect().remove()
-            //userStatus.onDisconnect().remove()
-            onlineUsers.child(sessionKey).set(true)
-            //userStatus.set(true)
-          }
-        });
+        this.uploadUser(uid)
 
-        var self = this
-        onlineUsers.on("value",function(snap){//if user logout on other tab
-          if(snap.val()==null){
-            self.$store.state.session.uid = null
-          }
-        });
+
       },
       setRole(r){
         this.$store.state.session.role = r
@@ -146,7 +163,8 @@
           this.$cookies.remove("role")
           this.$cookies.remove("username")
           //usersRef.child(o).child('online').remove()
-          onlineRef.child(o).remove()
+          //onlineRef.child(o).remove()
+          this.removeOnline(o)
 
           this.$store.state.session.name = null
           this.$store.state.session.role = 0

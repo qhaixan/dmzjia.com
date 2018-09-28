@@ -43,7 +43,7 @@
       hide(){
         this.$store.commit('public_dialogPop',false)
       },
-      uploadUser(){
+      uploadUser(uid){
         var checkOnline = info.child('connected')
         var sessionKey = this.sessionKey
 
@@ -79,7 +79,7 @@
           self.setName(snapshot.val().id)
         });
 
-        this.uploadUser()
+        this.uploadUser(uid)
       },
       setRole(r){
         this.$store.state.session.role = r

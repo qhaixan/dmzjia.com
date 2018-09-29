@@ -24,9 +24,10 @@
         flat
         dark
         solo
-        disabled
         label="Search"
         class="hidden-sm-and-down"
+        v-model="query"
+        @keydown.native="keymonitor"
       ></v-text-field>
       <v-spacer></v-spacer>
 
@@ -70,7 +71,8 @@
 export default {
   data(){
     return {
-      drawer: false
+      drawer: false,
+      query:null
     }
   },
   props: {
@@ -91,6 +93,20 @@ export default {
     },
     profile(){
       this.$router.push({name: 'profile'})
+    },
+    keymonitor: function(event) {
+      if(event.key=="Enter"){
+        if(this.query.length>0){
+          var letters = /^[0-9a-zA-Z]+$/;
+          if (letters.test(this.query)) {
+            this.$router.push({ name: 'list', query: { keyword: this.query }})
+          }else{
+            this.$router.push({ name: 'list', query: { keyword: encodeURIComponent(this.query) }})
+          }
+
+        }
+        //this.query = null
+      }
     }
   },
   computed: {

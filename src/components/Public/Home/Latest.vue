@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <h2>最近添加：</h2>
+    <h2>最新添加：</h2>
     <div class="list-box">
       <router-link
         v-for="(a,i) in anime" :key="i"
@@ -51,7 +51,7 @@ export default {
   },
   mounted(){
     var self = this
-    animeRef.orderByChild("publish").equalTo(true).limitToLast(8).on("value",function(snapshot){
+    animeRef.limitToLast(8).on("value",function(snapshot){
       self.loadAnime(snapshot.val())
     });
   }

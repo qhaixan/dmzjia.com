@@ -4,7 +4,21 @@
       <v-icon color="#d10000">live_tv</v-icon>
       <v-toolbar-title>{{$store.state.common.title}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-flex xs6 v-if="searchBar" style="">
+        <v-text-field
+          placeholder="搜索"
+          solo
+          single-line
+          full-width
+          @blur="searchBar =! searchBar"
+          autofocus
+          append-outer-icon="clear"
+          @keydown.native="keymonitor"
+          v-model="query"
+        >
+        </v-text-field>
+      </v-flex>
+      <v-btn icon @click="searchBar =! searchBar" v-if="!searchBar">
         <v-icon>search</v-icon>
       </v-btn>
     </v-toolbar>
@@ -23,6 +37,7 @@
         flat
         :value="r.route"
         :style="border(r.route)"
+        @click="$router.push({name:r.route})"
       >
         <span>{{r.text}}</span>
         <v-icon>{{r.icon}}</v-icon>
@@ -60,16 +75,13 @@ export default {
       bottomNav:null,
       color:'white',
       selected:'#d10000',
-      bg:'black'
+      bg:'black',
+      searchBar: false,
+      query:null
     }
   },
   props: {
     routes: Array
-  },
-  mounted(){
-    if(this.curNavName=='home'){//other route will auto trigger
-      this.bottomNav = this.$route.name
-    }
   },
   methods :{
     login(){
@@ -92,6 +104,15 @@ export default {
         color = '#333333'
       }
       return 'border-top:solid;border-color:'+color+';border-width:thin;'
+    },
+    keymonitor: function(event) {
+      if(event.key=="Enter"){
+        if(this.query.length>0){
+          this.$router.push({ name: 'list', query: { keyword: encodeURIComponent(this.query) }})
+        }
+        this.searchBar=false;
+        //this.query = null
+      }
     }
   },
   computed:{
@@ -103,19 +124,16 @@ export default {
     },
     username () {
       return this.$store.state.session.name
-    },
+    }
   },
   watch: {
-    bottomNav (v,o){
-      if(v!='login'){
-        this.$router.push({name: v})
-      }else{
-        this.bottomNav = o
-      }
-    },
     curNavName (v,o){
-      this.bottomNav = this.$route.name
+      this.searchBar = false
+      this.bottomNav = this.curNavName
     }
+  },
+  mounted(){
+    this.bottomNav = this.$route.name
   }
 }
 </script>

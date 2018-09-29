@@ -10,6 +10,7 @@ import VueFire from 'vuefire'
 
 Vue.use(VueCookies)
 Vue.use(VueFire)
+
 Vue.config.productionTip = false
 
 

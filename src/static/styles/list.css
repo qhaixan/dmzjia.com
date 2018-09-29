@@ -1,0 +1,33 @@
+table {
+  border-collapse: collapse;
+  margin: auto;
+}
+tbody {
+  display: block;
+}
+thead {
+  display: block;
+}
+table, td, th {
+
+}
+td, th {
+  text-align: left;
+  padding:5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+th {
+  background-color: #343A40;
+  color: white;
+}
+.list:nth-child(even) {
+  background-color: #bcbcbc;
+}
+.list:nth-child(odd) {
+  background-color: #e0e0e0;
+}
+.selectable:hover {
+  cursor: pointer;
+  color: #005fff;
+}

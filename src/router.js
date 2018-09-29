@@ -32,7 +32,7 @@ export default new Router({
       component: () => import('./views/Public/Comment.vue')
     },
     {
-      path: '/anime/:id',
+      path: '/watch/:id?/:episode?',
       name: 'watch',
       component: () => import('./views/Public/Watch.vue')
     },

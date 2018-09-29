@@ -76,7 +76,12 @@
 
       },
       removeOnline(uid){
-        onlineRef.child(uid).remove()
+        if(this.isMobile){
+          mobileRef.child(uid).remove()
+        }else{
+          onlineRef.child(uid).remove()
+        }
+
       },
       storeUser(uid){
         var self = this
@@ -191,8 +196,5 @@
   top:0;
   left:0;
   background-color: rgba(0, 0, 0, 0.2);
-}
-.hello{
-  background-color: white;
 }
 </style>

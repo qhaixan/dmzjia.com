@@ -62,7 +62,7 @@ export default {
           id: key,
           title: snap.val().title,
           image: snap.val().imgH,
-          len: snap.val().episode.length
+          len: Object.values(snap.val().episode).length
         })
       })
     },

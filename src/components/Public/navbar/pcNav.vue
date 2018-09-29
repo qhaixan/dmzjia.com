@@ -7,7 +7,7 @@
       app
     >
       <v-list dense>
-        <v-list-tile v-for="r in routes" @click="$router.push({name:r.route});">
+        <v-list-tile v-for="r in routes" @click="goRoute(r.route)">
           <v-list-tile-action>
             <v-icon>{{r.icon}}</v-icon>
           </v-list-tile-action>
@@ -79,6 +79,10 @@ export default {
     routes: Array
   },
   methods: {
+    goRoute(r){
+      this.drawer = false
+      this.$router.push({name:r})
+    },
     login(){
       this.$store.commit('public_dialogContent',{content:'login',width:'350'})
     },
@@ -119,7 +123,7 @@ export default {
     uid () {
       return this.$store.state.session.uid
     }
-  }
+  },
 }
 </script>
 

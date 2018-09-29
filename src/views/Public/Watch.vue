@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <template>
-      <Player class="player"/>
+      <Player class="player"/>title here
       <Playlist class="playlist"/>
     </template>
   </div>

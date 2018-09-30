@@ -1,6 +1,8 @@
 <template>
   <div class="player">
-    <div v-if="video.id==''" class="banner" :style="{ 'background-image': 'url(' + banner + ')' }"></div>
+    <div v-if="video.id==''" class="banner" :style="{ 'background-image': 'url(' + banner + ')' }">
+      <span class="hint">请点击列表以开始播放</span>
+    </div>
     <template v-else>
       <template v-if="video.channel=='Openload'" class="Openload">
         <!--<a target="_blank" :href="'https://openload.co/f/'+videoURL"><button style="padding:5px;">下载>></button></a>-->
@@ -62,14 +64,12 @@ export default {
     }
   },
   watch: {
-    '$route' (to, from) {
+    '$route.params' (to, from) {
       if(to){
         this.getParams()
       }
-      else {
-        this.getParams()
-      }
-    }
+    },
+
   },
   mounted(){
     this.getParams()
@@ -96,6 +96,16 @@ iframe {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+
+  box-shadow:inset 0 0 0 2000px rgba(40,40,40,0.85);
+  font-weight: 600;
+  text-align: center;
+
+}
+.hint{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 @media (min-width: 500px) {
   .player {

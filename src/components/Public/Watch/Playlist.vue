@@ -146,7 +146,7 @@ export default {
   cursor: default;
 }
 .playlist{
-  height: 300px;
+  height: 100px !important;
 }
 table {
   margin-top: 0px;

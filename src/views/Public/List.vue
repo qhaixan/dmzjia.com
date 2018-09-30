@@ -39,7 +39,7 @@ export default {
       var size = this.pageQuery.pageSize
 
       if(!cursor){
-        var queryString = animeRef.orderByKey().limitToFirst(size)
+        var queryString = animeRef.orderByChild('updatedTimeR').limitToFirst(size)
       }else{
         if(dir==1)
           var queryString = animeRef.orderByKey().startAt(cursor+1).limitToFirst(size)
@@ -48,14 +48,12 @@ export default {
       }
       var self = this
       queryString.once('value',function(snapshot) {
-        var i = 0
         snapshot.forEach(function(childSnapshot) {
-          i+=1
-          self.findAnime(i,childSnapshot.key)
+          self.findAnime(childSnapshot.key)
         })
       })
     },
-    findAnime(i,key){
+    findAnime(key){
       var self = this
       this.pageQuery.cursor = key
       animeRef.child(key).once('value',function(snap){
@@ -80,8 +78,8 @@ export default {
       var self = this
       animeRef.child(key).once('value',function(snap){
         var title = snap.val().title.toLowerCase()
-        var keyword = title //+ snap.val().keyword.toLowerCase() + title
-        if(keyword.includes(query)){
+        var keyword = snap.val().keyword.toLowerCase() + title
+        if(title.includes(query) || keyword.includes(query)){
           self.findAnime(key)
         }
       })

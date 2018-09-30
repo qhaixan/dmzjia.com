@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <div v-if="video.id==''" class="banner" :style="{ 'background-image': 'url(' + banner + ')' }">
+    <div v-if="video.id==''" class="bannerz" :style="{ 'background-image': 'url(' + banner + ')' }">
       <span class="hint">请点击列表以开始播放</span>
     </div>
     <template v-else>
@@ -88,7 +88,7 @@ export default {
 iframe {
   width: 100%; height: 100%; border: none; margin: 0; padding: 0; display: block;
 }
-.banner {
+.bannerz {
   height: 100%;
   width: 100%;
   background: no-repeat;

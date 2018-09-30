@@ -1,19 +1,16 @@
 <template>
-  <div class="wrapper">
-    <template>
-      <Player class="player"/>
-      <Title class="title"/>
+  <div class="wrapper watch">
+    <Player class="player"/>
+    <Title class="title"/>
 
-      <Playlist class="playlist" v-if="!isMobile"/>
-      <PlaylistMobile class="playlist" v-else/>
-    </template>
+    <Playlist class="playlist" v-if="!isMobile"/>
+    <PlaylistMobile class="playlist" v-else/>
   </div>
 </template>
 
 <script>
 import Player from '@/components/Public/Watch/Player'
 import Title from '@/components/Public/Watch/Title'
-import Playlist from '@/components/Public/Watch/Playlist'
 export default {
   components: {
     Player,

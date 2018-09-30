@@ -2,14 +2,13 @@
   grid-area: carousel;
 }
 
-
-.wrapper {
+.home {
   grid-template-areas:
     'carousel'
     'latest';
 }
 @media (min-width: 500px) {
-  .wrapper {
+  .home {
     grid-template-columns: 1fr;
     grid-template-areas:
     'carousel'
@@ -17,7 +16,7 @@
   }
 }
 @media (min-width: 700px) {
-  .wrapper {
+  .home {
     grid-template-columns: 1fr;
     grid-template-areas:
     'carousel'

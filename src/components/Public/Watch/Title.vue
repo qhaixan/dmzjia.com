@@ -1,5 +1,5 @@
 <template>
-  <div class="title">
+  <div class="title2">
     {{title}}
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style scoped>
-.title {
+.title2 {
   text-align: center;
   height: 30px;
   white-space: nowrap;

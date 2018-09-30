@@ -1,12 +1,9 @@
 <template>
   <v-carousel
-    v-if="cards"
     hide-delimiters
     :interval="interval"
     @click.native="click"
-    @mouseleave.native="hover(false)"
-    @mouseover.native="hover(true)"
-
+    ref="carousel"
     >
     <v-carousel-item
       class="image"
@@ -50,7 +47,6 @@ export default {
       }
     },
     loadCarousel(featured){
-      var self = this
       this.cards = []
       var keys = Object.values(featured)
       for(var i=0;i<keys.length;i++){
@@ -71,9 +67,11 @@ export default {
   },
   mounted(){
     var self = this
-    featureRef.on("value",function(snapshot){
+    featureRef.once("value",function(snapshot){
       self.loadCarousel(snapshot.val())
     });
+
+
   },
   computed: {
     isMobile () {

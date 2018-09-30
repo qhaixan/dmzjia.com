@@ -140,9 +140,12 @@ a {
 .image{
   max-width: 30vw;
   width: 100px;
+  text-align: center;
 }
 .image > img {
   max-width: 100%;
+  max-height: calc( 100px * 0.56 );
+
 }
 .name {
   padding-left: 5px;

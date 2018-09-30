@@ -3,12 +3,14 @@
   "short_name": "DMZ家",
   "icons": [
     {
-      "src": "/img/icons/android-chrome-192x192.png",
+      "src2": "/img/icons/android-chrome-192x192.png",
+      "src": "/img/icons/icon.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/img/icons/android-chrome-512x512.png",
+      "src2": "/img/icons/android-chrome-512x512.png",
+      "src": "/img/icons/icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }

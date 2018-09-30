@@ -28,7 +28,7 @@ export default {
       anime: [],
       pageQuery:{
         cursor: null,
-        pageSize: 99999
+        pageSize: 10
       }
     }
   },
@@ -48,13 +48,14 @@ export default {
       }
       var self = this
       queryString.once('value',function(snapshot) {
+        var i = 0
         snapshot.forEach(function(childSnapshot) {
-          self.findAnime(childSnapshot.key)
+          i+=1
+          self.findAnime(i,childSnapshot.key)
         })
       })
-
     },
-    findAnime(key){
+    findAnime(i,key){
       var self = this
       this.pageQuery.cursor = key
       animeRef.child(key).once('value',function(snap){
@@ -91,6 +92,7 @@ export default {
         this.queryAnime(this.query)
       }else{
         this.paginate()
+        this.anime.reverse()
       }
     }
   },

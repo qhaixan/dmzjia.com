@@ -46,24 +46,39 @@
         key="/login"
         :color="color"
         flat
-        value="login"
+        :value="curNavName"
         @click="login"
         :style="border('login')"
       >
-        <span>Login</span>
+        <span>登入</span>
         <v-icon>input</v-icon>
       </v-btn>
-      <v-btn v-else
-        dark
-        key="/profile"
-        :color="btnColor('profile')"
-        flat
-        value="profile"
-        :style="border('profile')"
-      >
-        <span>Profile</span>
-        <v-icon>person</v-icon>
-      </v-btn>
+      <template v-else>
+        <v-btn
+          dark
+          key="/addAnime"
+          :color="btnColor('addAnime')"
+          flat
+          value="addAnime"
+          :style="border('addAnime')"
+          @click="$router.push({name:'addAnime'})"
+        >
+          <span>添加动漫</span>
+          <v-icon>add</v-icon>
+        </v-btn>
+        <v-btn
+          dark
+          key="/profile"
+          :color="btnColor('profile')"
+          flat
+          value="profile"
+          :style="border('profile')"
+          @click="$router.push({name:'profile'})"
+        >
+          <span>个人资料</span>
+          <v-icon>person</v-icon>
+        </v-btn>
+      </template>
     </v-bottom-nav>
   </div>
 </template>

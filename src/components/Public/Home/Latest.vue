@@ -51,7 +51,7 @@ export default {
   },
   mounted(){
     var self = this
-    animeRef.limitToLast(8).on("value",function(snapshot){
+    animeRef.limitToLast(6).on("value",function(snapshot){
       self.loadAnime(snapshot.val())
     });
   }

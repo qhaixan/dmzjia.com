@@ -56,12 +56,12 @@
       <template v-else>
         <v-btn
           dark
-          key="/addAnime"
-          :color="btnColor('addAnime')"
+          key="/addanime"
+          :color="btnColor('addanime')"
           flat
-          value="addAnime"
-          :style="border('addAnime')"
-          @click="$router.push({name:'addAnime'})"
+          value="addanime"
+          :style="border('addanime')"
+          @click="$router.push({name:'addanime'})"
         >
           <span>添加动漫</span>
           <v-icon>add</v-icon>

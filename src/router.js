@@ -49,6 +49,11 @@ export default new Router({
           path: 'profile',
           name: 'profile',
           component: () => import('./views/User/Profile.vue')
+        },
+        {
+          path: 'addanime',
+          name: 'addanime',
+          component: () => import('./views/User/AddAnime.vue')
         }
       ]
     },

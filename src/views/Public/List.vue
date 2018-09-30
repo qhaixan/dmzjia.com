@@ -144,8 +144,7 @@ a {
 }
 .image > img {
   max-width: 100%;
-  max-height: calc( 100px * 0.56 );
-
+  height: calc( 100px * 0.56 );
 }
 .name {
   padding-left: 5px;

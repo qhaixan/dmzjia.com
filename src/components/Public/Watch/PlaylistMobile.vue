@@ -1,12 +1,14 @@
 <template>
   <div class="playlist">
-    <div v-for="e in episodes">
-      <router-link :to="{ name: 'watch', params: {id:key,episode:e.id} }">
-        <v-btn fab :color="select(e.id)">
-          {{e.index}}
-        </v-btn>
-      </router-link>
-    </div>
+    <v-layout row wrap>
+      <div v-for="e in episodes">
+        <router-link :to="{ name: 'watch', params: {id:key,episode:e.id} }">
+          <v-btn :color="select(e.id)">
+            {{e.index}}
+          </v-btn>
+        </router-link>
+      </div>
+    </v-layout>
   </div>
 </template>
 

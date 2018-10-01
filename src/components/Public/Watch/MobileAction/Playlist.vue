@@ -9,18 +9,6 @@
         </router-link>
       </div>
     </v-layout>
-    <v-btn
-      v-if="episode"
-      color="#d10000"
-      id="full"
-      @click="fullscreen"
-      small
-      dark
-      fixed
-      right
-      fab >
-      <v-icon>fullscreen</v-icon>
-    </v-btn>
   </div>
 </template>
 
@@ -53,9 +41,6 @@ export default {
         return 'black'
       }
       return '#d10000'
-    },
-    fullscreen(){
-      this.$router.push({ name: 'cinematic', params: { id: this.key, episode: this.episode }})
     }
   },
   computed:{
@@ -74,16 +59,11 @@ export default {
 
 <style scoped>
 .playlist{
-  overflow-y: scroll;
-  max-height: calc( 100vh - ( 100vw * 0.56 ) - 142px );
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
   padding: 10px;
   align-items: stretch;
-}
-#full{
-  bottom: 70px;
 }
 a{
   text-decoration: none;

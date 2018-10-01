@@ -44,12 +44,10 @@ export default {
 .container{
   max-height: 100vh;
   max-width: 100vw;
-  background-color: blue;
   padding: 0;
 }
 .content{
   transform-origin: 0% 0%;/*x(>),y(v)*/
-  background-color: red;
   min-height: 100vw;
   min-width: 100vh;
   padding-top: 56.25%;

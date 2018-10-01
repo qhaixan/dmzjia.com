@@ -4,7 +4,7 @@
     <Title class="title"/>
 
     <Playlist class="playlist" v-if="!isMobile"/>
-    <PlaylistMobile class="playlist" v-else/>
+    <MobileAction class="playlist" v-else/>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
     Player,
     Title,
     'Playlist' : () => import('@/components/Public/Watch/Playlist'),
-    'PlaylistMobile' : () => import('@/components/Public/Watch/PlaylistMobile'),
+    'MobileAction' : () => import('@/components/Public/Watch/MobileAction'),
   },
   computed:{
     isMobile () {

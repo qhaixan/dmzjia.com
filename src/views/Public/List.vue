@@ -1,6 +1,9 @@
 <template>
   <div class="">
-    <div v-if="query" style="width:100%;text-align:center;background:#007ed8;">搜查到{{anime.length}}个结果</div>
+    <div v-if="query" class="notifyQuery" :style="'background:'+queryColor()+';'">
+      <span v-if="!loading">以"{{query}}"搜查到{{anime.length}}个结果</span>
+      <span v-else>以"{{query}}"搜查到{{anime.length}}个结果</span>
+    </div>
     <div class="list-box">
       <router-link
         v-for="(a,i) in anime" :key="i"
@@ -29,10 +32,17 @@ export default {
       pageQuery:{
         cursor: null,
         pageSize: 10
-      }
+      },
+      loading:true
     }
   },
   methods:{
+    queryColor(){
+      if(this.loading){
+        return '#ffd400'
+      }
+      return '#007ed8'
+    },
     paginate(dir){
       this.anime = []
       var cursor = this.pageQuery.cursor
@@ -71,6 +81,7 @@ export default {
         snap.forEach(function(childSnapshot) {
           self.compareTitle(childSnapshot.key)
         })
+        self.loading = false
       })
     },
     compareTitle(key){
@@ -78,15 +89,23 @@ export default {
       var self = this
       animeRef.child(key).once('value',function(snap){
         var title = snap.val().title.toLowerCase()
-        var keyword = snap.val().keyword.toLowerCase() + title
-        if(title.includes(query) || keyword.includes(query)){
+        if(title){
+          title = title.toLowerCase().includes(query)
+        }
+        var keyword = snap.val().keyword
+        if(keyword){
+          keyword = keyword.toLowerCase().includes(query)
+        }
+        if(title || keyword){
           self.findAnime(key)
         }
       })
+
     },
     loadList(){
       this.anime = []
       if(this.query){
+        this.loading = true
         this.queryAnime(this.query)
       }else{
         this.paginate()
@@ -119,6 +138,10 @@ export default {
 </script>
 
 <style scoped>
+.notifyQuery{
+  width:100%;
+  text-align:center;
+}
 a {
   text-decoration: none;
   color: white;

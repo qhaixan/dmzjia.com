@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper home">
+  <div class="wrapper home" ref="home">
     <Carousel class="carousel"/>
     <Latest class="latest"/>
   </div>

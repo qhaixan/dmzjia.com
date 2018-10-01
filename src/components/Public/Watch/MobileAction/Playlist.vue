@@ -9,6 +9,19 @@
         </router-link>
       </div>
     </v-layout>
+    <v-btn
+      v-if="episode"
+      color="#d10000"
+      id="full"
+      @click="fullscreen"
+      small
+      dark
+      absolute
+      right
+      bottom
+      fab >
+      <v-icon>fullscreen</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -21,6 +34,9 @@ export default {
     }
   },
   methods:{
+    fullscreen(){
+      this.$router.push({ name: 'cinematic', params: { id: this.key, episode: this.episode }})
+    },
     loadList(){
       var self = this
       this.episodes = []
@@ -67,5 +83,8 @@ export default {
 }
 a{
   text-decoration: none;
+}
+#full{
+
 }
 </style>

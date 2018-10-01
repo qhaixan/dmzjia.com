@@ -1,10 +1,18 @@
 <template>
   <div class="">
-    <div v-if="query" class="notifyQuery" :style="'background:'+queryColor()+';'">
+    <div v-if="query" class="notifyQuery" :style="'background:'+queryColor+';'">
       <span v-if="!loading">以"{{query}}"搜查到{{anime.length}}个结果</span>
-      <span v-else>以"{{query}}"搜查到{{anime.length}}个结果</span>
+      <span v-else>搜索中</span>
     </div>
-    <div class="list-box">
+
+    <div v-if="loading" :class="view">
+      <v-progress-circular
+      class="animation"
+        indeterminate
+        color="#ffd400"
+      ></v-progress-circular>
+    </div>
+    <div class="list-box" v-else>
       <router-link
         v-for="(a,i) in anime" :key="i"
         :to="{ name: 'watch', params: { id: a.id } }">
@@ -37,12 +45,6 @@ export default {
     }
   },
   methods:{
-    queryColor(){
-      if(this.loading){
-        return '#ffd400'
-      }
-      return '#007ed8'
-    },
     paginate(dir){
       this.anime = []
       var cursor = this.pageQuery.cursor
@@ -61,6 +63,7 @@ export default {
         snapshot.forEach(function(childSnapshot) {
           self.findAnime(childSnapshot.key)
         })
+        self.loading = false
       })
     },
     findAnime(key){
@@ -75,38 +78,34 @@ export default {
         })
       })
     },
-    queryAnime(query){
+    queryAnime(){
+      var query = this.query
       var self = this
-      animeRef.once('value',function(snap){
-        snap.forEach(function(childSnapshot) {
-          self.compareTitle(childSnapshot.key)
+      animeRef.once('value',function(snap){//go through every anime
+        snap.forEach(function(ani) {
+          var matchTitle = ani.val().title.toLowerCase().includes(query)
+          try{
+            var matchKeyword = ani.val().keyword.toLowerCase().includes(query)
+          }catch(err){
+            var matchKeyword = null
+          }
+          if(matchTitle || matchKeyword){
+            self.anime.push({
+              id: ani.key,
+              title: ani.val().title,
+              image: ani.val().imgH,
+              len: Object.values(ani.val().episode).length
+            })
+          }
         })
         self.loading = false
       })
     },
-    compareTitle(key){
-      var query = this.query
-      var self = this
-      animeRef.child(key).once('value',function(snap){
-        var title = snap.val().title.toLowerCase()
-        if(title){
-          title = title.toLowerCase().includes(query)
-        }
-        var keyword = snap.val().keyword
-        if(keyword){
-          keyword = keyword.toLowerCase().includes(query)
-        }
-        if(title || keyword){
-          self.findAnime(key)
-        }
-      })
-
-    },
     loadList(){
       this.anime = []
+      this.loading = true
       if(this.query){
-        this.loading = true
-        this.queryAnime(this.query)
+        this.queryAnime()
       }else{
         this.paginate()
         this.anime.reverse()
@@ -117,6 +116,9 @@ export default {
     this.loadList()
   },
   computed: {
+    isMobile(){
+      return this.$store.state.isMobile
+    },
     query(){
       if(this.$route.query.keyword)
       {
@@ -125,6 +127,22 @@ export default {
         return null
       }
 
+    },
+    queryColor(){
+      if(this.loading){
+        return '#ffd400'
+      }
+      else if (this.anime.length==0) {
+        return '#d10000'
+      }
+      return '#004aa5'
+    },
+    view(){
+      if(this.isMobile){
+        return 'mloader'
+      }else{
+        return 'loader'
+      }
     }
   },
   watch:{
@@ -138,6 +156,25 @@ export default {
 </script>
 
 <style scoped>
+.loader{
+  width: 100%;
+  position: relative;
+  height: calc( 100vh - 85px );
+}
+.mloader{
+  width: 100%;
+  position: relative;
+  height: calc( 100vh - 168px );
+}
+.animation{
+  width: 20px;
+  height: 20px;
+  position: fixed;
+  top:50%;
+  left: 50%;
+  margin-top: -20px;
+  margin-left: -20px;
+}
 .notifyQuery{
   width:100%;
   text-align:center;

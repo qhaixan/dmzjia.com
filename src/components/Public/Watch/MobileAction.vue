@@ -20,19 +20,7 @@
       <v-tab-item class="window">
       </v-tab-item>
     </v-tabs>
-    <v-btn
-      v-if="episode"
-      color="#d10000"
-      id="full"
-      @click="fullscreen"
-      small
-      dark
-      fixed
-      right
-      bottom
-      fab >
-      <v-icon>fullscreen</v-icon>
-    </v-btn>
+
   </div>
 </template>
 
@@ -48,9 +36,6 @@ export default {
     'Playlist' : () => import('@/components/Public/Watch/MobileAction/Playlist'),
   },
   methods:{
-    fullscreen(){
-      this.$router.push({ name: 'cinematic', params: { id: this.key, episode: this.episode }})
-    },
     assignSwipeValue(direction) {
       if(direction=='Left'){//+1
         this.next(1)
@@ -83,7 +68,5 @@ export default {
 .window{
   height: calc( 100vh - ( 100vw * 0.56 ) - 239px );
 }
-#full{
-  bottom: 70px;
-}
+
 </style>

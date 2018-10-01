@@ -149,6 +149,10 @@
         {
           return false
         }
+        else if(path.startsWith('/cinematic'))
+        {
+          return false
+        }
         else if(path.startsWith('/error'))
         {
           return false
@@ -184,6 +188,7 @@
       },
       route (v,o) {
         this.checkCookies()
+        this.$store.commit('public_dialogPop',false)
       }
     }
   }

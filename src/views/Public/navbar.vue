@@ -1,8 +1,6 @@
 <template lang="html">
   <div id="nav">
     <mobileNav v-if="isMobile" :routes="routes"/>
-
-
     <template v-else>
       <pcNav :routes="routes"/>
     </template>

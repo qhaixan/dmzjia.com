@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper watch">
-    <Player class="player"/>
+    <Player class="playerz"/>
     <Title class="title"/>
 
     <Playlist class="playlist" v-if="!isMobile"/>

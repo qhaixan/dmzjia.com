@@ -11,16 +11,12 @@
 
 <script>
 import { mapState } from 'vuex'
-import register from '@/components/Public/Popup/Register'
-import register_success from '@/components/Public/Popup/RegisterSuccess'
-import login from '@/components/Public/Popup/LogIn'
-import logout from '@/components/Public/Popup/Logout'
 export default {
   components: {
-    register,
-    register_success,
-    login,
-    logout
+    'register' : () => import('@/components/Public/Popup/Register'),
+    'register_success' : () => import('@/components/Public/Popup/RegisterSuccess'),
+    'login' : () => import('@/components/Public/Popup/LogIn'),
+    'logout' : () => import('@/components/Public/Popup/Logout')
   },
   computed: {
     content () {

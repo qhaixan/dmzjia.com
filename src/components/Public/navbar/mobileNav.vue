@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <v-toolbar fixed>
+    <v-toolbar fixed color="black">
       <v-icon color="#d10000">live_tv</v-icon>
       <v-toolbar-title>{{$store.state.common.title}}</v-toolbar-title>
       <v-spacer></v-spacer>

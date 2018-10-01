@@ -37,6 +37,11 @@ export default new Router({
       component: () => import('./views/Public/Watch.vue')
     },
     {
+      path: '/cinematic/:id?/:episode?',
+      name: 'cinematic',
+      component: () => import('./views/Public/Cinematic.vue')
+    },
+    {
       path: '/test',
       name: 'test',
       component: () => import('./views/Public/Test.vue')

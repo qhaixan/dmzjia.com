@@ -1,5 +1,6 @@
-.player {
+.playerz {
   grid-area: player;
+  width: 100vw;
 }
 .playlist {
   grid-area: playlist;

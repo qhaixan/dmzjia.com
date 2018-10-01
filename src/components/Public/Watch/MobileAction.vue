@@ -2,7 +2,7 @@
   <div class="bottomPart">
     <v-btn @click="next">next tab</v-btn>
     <v-tabs
-
+      grow
       color="black"
       dark
       slider-color="#d10000"
@@ -19,7 +19,6 @@
 
       <v-tab>留言</v-tab>
       <v-tab-item class="window">
-        {{active}}
       </v-tab-item>
     </v-tabs>
     <v-btn
@@ -84,7 +83,6 @@ export default {
 }
 .window{
   height: calc( 100vh - ( 100vw * 0.56 ) - 239px );
-  background: blue;
 }
 #full{
   bottom: 70px;

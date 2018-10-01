@@ -1,6 +1,5 @@
 <template>
   <div class="bottomPart">
-    <v-btn @click="next">next tab</v-btn>
     <v-tabs
       grow
       color="black"

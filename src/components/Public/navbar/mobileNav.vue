@@ -10,6 +10,7 @@
           solo
           single-line
           full-width
+          :color="$store.state.common.secondaryColor"
           @blur="searchBar =! searchBar"
           autofocus
           append-outer-icon="clear"
@@ -19,7 +20,7 @@
         </v-text-field>
       </v-flex>
       <v-btn icon @click="searchBar =! searchBar" v-if="!searchBar">
-        <v-icon>search</v-icon>
+        <v-icon :color="$store.state.common.secondaryColor">search</v-icon>
       </v-btn>
     </v-toolbar>
 

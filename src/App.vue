@@ -47,7 +47,6 @@
         this.$store.commit('public_dialogPop',false)
       },
       uploadUser(uid){
-
         var checkOnline = info.child('connected')
         var sessionKey = this.sessionKey
         if(this.isMobile){
@@ -89,10 +88,7 @@
           self.setRole(snapshot.val().role)
           self.setName(snapshot.val().id)
         });
-
         this.uploadUser(uid)
-
-
       },
       setRole(r){
         this.$store.state.session.role = r
@@ -111,6 +107,8 @@
           this.$store.state.session.uid = null
         }
       },
+
+      //auth ends here
       checkAgent(){
         if( navigator.userAgent.match(/Android/i)
             || navigator.userAgent.match(/webOS/i)

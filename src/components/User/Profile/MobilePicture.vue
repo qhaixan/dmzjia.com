@@ -5,7 +5,7 @@
       <div class="username">{{username}}</div>
     </div>
     <div class="function">
-      <v-btn @click="verify">verify</v-btn>
+      <!--v-btn @click="verify">verify</v-btn-->
       <v-btn v-if="role>1" @click="toCP">Control Panel</v-btn><br/>
       <v-btn @click="logout">Logout</v-btn>
     </div>

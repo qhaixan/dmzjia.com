@@ -10,14 +10,14 @@
             @keydown.native="changeMail"
             v-model="email"
             :rules="[mailRules.exist]"
-            label="Email"
+            label="电邮"
             required>
       </v-text-field>
       <v-text-field
             v-else
             v-model="email"
             :rules="[mailRules.required, mailRules.valid]"
-            label="Email"
+            label="电邮"
             required>
       </v-text-field>
 
@@ -27,7 +27,7 @@
             v-model="name"
             :rules="[nameRules.exist]"
             :counter="nameLimit"
-            label="Username"
+            label="用户名"
             required>
       </v-text-field>
       <v-text-field
@@ -35,7 +35,7 @@
             v-model="name"
             :rules="[nameRules.required, nameRules.min, nameRules.max]"
             :counter="nameLimit"
-            label="Username"
+            label="用户名"
             required>
       </v-text-field>
 
@@ -44,7 +44,7 @@
             :append-icon="showPw ? 'visibility_off' : 'visibility'"
             :rules="[pwRules.required, pwRules.min]"
             :type="showPw ? 'text' : 'password'"
-            label="Password"
+            label="密码"
             @click:append="showPw = !showPw"
             required>
       </v-text-field>
@@ -55,7 +55,7 @@
             :append-icon="showPw2 ? 'visibility_off' : 'visibility'"
             :rules="[pwRules.match]"
             :type="showPw2 ? 'text' : 'password'"
-            label="Confirm Password"
+            label="确认密码"
             @click:append="showPw2 = !showPw2"
             required>
       </v-text-field>
@@ -64,15 +64,15 @@
             v-model="password2"
             :append-icon="showPw2 ? 'visibility_off' : 'visibility'"
             :type="showPw2 ? 'text' : 'password'"
-            label="Confirm Password"
+            label="确认密码"
             @click:append="showPw2 = !showPw2"
             required>
       </v-text-field>
 
       <div class="" style="text-align:right;">
-        <span class="clear" @click="clear">clear</span>
+        <span class="clear" @click="clear">清空</span>
         <v-btn :disabled="!valid" @click="submit" :loading="isLoading" color="info">
-          submit
+          提交
         </v-btn>
       </div>
 
@@ -80,7 +80,7 @@
     </v-form>
   </div>
   <div class="" style="text-align:center;padding:10px;">
-    <span class="toLogin" @click="toLogin">Have an account? Log in here</span>
+    <span class="toLogin" @click="toLogin">已经注册了？前往登入</span>
   </div>
 
 
@@ -100,16 +100,16 @@ export default {
     name: '',
     nameLimit: 36,
     nameRules: {
-      required: value => !!value || 'Required.',
-      min: v => v.length >= 5 || 'Min 5 characters',
-      max: v => v.length <= 36 || 'Max 36 characters',
-      exist: v => v.length <= 0 ||'This username has been taken'
+      required: value => !!value || '不可放空',
+      min: v => v.length >= 5 || '不可小于5字母',
+      max: v => v.length <= 36 || '不可大于36字母',
+      exist: v => v.length <= 0 ||'此用户名已被取用'
     },
     email:'',
     mailRules: {
-      required: value => !!value || 'Required.',
-      exist: v => v.length <= 0 ||'This email has been registered.',
-      valid: v => /.+@.+/.test(v) || 'E-mail must be valid'
+      required: value => !!value || '不可放空',
+      exist: v => v.length <= 0 ||'此电邮已被取用',
+      valid: v => /.+@.+/.test(v) || '电邮格式不正确'
     },
     password: '',
     showPw: false,
@@ -117,9 +117,9 @@ export default {
     password2: '',
     showPw2: false,
     pwRules: {
-      required: value => !!value || 'Required.',
-      min: v => v.length >= 5 || 'Min 5 characters',
-      match: v => v.length < 0 || 'Confirm password does not match',
+      required: value => !!value || '不可放空.',
+      min: v => v.length >= 5 || '不可小于5字母',
+      match: v => v.length < 0 || '确认密码不相称',
     },
     isLoading: false
   }),
@@ -127,6 +127,7 @@ export default {
   methods: {
     submit() {
       this.isLoading = true
+      var self = this
       if (this.$refs.form.validate()) {
         var exist = '';
         usersRef.orderByChild('email').equalTo(this.email).once('value', function (snapshot) {
@@ -143,9 +144,12 @@ export default {
         if(exist=='' && pwMatch){
           var md5 = require('js-md5')
           var pw = md5(this.password)
-          usersRef.push({ id: this.name, pw: pw, role:1, email:this.email })
+          var link = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+          link = md5(link)
+          usersRef.push({ id: this.name, pw: pw, verificationLink:link, role:0, email:this.email })
           .then((snap)=>{
-            this.login(snap.key)
+            //self.verify(snap.key)
+            self.verify(link)
           })
         }else if(exist!=''){
           if(exist=='email'){
@@ -153,14 +157,15 @@ export default {
           }else{
             this.exist=true
           }
+          this.isLoading = false
         }else{
 
         }
 
       }
-      this.isLoading = false
+
     },
-    login(key) {
+    login(key) {//not using
       this.$store.state.session.uid = key
       this.$store.state.session.name = this.name
       this.$store.state.session.role = 1
@@ -169,7 +174,6 @@ export default {
       setTimeout(function () {
         self.$store.commit('public_dialogPop',false)
       }, 2000)
-
     },
     clear() {
       this.$refs.form.reset()
@@ -182,7 +186,28 @@ export default {
     },
     toLogin(){
       this.$store.commit('public_dialogContent',{content:'login',width:'350'})
-    }
+    },
+    verify(ln){
+      var self = this
+      var service_id = "dmzjia_noreply"
+      var template_id = "template_uJaoKiCR"
+      var link = "m.dmzjia.com/verify/"+ln
+      var params = {
+        "to_email":"999kaitokid@gmail.com",
+        "to_name":this.name,
+        "link":"<a href="+link+">"+link+"</a>"
+      }
+
+      window.emailjs.send(service_id,template_id,params)
+    	.then(function(){
+          self.$store.commit('public_dialogContent',{content:'register_verify',width:'250'})
+          this.isLoading = false
+         //alert("Sent!");
+       }, function(err) {
+         //console.log("Send email failed!\r\n Response:\n " + JSON.stringify(err));
+         this.isLoading = false
+      })
+    },
   }
 }
 </script>

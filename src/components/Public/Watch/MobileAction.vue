@@ -4,7 +4,7 @@
       grow
       color="black"
       dark
-      slider-color="#d10000"
+      :slider-color="$store.state.common.secondaryColor"
       v-touch="{
         left: () => assignSwipeValue('Left'),
         right: () => assignSwipeValue('Right')

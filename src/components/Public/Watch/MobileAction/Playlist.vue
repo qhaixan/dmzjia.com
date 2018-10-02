@@ -1,5 +1,13 @@
 <template>
   <div class="playlist">
+    <v-btn
+      :disabled="episode==null"
+      :color="$store.state.common.secondaryColor"
+      @click="fullscreen"
+      block
+       >
+      <v-icon>fullscreen</v-icon> 打横观看
+    </v-btn>
     <v-layout row wrap>
       <div v-for="e in episodes">
         <router-link :to="{ name: 'watch', params: {id:key,episode:e.id} }">
@@ -9,19 +17,7 @@
         </router-link>
       </div>
     </v-layout>
-    <v-btn
-      v-if="episode"
-      color="#d10000"
-      id="full"
-      @click="fullscreen"
-      small
-      dark
-      absolute
-      right
-      bottom
-      fab >
-      <v-icon>fullscreen</v-icon>
-    </v-btn>
+
   </div>
 </template>
 
@@ -56,7 +52,7 @@ export default {
       if(id==this.episode){
         return 'black'
       }
-      return '#d10000'
+      return this.$store.state.common.secondaryColor
     }
   },
   computed:{
@@ -83,8 +79,5 @@ export default {
 }
 a{
   text-decoration: none;
-}
-#full{
-
 }
 </style>

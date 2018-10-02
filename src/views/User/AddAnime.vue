@@ -20,7 +20,7 @@
       </tr>
     </table>
     <v-btn
-      color="#d10000"
+      :color="$store.state.common.secondaryColor"
       id="add"
       dark
       fixed

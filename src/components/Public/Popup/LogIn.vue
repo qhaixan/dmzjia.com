@@ -6,18 +6,26 @@
   <div style="padding:30px;">
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
-            v-if="exist"
+            v-if="exist&&!error"
             v-model="name"
             :rules="[nameRules.required]"
-            label="Username"
+            label="用户名"
             required>
       </v-text-field>
       <v-text-field
-            v-else
+            v-else-if="!exist"
             @keydown.native="changeName"
             v-model="name"
             :rules="[nameRules.notFound]"
-            label="Username"
+            label="用户名"
+            required>
+      </v-text-field>
+      <v-text-field
+            v-else-if="error"
+            @keydown.native="changeName"
+            v-model="name"
+            :rules="[nameRules.error]"
+            label="用户名"
             required>
       </v-text-field>
 
@@ -28,7 +36,7 @@
             :append-icon="showPw ? 'visibility_off' : 'visibility'"
             :rules="[pwRules.required]"
             :type="showPw ? 'text' : 'password'"
-            label="Password"
+            label="密码"
             @click:append="showPw = !showPw"
             required>
       </v-text-field>
@@ -39,16 +47,16 @@
             :append-icon="showPw ? 'visibility_off' : 'visibility'"
             :rules="[pwRules.unmatch]"
             :type="showPw ? 'text' : 'password'"
-            label="Password"
+            label="密码"
             @click:append="showPw = !showPw"
             required>
       </v-text-field>
 
 
       <div class="" style="text-align:right;">
-        <v-btn flat @click="clear">clear</v-btn>
+        <v-btn flat @click="clear">清空</v-btn>
         <v-btn :disabled="!valid" @click="submit" :loading="isLoading" color="success">
-          submit
+          提交
         </v-btn>
       </div>
 
@@ -56,7 +64,7 @@
     </v-form>
   </div>
   <div class="" style="text-align:center;padding:10px;">
-    <span class="toReg" @click="toReg">New here? Register now</span>
+    <span class="toReg" @click="toReg">新用户？前往注册</span>
   </div>
 
 
@@ -71,18 +79,20 @@ export default {
   },
   data: () => ({
     exist: true,
+    error:false,
     match: true,
     valid: true,
     name: '',
     nameRules: {
-      required: value => !!value || 'Required.',
-      notFound: v => v.length <= 0 ||'Username not found'
+      required: value => !!value || '不可放空',
+      notFound: v => v.length <= 0 ||'用户名不存在',
+      error: v => v.length <= 0 ||'请前往邮箱进行认证',
     },
     password: '',
     showPw: false,
     pwRules: {
-      required: value => !!value || 'Required.',
-      unmatch: v => v.length <= 0 ||'Password not matched'
+      required: value => !!value || '不可放空.',
+      unmatch: v => v.length <= 0 ||'密码不对称'
     },
     isLoading: false
   }),
@@ -133,21 +143,25 @@ export default {
       this.isLoading = false
     },
     login(key,user) {
-      this.$store.state.session.uid = key
-      this.$store.state.session.name = user.id
-      this.$store.state.session.role = user.role
-      this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
-      var self = this
-      setTimeout(function () {
-        self.$store.commit('public_dialogPop',false)
-      }, 2000)
-
+      if(user.role<1){
+        this.error=true
+      }else{
+        this.$store.state.session.uid = key
+        this.$store.state.session.name = user.id
+        this.$store.state.session.role = user.role
+        this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
+        var self = this
+        setTimeout(function () {
+          self.$store.commit('public_dialogPop',false)
+        }, 2000)
+      }
     },
     clear() {
       this.$refs.form.reset()
     },
     changeName() {
       this.exist = true
+      this.error = false
     },
     changePw() {
       this.match = true

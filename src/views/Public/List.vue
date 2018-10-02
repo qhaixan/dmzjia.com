@@ -133,7 +133,7 @@ export default {
         return '#ffd400'
       }
       else if (this.anime.length==0) {
-        return '#d10000'
+        return this.$store.state.common.secondaryColor
       }
       return '#004aa5'
     },

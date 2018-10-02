@@ -2,7 +2,7 @@
   <div class="container" ref="cont">
     <CinematicPlayer class="content"/>
     <v-btn
-      color="#d10000"
+      :color="$store.state.common.secondaryColor"
       id="full"
       @click="back"
       small

@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <v-toolbar fixed color="black">
-      <v-icon color="#d10000">live_tv</v-icon>
+      <v-icon :color="$store.state.common.secondaryColor">live_tv</v-icon>
       <v-toolbar-title>{{$store.state.common.title}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-flex xs6 v-if="searchBar" style="">
@@ -89,7 +89,6 @@ export default {
     return {
       bottomNav:null,
       color:'white',
-      selected:'#d10000',
       bg:'black',
       searchBar: false,
       query:null
@@ -104,7 +103,7 @@ export default {
     },
     btnColor(r){
       if(r==this.bottomNav){
-        return this.selected
+        return this.$store.state.common.secondaryColor
       }
       else {
         return this.color

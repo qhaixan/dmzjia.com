@@ -168,7 +168,6 @@
       uid (v, o) {
 
         if(v==null){
-          alert('state deleted')
           this.$cookies.remove("uid")
           this.$cookies.remove("role")
           this.$cookies.remove("username")

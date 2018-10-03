@@ -11,6 +11,7 @@
             v-model="email"
             :rules="[mailRules.exist]"
             label="电邮"
+            placeholder="[稍后需认证]"
             required>
       </v-text-field>
       <v-text-field
@@ -18,6 +19,7 @@
             v-model="email"
             :rules="[mailRules.required, mailRules.valid]"
             label="电邮"
+            placeholder="[稍后需认证]"
             required>
       </v-text-field>
 
@@ -28,14 +30,16 @@
             :rules="[nameRules.exist]"
             :counter="nameLimit"
             label="用户名"
+            placeholder="[日后用于登入]"
             required>
       </v-text-field>
       <v-text-field
             v-else
             v-model="name"
-            :rules="[nameRules.required, nameRules.min, nameRules.max]"
+            :rules="[nameRules.required, nameRules.missformat, nameRules.min, nameRules.max]"
             :counter="nameLimit"
             label="用户名"
+            placeholder="[日后用于登入]"
             required>
       </v-text-field>
 
@@ -103,13 +107,14 @@ export default {
       required: value => !!value || '不可放空',
       min: v => v.length >= 5 || '不可小于5字母',
       max: v => v.length <= 36 || '不可大于36字母',
-      exist: v => v.length <= 0 ||'此用户名已被取用'
+      exist: v => v.length <= 0 ||'此用户名已被取用',
+      missformat: v=> /^[a-zA-Z0-9_]*$/.test(v)|| '只允许英文字母及数字，不含空格'
     },
     email:'',
     mailRules: {
       required: value => !!value || '不可放空',
       exist: v => v.length <= 0 ||'此电邮已被取用',
-      valid: v => /.+@.+/.test(v) || '电邮格式不正确'
+      valid: v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || '电邮格式不正确'
     },
     password: '',
     showPw: false,

@@ -153,7 +153,7 @@ export default {
         var self = this
         setTimeout(function () {
           self.$store.commit('public_dialogPop',false)
-        }, 2000)
+        }, 1200)
       }
     },
     clear() {

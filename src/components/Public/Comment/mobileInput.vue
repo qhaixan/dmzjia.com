@@ -15,7 +15,7 @@
     </v-text-field>
 
     <v-btn
-      outline
+
       fab
       fixed
       small
@@ -25,7 +25,7 @@
       :color="$store.state.common.secondaryColor"
       @click="active=!active"
       v-else>
-      <v-icon>insert_comment</v-icon>
+      <v-icon color="black">insert_comment</v-icon>
     </v-btn>
   </div>
 </template>

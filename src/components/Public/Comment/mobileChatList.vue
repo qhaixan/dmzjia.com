@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="container">
     <div class="com" v-for="(c,key) in comments">
       <div class="portrait">
         <img :src="c.avatar" class="avatar">
@@ -10,6 +10,7 @@
         <div class="speech-bubble">
           {{c.content}}
         </div>
+        <div class="time">{{c.time}}</div>
       </div>
     </div>
   </div>
@@ -28,13 +29,17 @@ export default {
     vkey: String
   },
   mounted(){
+
     var self = this
     commentsRef.child(this.vkey).on('value',function(snapshot) {
+
       self.comments = []
       snapshot.forEach(function(childSnapshot) {
         self.getName(childSnapshot.val())
       })
     })
+    var container = this.$el.querySelector(".container");
+    container.scrollTop = container.scrollHeight;
   },
   methods:{
     getName(comment){
@@ -46,8 +51,14 @@ export default {
         }else{
           name = snapshot.val().id
         }
+        var avatar = null
+        if(snapshot.val().avatar){
+          avatar = snapshot.val().avatar
+        }else{
+          avatar = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Antu_im-invisible-user.svg/2000px-Antu_im-invisible-user.svg.png'
+        }
         self.comments.push({
-          avatar : 'https://vignette.wikia.nocookie.net/legendsofthemultiuniverse/images/0/07/Saitama_serious_profile.png/revision/latest?cb=20170121004535',
+          avatar : avatar,
           content :comment.content,
           time :comment.time,
           name :name
@@ -60,9 +71,13 @@ export default {
 </script>
 
 <style scoped>
+.container{
+
+}
 .com{
   display: flex;
   margin-bottom: 5px;
+
 }
 .portrait{
   width: 15vw;
@@ -72,7 +87,9 @@ export default {
 .avatar{
   bottom: 0;
   border-radius: 50%;
-  max-width: 100%;
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
 }
 .msg{
   max-width: 85vw;
@@ -82,6 +99,12 @@ export default {
 .name{
   white-space: nowrap;
   width: 0;
+}
+.time{
+  white-space: nowrap;
+  width: 0;
+  color: grey;
+  font-size: 7px;
 }
 .speech-bubble {
 	position: relative;

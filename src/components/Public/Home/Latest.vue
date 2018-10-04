@@ -91,11 +91,11 @@ export default {
   padding: 0;
 }
 .card{
-  max-height: calc( 100vw * 0.56 );
+  max-height: calc( 100vw * 0.53 );
   width: 30vw;
   margin-left: 2px;
   margin-right: 2px;
-  white-space: nowrap;
+  word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
 }

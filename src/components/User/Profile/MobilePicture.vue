@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="portrait">
-      <v-icon id="icon">account_box</v-icon>
+      <img :src="avatar" class="avatar">
       <div class="username">{{username}}</div>
     </div>
     <div class="function">
@@ -14,6 +14,11 @@
 
 <script>
 export default {
+  data(){
+    return{
+      avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm6Q1AijZfdxqq4YAoStjWW2RKkMya61SSFqveD772Thq1zU8w'
+    }
+  },
   computed: {
     role () {
       return this.$store.state.session.role
@@ -36,6 +41,13 @@ export default {
 <style scoped>
 .portrait{
   text-align: center;
+}
+.avatar{
+  bottom: 0;
+  border-radius: 50%;
+  width: 25vw;
+  height: 25vw;
+  object-fit: cover;
 }
 #icon{
   font-size: 40vw;

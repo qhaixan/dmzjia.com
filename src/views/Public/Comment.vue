@@ -52,7 +52,4 @@ export default {
   background-color: black;
   left:0;
 }
-.b{
-  bottom: 70px;
-}
 </style>

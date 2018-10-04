@@ -7,7 +7,7 @@
       <!--space behind pc nav-->
       <div v-if="!isMobile && showNav" style="margin-top:43px;"></div>
 
-      <!--space behind pc nav-->
+      <!--space behind mobile nav-->
       <div v-if="isMobile && showNav" style="margin-top:56px;"></div>
 
       <!--content-->

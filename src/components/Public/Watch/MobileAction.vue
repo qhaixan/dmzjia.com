@@ -12,12 +12,12 @@
       v-model="active"
     >
       <v-tab>列表</v-tab>
-      <v-tab-item class="window">
+      <v-tab-item class="window" :style="{height: tabHeight+'px'}">
         <Playlist/>
       </v-tab-item>
 
       <v-tab>留言</v-tab>
-      <v-tab-item class="window">
+      <v-tab-item class="window" :style="{height: tabHeight+'px'}">
         <Comments class="comment"/>
       </v-tab-item>
     </v-tabs>
@@ -30,7 +30,9 @@ export default {
   data(){
     return{
       active: null,
-      max:1
+      max:1,
+      windowHeight: 0,
+      tabHeight:null
     }
   },
   components: {
@@ -58,21 +60,39 @@ export default {
     episode(){
       return this.$route.params.episode
     }
-  }
+  },
+  mounted(){
+    this.$nextTick(() => {
+      this.windowHeight = window.innerHeight
+      window.addEventListener('resize', () => {
+        this.windowHeight = window.innerHeight
+      });
+    })
+  },
+  watch: {
+    windowHeight(v, o) {
+      if(v>o&&o>0){
+        var gap = v-o
+      }else{
+
+      }
+      var gap = v-o
+      this.tabHeight = v-(window.innerWidth * 0.56)-208
+    }
+  },
 }
 </script>
 
 <style scoped>
 .bottomPart{
-
-  max-height: calc( 100vh - ( 100vw * 0.56 ) - 142px );
+  height: calc( 100vh - ( 100vw * 0.56 ) - 142px );
 }
 .window{
   overflow-y: scroll;
-  height: calc( 100vh - ( 100vw * 0.56 ) - 239px );
+  /* height: calc( 100vh - ( 100vw * 0.56 ) - 239px ); */
 }
 .comment{
-  height: calc( 100vh - ( 100vw * 0.56 ) - 239px );
+  /* height: calc( 100vh - ( 100vw * 0.56 ) - 239px ); */
 }
 
 </style>

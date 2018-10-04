@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-inner" v-chat-scroll>
     <div class="com" v-for="(c,key) in comments">
       <div class="portrait">
         <img :src="c.avatar" class="avatar">
@@ -20,6 +20,9 @@
 import { commentsRef } from '@/firebaseConfig'
 import { usersRef } from '@/firebaseConfig'
 export default {
+  firebase:{
+    comm : commentsRef
+  },
   data(){
     return{
       comments:[],
@@ -38,20 +41,18 @@ export default {
         self.getName(childSnapshot.val())
       })
     })
-    var container = this.$el.querySelector(".container");
-    container.scrollTop = container.scrollHeight;
   },
   methods:{
     getName(comment){
       var self = this
       usersRef.child(comment.person).once('value',function(snapshot) {
         var name = null
+        var avatar = null
         if(snapshot.val().name){
           name = snapshot.val().name
         }else{
           name = snapshot.val().id
         }
-        var avatar = null
         if(snapshot.val().avatar){
           avatar = snapshot.val().avatar
         }else{
@@ -71,13 +72,12 @@ export default {
 </script>
 
 <style scoped>
-.container{
-
+.container-inner{
+  position:relative;
 }
 .com{
   display: flex;
   margin-bottom: 5px;
-
 }
 .portrait{
   width: 15vw;

@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <chatlist class="textContent" :vkey="video"/>
+  <div class="container" ref="cont">
+    <chatlist class="textContent" :vkey="video" :style="{height: innerheight}"/>
     <textf class="tf" :vkey="video"/>
   </div>
 </template>
@@ -9,7 +9,21 @@
 export default {
   data(){
     return{
-      active:false
+      active:false,
+      windowHeight:null,
+      innerheight:"100px",
+    }
+  },
+  watch: {
+    windowHeight(v, o) {
+
+      /*
+      var gap = v-o
+      this.innerHeight = v - 300//102
+      if(gap<60){
+        this.innerHeight += gap
+      }*/
+      alert(this.innerHeight)
     }
   },
   components: {
@@ -17,9 +31,7 @@ export default {
     'textf' : () => import('@/components/Public/Comment/mobileInput'),
   },
   methods:{
-    load(){
 
-    }
   },
   computed:{
     video(){
@@ -30,7 +42,18 @@ export default {
     }
   },
   mounted(){
-    this.load()
+    this.innerheight="300px"
+    if(this.$route.name == 'comment'){
+      this.$nextTick(() => {
+        this.windowHeight = window.innerHeight
+        window.addEventListener('resize', () => {
+          this.windowHeight = window.innerHeight
+        });
+      })
+    }else{
+
+    }
+
   }
 }
 </script>
@@ -39,11 +62,12 @@ export default {
 .container{
   position: relative;
   padding: 0;
+  border: solid;
 }
 .textContent{
   position: absolute;
+  top:0;
   width: 100%;
-  height: 100%;
   overflow-y: scroll;
 }
 .tf{

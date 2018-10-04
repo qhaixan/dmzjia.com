@@ -8,7 +8,8 @@ import VueCookies from 'vue-cookies'
 import firebase from 'firebase'
 import VueFire from 'vuefire'
 import axios from 'axios'
-
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
 Vue.use(VueCookies)
 Vue.use(VueFire)
 Vue.prototype.$axios = axios

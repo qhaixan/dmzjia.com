@@ -11,7 +11,7 @@
     <v-layout row wrap>
       <div v-for="e in episodes">
         <router-link :to="{ name: 'watch', params: {id:key,episode:e.id} }">
-          <v-btn :color="select(e.id)">
+          <v-btn :color="select(e.id)" @click="alert(e.id)">
             {{e.index}}
           </v-btn>
         </router-link>
@@ -40,8 +40,8 @@ export default {
         snap.forEach(function(episode) {
           self.episodes.push({
             index:episode.val().index,
-            channel:episode.val().channel,
-            videoID:episode.val().id,
+            source:episode.val().source,
+            url:episode.val().url,
             id:episode.key
           })
         })

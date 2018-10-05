@@ -7,6 +7,8 @@
 <login              v-else-if="content=='login'"/>
 <logout             v-else-if="content=='logout'"/>
 
+<published          v-else-if="content=='action_published'"/>
+<hidden             v-else-if="content=='action_hidden'"/>
 </div>
 </template>
 
@@ -18,7 +20,10 @@ export default {
     'register_success' : () => import('@/components/Public/Popup/RegisterSuccess'),
     'register_verify' : () => import('@/components/Public/Popup/RegisterVerify'),
     'login' : () => import('@/components/Public/Popup/LogIn'),
-    'logout' : () => import('@/components/Public/Popup/Logout')
+    'logout' : () => import('@/components/Public/Popup/Logout'),
+
+    'published' : () => import('@/components/Public/PopupAction/Published'),
+    'hidden' : () => import('@/components/Public/PopupAction/Hidden')
   },
   computed: {
     content () {

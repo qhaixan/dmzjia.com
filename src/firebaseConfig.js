@@ -16,6 +16,7 @@ export const mobileRef = db.ref('mobileOnline');
 
 export const usersRef = db.ref('users');
 export const animeRef = db.ref('anime-published');
+export const hiddenAniRef = db.ref('anime-hidden');
 export const commentsRef = db.ref('comments');
 
 export const featureRef = db.ref('recommendations');

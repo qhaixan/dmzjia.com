@@ -29,7 +29,8 @@ export default new Vuex.Store({
       overlay: {
         show: false,
         content: null,
-        width: null
+        width: null,
+        action: null
       }
     },
     test: {

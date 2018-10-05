@@ -14,12 +14,12 @@
 
       <v-tab>未发布</v-tab>
       <v-tab-item class="window">
-        b
+        <Hidden/>
       </v-tab-item>
 
       <v-tab>收藏</v-tab>
       <v-tab-item class="window">
-        c
+        开发中。。。
       </v-tab-item>
     </v-tabs>
 
@@ -38,6 +38,7 @@
 export default {
   components: {
     Published : () => import('@/components/User/Collection/Published'),
+    Hidden : () => import('@/components/User/Collection/Hidden'),
   },
   data(){
     return{

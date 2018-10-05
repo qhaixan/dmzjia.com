@@ -68,7 +68,7 @@ export default {
   max-height: calc( 100vh - ( 100vw * 0.56 ) - 142px );
 }
 .window{
-  overflow-y: scroll;
+  overflow-y: auto;
   height: calc( 100vh - ( 100vw * 0.56 ) - 239px );
 }
 

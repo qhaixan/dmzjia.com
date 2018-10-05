@@ -1,13 +1,13 @@
 <template>
   <div class="r_container">
     <div class="content">
-      <div v-if="video.id==''" class="bannerz" :style="{ 'background-image': 'url(' + banner + ')' }">
+      <div v-if="video.url==''" class="bannerz" :style="{ 'background-image': 'url(' + banner + ')' }">
         <span class="hint">请点击列表以开始播放</span>
       </div>
-      <iframe v-if="video.channel=='Openload'" height="100%" width="100%" :src="'https://openload.co/embed/'+video.id" allowfullscreen="allowfullscreen"></iframe>
-      <iframe v-if="video.channel=='GoogleDrive'" :src="'https://drive.google.com/file/d/'+video.id+'/preview'" allowfullscreen="allowfullscreen"></iframe>
-      ​<iframe v-if="video.channel=='YouTube'" :src="'https://www.youtube.com/embed/'+video.id" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="margin-top:-24px;"></iframe>
-      <iframe v-if="video.channel=='Youku'" :src="'https://player.youku.com/embed/'+video.id+'==?autoplay=true'" frameborder=0 allowfullscreen="allowfullscreen" style="margin-top:-24px;"></iframe>
+      <iframe v-if="video.source=='Openload'" height="100%" width="100%" :src="'https://openload.co/embed/'+video.url" allowfullscreen="allowfullscreen"></iframe>
+      <iframe v-if="video.source=='GoogleDrive'" :src="'https://drive.google.com/file/d/'+video.url+'/preview'" allowfullscreen="allowfullscreen"></iframe>
+      ​<iframe v-if="video.source=='YouTube'" :src="'https://www.youtube.com/embed/'+video.url" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="margin-top:-24px;"></iframe>
+      <iframe v-if="video.source=='Youku'" :src="'https://player.youku.com/embed/'+video.url+'==?autoplay=true'" frameborder=0 allowfullscreen="allowfullscreen" style="margin-top:-24px;"></iframe>
     </div>
   </div>
 </template>
@@ -18,8 +18,8 @@ export default {
   data(){
     return{
       video:{
-        channel:'',
-        id:''
+        source:'',
+        url:''
       },
       banner:''
     }
@@ -32,8 +32,8 @@ export default {
     },
     getVideo(anime,video){
       var self = this
-      this.video.channel = ''
-      this.video.id = ''
+      this.video.source = ''
+      this.video.url = ''
       const bannerRef = animeRef.child(anime).child('imgH')
       bannerRef.once("value", snap => {
         self.banner = snap.val()
@@ -43,8 +43,8 @@ export default {
         const videoRef = animeRef.child(anime).child('episode').child(video)
         videoRef.once("value", snap => {
           try {
-            self.video.channel = snap.val().channel
-            self.video.id = snap.val().id
+            self.video.source = snap.val().source
+            self.video.url = snap.val().url
           }catch(e){}
         })
       }catch(e){}

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { animeRef } from '@/firebaseConfig'
+import { hiddenAniRef } from '@/firebaseConfig'
 export default {
   data() {
     return{
@@ -28,11 +28,11 @@ export default {
   },
   methods:{
     action(id){
-      this.$store.commit('public_dialogAction',{content:'action_published',width:'200',action:id})
+      this.$store.commit('public_dialogAction',{content:'action_hidden',width:'200',action:id})
     },
     loadList(){
       var self = this
-      animeRef.on('value',function(snapshot) {
+      hiddenAniRef.on('value',function(snapshot) {
         self.anime = []
         snapshot.forEach(function(childSnapshot) {
           self.findAnime(childSnapshot.key)
@@ -41,7 +41,7 @@ export default {
     },
     findAnime(key){
       var self = this
-      animeRef.child(key).once('value',function(snap){
+      hiddenAniRef.child(key).once('value',function(snap){
         self.anime.push({
           id: key,
           title: snap.val().title,

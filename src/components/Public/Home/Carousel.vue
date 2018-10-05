@@ -56,7 +56,6 @@ export default {
     findAnime(key){
       var self = this
       animeRef.child(key).once("value",function(snapshot){
-
         self.cards.push({
           id: key,
           img: snapshot.val().imgH,
@@ -68,6 +67,7 @@ export default {
   mounted(){
     var self = this
     featureRef.once("value",function(snapshot){
+
       self.loadCarousel(snapshot.val())
     });
 

@@ -1,21 +1,4 @@
 <template>
-  <!--div>
-    <h2>最新添加：</h2>
-    <div class="list-box">
-      <router-link
-        v-for="(a,i) in anime" :key="i"
-        :to="{ name: 'watch', params: { id: a.id } }">
-        <div class="list-item">
-          <div class="image">
-            <img :src="a.image">
-          </div>
-          <div class="name">
-            <h3>{{a.title}}</h3>
-            <span>{{a.len}} 集</span>
-          </div>
-        </div>
-      </router-link>
-    </div-->
     <div v-if="isMobile">
       <div class="spacer"><h2>最新添加：</h2></div>
       <div class="container">
@@ -84,7 +67,7 @@ export default {
 }
 .container{
   width: 100vw;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   display: flex;
   flex-direction: row;
@@ -96,8 +79,7 @@ export default {
   margin-left: 2px;
   margin-right: 2px;
   word-wrap: break-word;
-  border-bottom: solid;
-  border-width: thin;
+  text-align: center;
 }
 .imageH {
   height: 42vw;

@@ -91,13 +91,13 @@ export default {
   padding: 0;
 }
 .card{
-  max-height: calc( 100vw * 0.56 );
+  height: calc( 100vw * 0.52 );
   width: 30vw;
   margin-left: 2px;
   margin-right: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-wrap: break-word;
+  border-bottom: solid;
+  border-width: thin;
 }
 .imageH {
   height: 42vw;

@@ -1,5 +1,8 @@
 <template>
-  <div class="">
+  <div class="container-inner"
+    v-touch="{
+      up: () => loadnew(),
+    }">
     <div class="com" v-for="(c,key) in comments">
       <div class="portrait">
         <img :src="c.avatar" class="avatar">
@@ -10,6 +13,7 @@
         <div class="speech-bubble">
           {{c.content}}
         </div>
+        <div class="time">{{c.time}}</div>
       </div>
     </div>
   </div>
@@ -22,23 +26,43 @@ export default {
   data(){
     return{
       comments:[],
+      lastKey:null,
+      loadSize:5,
+      olderComments:[]
     }
   },
   props:{
     vkey: String
   },
   mounted(){
-    var self = this
-    commentsRef.child(this.vkey).on('value',function(snapshot) {
-      self.comments = []
-      snapshot.forEach(function(childSnapshot) {
-        self.getName(childSnapshot.val())
-      })
-    })
+    this.load()
+    //alert(JSON.stringify(this.comments))
   },
   methods:{
-    getName(comment){
+    loadnew(){
+      this.load()
+    },
+    load() {
+
       var self = this
+
+      commentsRef.child(this.vkey).limitToLast(this.loadSize+this.comments.length).on('value',function(snapshot) {
+        self.comments = []
+        var oldest = null
+        snapshot.forEach(function(childSnapshot) {
+          if(!oldest){
+            oldest = childSnapshot.key
+            self.lastKey = childSnapshot.key
+          }
+          self.getName(childSnapshot.val(),'first')
+        })
+        self.comments.reverse()
+      })
+      //
+    },
+    getName(comment,batch){
+      var self = this
+
       usersRef.child(comment.person).once('value',function(snapshot) {
         var name = null
         if(snapshot.val().name){
@@ -46,12 +70,31 @@ export default {
         }else{
           name = snapshot.val().id
         }
-        self.comments.push({
-          avatar : 'https://vignette.wikia.nocookie.net/legendsofthemultiuniverse/images/0/07/Saitama_serious_profile.png/revision/latest?cb=20170121004535',
-          content :comment.content,
-          time :comment.time,
-          name :name
-        })
+        var avatar = null
+        if(snapshot.val().avatar){
+          avatar = snapshot.val().avatar
+        }else{
+          avatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxC8tK9WH3CbaNFjiCcOkdiJlCyTL9IObOMJN63ECX_R-DmN8Jhw'
+        }
+
+
+        if(batch=='first'){
+          self.comments.push({
+            avatar : avatar,
+            content :comment.content,
+            time :comment.time,
+            name :name
+          })
+        }else{
+          alert('here')
+          self.olderComments.push({
+            avatar : avatar,
+            content :comment.content,
+            time :comment.time,
+            name :name
+          })
+        }
+
       })
 
     }
@@ -60,9 +103,14 @@ export default {
 </script>
 
 <style scoped>
+.container-inner{
+  position:relative;
+  
+}
 .com{
   display: flex;
   margin-bottom: 5px;
+
 }
 .portrait{
   width: 15vw;
@@ -72,7 +120,9 @@ export default {
 .avatar{
   bottom: 0;
   border-radius: 50%;
-  max-width: 100%;
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
 }
 .msg{
   max-width: 85vw;
@@ -82,6 +132,12 @@ export default {
 .name{
   white-space: nowrap;
   width: 0;
+}
+.time{
+  white-space: nowrap;
+  width: 0;
+  color: grey;
+  font-size: 7px;
 }
 .speech-bubble {
 	position: relative;

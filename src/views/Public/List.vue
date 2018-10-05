@@ -45,7 +45,7 @@ export default {
     }
   },
   methods:{
-    paginate(dir){
+    paginate(){
       this.anime = []
       var cursor = this.pageQuery.cursor
       var size = this.pageQuery.pageSize

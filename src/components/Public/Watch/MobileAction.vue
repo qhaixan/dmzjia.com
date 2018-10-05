@@ -18,6 +18,7 @@
 
       <v-tab>留言</v-tab>
       <v-tab-item class="window">
+        <Comments class="comment"/>
       </v-tab-item>
     </v-tabs>
 
@@ -34,6 +35,7 @@ export default {
   },
   components: {
     'Playlist' : () => import('@/components/Public/Watch/MobileAction/Playlist'),
+    'Comments' : () => import('@/views/Public/Comment'),
   },
   methods:{
     assignSwipeValue(direction) {
@@ -62,10 +64,11 @@ export default {
 
 <style scoped>
 .bottomPart{
-  overflow-y: scroll;
+
   max-height: calc( 100vh - ( 100vw * 0.56 ) - 142px );
 }
 .window{
+  overflow-y: scroll;
   height: calc( 100vh - ( 100vw * 0.56 ) - 239px );
 }
 

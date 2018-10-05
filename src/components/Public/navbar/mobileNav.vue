@@ -57,15 +57,15 @@
       <template v-else>
         <v-btn
           dark
-          key="/addanime"
-          :color="btnColor('addanime')"
+          key="/collection"
+          :color="btnColor('collection')"
           flat
-          value="addanime"
-          :style="border('addanime')"
-          @click="$router.push({name:'addanime'})"
+          value="collection"
+          :style="border('collection')"
+          @click="$router.push({name:'collection'})"
         >
-          <span>添加动漫</span>
-          <v-icon>add</v-icon>
+          <span>我的动漫</span>
+          <v-icon>subscriptions</v-icon>
         </v-btn>
         <v-btn
           dark

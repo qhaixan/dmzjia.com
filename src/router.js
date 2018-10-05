@@ -56,9 +56,9 @@ export default new Router({
           component: () => import('./views/User/Profile.vue')
         },
         {
-          path: 'collection',
-          name: 'collection',
-          component: () => import('./views/User/Collection.vue')
+          path: 'addanime',
+          name: 'addanime',
+          component: () => import('./views/User/AddAnime.vue')
         }
       ]
     },

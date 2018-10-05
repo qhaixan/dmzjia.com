@@ -16,8 +16,7 @@
 export default {
   data(){
     return{
-      avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm6Q1AijZfdxqq4YAoStjWW2RKkMya61SSFqveD772Thq1zU8w',
-      avatar2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Antu_im-invisible-user.svg/2000px-Antu_im-invisible-user.svg.png'
+      avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm6Q1AijZfdxqq4YAoStjWW2RKkMya61SSFqveD772Thq1zU8w'
     }
   },
   computed: {

@@ -1,5 +1,6 @@
 <template>
   <div class="list-box">
+    <span v-if="uid==null">请先登入</span>
     <div class="list-item"
       v-for="(a,i) in anime" :key="i"
       @click="action(a.id)"
@@ -24,7 +25,17 @@ export default {
     }
   },
   mounted(){
-    this.loadList()
+    var self = this
+    this.$nextTick(() => {
+      if(self.uid==null&&false){
+        //self.$store.commit('public_dialogContent',{content:'nologin',width:'350'})
+        //self.$router.push({name:'home'})
+
+      }else{
+        self.loadList()
+      }
+    });
+
   },
   methods:{
     action(id){
@@ -35,20 +46,32 @@ export default {
       hiddenAniRef.on('value',function(snapshot) {
         self.anime = []
         snapshot.forEach(function(childSnapshot) {
-          self.findAnime(childSnapshot.key)
+          if(childSnapshot.val().owner==self.uid){
+            try{
+              var img = childSnapshot.val().imgH
+            }catch(err){
+              var img = null
+            }
+
+            try{
+              var len = Object.values(childSnapshot.val().episode).length
+            }catch(err){
+              var len = 0
+            }
+            self.anime.push({
+              id: childSnapshot.key,
+              title: childSnapshot.val().title,
+              image: img,
+              len: len
+            })
+          }
         })
       })
-    },
-    findAnime(key){
-      var self = this
-      hiddenAniRef.child(key).once('value',function(snap){
-        self.anime.push({
-          id: key,
-          title: snap.val().title,
-          image: snap.val().imgH,
-          len: Object.values(snap.val().episode).length
-        })
-      })
+    }
+  },
+  computed:{
+    uid(){
+      return this.$store.state.session.uid
     }
   }
 }

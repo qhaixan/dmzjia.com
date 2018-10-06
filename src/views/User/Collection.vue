@@ -29,7 +29,8 @@
       dark
       fixed
       right
-      fab >
+      fab
+      @click="goAdd">
       <v-icon>add</v-icon>
     </v-btn>
   </div>
@@ -47,7 +48,10 @@ export default {
     }
   },
   methods:{
-
+    goAdd(){
+      this.activeTab = 1
+      this.$store.commit('public_dialogContent',{content:'add_anime',width:'350'})
+    }
   },
 }
 </script>

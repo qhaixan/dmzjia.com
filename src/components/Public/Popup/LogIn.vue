@@ -147,8 +147,6 @@ export default {
         this.error=true
       }else{
         this.$store.state.session.uid = key
-        this.$store.state.session.name = user.id
-        this.$store.state.session.role = user.role
         this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
         var self = this
         setTimeout(function () {
@@ -169,29 +167,11 @@ export default {
     toReg(){
       this.$store.commit('public_dialogContent',{content:'register',width:'350'})
     },
-    storeUser(uid){
-      this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
-      var self = this
-      usersRef.child(uid).once('value').then(function(snapshot) {
-        self.setRole(snapshot.val().role)
-        self.setName(snapshot.val().id)
-      });
-      setTimeout(function () {
-        self.$store.commit('public_dialogPop',false)
-      }, 2000)
-    },
-    setRole(r){
-      this.$store.state.session.role = r
-    },
-    setName(n){
-      this.$store.state.session.name = n
-    }
   },
   mounted(){
-    if(this.$cookies.isKey("uid")) {
-      var uid = this.$cookies.get('uid')
-      this.$store.state.session.uid = uid
-      this.storeUser(uid)
+    if(this.$localStorage.get('RNnryrIfpw',null,String)) {
+      var auth = this.$localStorage.get('RNnryrIfpw')
+      this.$store.state.session.uid = auth
     }
   }
 }

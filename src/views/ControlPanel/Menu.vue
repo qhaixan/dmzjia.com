@@ -35,7 +35,7 @@ export default {
     }
   },
   mounted(){
-    if(this.$cookies.get('role')>1){
+    if(this.$localStorage.get('W3pWa9TD8p',0,Number)>1){
       this.authorized = true
     }else{
 

@@ -59,6 +59,11 @@ export default new Router({
           path: 'collection',
           name: 'collection',
           component: () => import('./views/User/Collection.vue')
+        },
+        {
+          path: 'edit',
+          name: 'editAnime',
+          component: () => import('./views/User/EditAnime.vue')
         }
       ]
     },

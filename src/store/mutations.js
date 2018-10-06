@@ -2,9 +2,6 @@ export default {
   increment (state) {
     state.test.count++
   },
-  loadCookies (state, cookies) {
-    state.test.count = cookies
-  },
   public_dialogPop (state,value) {
     state.public.overlay.show = value
     if(!state.public.overlay.show){

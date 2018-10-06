@@ -1,30 +1,28 @@
 <template>
-  <div id="app" ref="app" v-cloak>
-    <v-app dark style="background:black;">
-      <!--show nav outside control panel-->
-      <navbar v-if="showNav"/>
+<v-app dark style="background:black;" ref="app">
+  <!--show nav outside control panel-->
+  <navbar v-if="showNav" />
 
-      <!--space behind pc nav-->
-      <div v-if="!isMobile && showNav" style="margin-top:43px;"></div>
+  <!--space behind pc nav-->
+  <div v-if="!isMobile && showNav" style="margin-top:43px;"></div>
 
-      <!--space behind pc nav-->
-      <div v-if="isMobile && showNav" style="margin-top:56px;"></div>
+  <!--space behind pc nav-->
+  <div v-if="isMobile && showNav" style="margin-top:56px;"></div>
 
-      <!--content-->
-      <router-view/>
+  <!--content-->
+  <router-view/>
 
-      <!--space behind bottom nav-->
-      <div v-if="isMobile" style="margin-bottom:56px;"></div>
+  <!--space behind bottom nav-->
+  <div v-if="isMobile" style="margin-bottom:56px;"></div>
 
-      <!--overlay & popup-->
-      <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
-        <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
-          <popup/>
-        </v-dialog>
-      </div>
-
-    </v-app>
+  <!--overlay & popup-->
+  <div class="overlays" @click="hide" v-if="$store.state.public.overlay.show">
+    <v-dialog v-model="$store.state.public.overlay.show" :width="$store.state.public.overlay.width">
+      <popup/>
+    </v-dialog>
   </div>
+
+</v-app>
 </template>
 <script>
   import { usersRef } from '@/firebaseConfig'
@@ -59,15 +57,12 @@
           });
         }else{
           var onlineUsers = onlineRef.child(uid)
+          var self = this
           checkOnline.on("value",function(snap){
             if(snap.val()){
               onlineUsers.child(sessionKey).onDisconnect().remove()
               onlineUsers.child(sessionKey).set(true)
-            }
-          });
-          var self = this
-          onlineUsers.on("value",function(snap){//if user logout on other tab
-            if(snap.val()==null){
+            }else{//if user log out from other tab
               self.$store.state.session.uid = null
             }
           });
@@ -80,32 +75,23 @@
         }else{
           onlineRef.child(uid).remove()
         }
+      },
+      checkSession(){
 
-      },
-      storeUser(uid){
-        var self = this
-        usersRef.child(uid).once('value').then(function(snapshot) {
-          self.setRole(snapshot.val().role)
-          self.setName(snapshot.val().id)
-        });
-        this.uploadUser(uid)
-      },
-      setRole(r){
-        this.$store.state.session.role = r
-        this.$cookies.set('role',r)
-      },
-      setName(n){
-        this.$store.state.session.name = n
-        this.$cookies.set('username',n)
-      },
-      checkCookies(){
-        if(this.$cookies.isKey("uid")) {
-          var uid = this.$cookies.get('uid')
+        var uid = this.$localStorage.get('RNnryrIfpw',null,String)
+        if(uid){
+          var self = this
+
           this.$store.state.session.uid = uid
-          this.storeUser(uid)
-        }else{
-          this.$store.state.session.uid = null
+          usersRef.child(uid).once('value').then(function(snapshot) {
+            self.$store.state.session.role = snapshot.val().role
+            self.$store.state.session.name = snapshot.val().id
+          });
+          this.$localStorage.set('W3pWa9TD8p',this.$store.state.session.role)
+          //this.$localStorage.set('LhDJ6aj8AJ',this.$store.state.session.name)
+          this.uploadUser(uid)
         }
+
       },
 
       //auth ends here
@@ -132,14 +118,15 @@
     mounted(){
       this.setRandomKey()
       this.checkAgent()
-      this.checkCookies()
+      var self = this
+      this.$nextTick(()=>{
+        self.checkSession()
+      })
+      this.$localStorage.set('uid',123)
     },
     computed: {
       uid () {
         return this.$store.state.session.uid
-      },
-      route() {
-        return this.$route.path
       },
       showNav() {
         var path = this.$route.path
@@ -166,26 +153,23 @@
     },
     watch: {
       uid (v, o) {
+        if(!v){
 
-        if(v==null){
-          this.$cookies.remove("uid")
-          this.$cookies.remove("role")
-          this.$cookies.remove("username")
-          //usersRef.child(o).child('online').remove()
-          //onlineRef.child(o).remove()
+          this.$localStorage.set('RNnryrIfpw',null)
+          this.$localStorage.set('W3pWa9TD8p',0)
+          this.$localStorage.set('LhDJ6aj8AJ',null)
+
+          //location.reload()
           this.removeOnline(o)
 
           this.$store.state.session.name = null
           this.$store.state.session.role = 0
           this.$store.commit('public_dialogContent',{content:'logout',width:'250'})
+
         }else{
-          this.$cookies.set('uid',v)
-          this.storeUser(v)
+          this.$localStorage.set('RNnryrIfpw',v)
+          this.checkSession()
         }
-      },
-      route (v,o) {
-        this.checkCookies()
-        this.$store.commit('public_dialogPop',false)
       }
     }
   }

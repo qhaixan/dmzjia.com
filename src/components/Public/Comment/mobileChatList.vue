@@ -86,7 +86,6 @@ export default {
             name :name
           })
         }else{
-          alert('here')
           self.olderComments.push({
             avatar : avatar,
             content :comment.content,
@@ -105,7 +104,7 @@ export default {
 <style scoped>
 .container-inner{
   position:relative;
-  
+
 }
 .com{
   display: flex;

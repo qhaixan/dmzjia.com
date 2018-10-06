@@ -6,9 +6,12 @@
 <register_verify    v-else-if="content=='register_verify'"/>
 <login              v-else-if="content=='login'"/>
 <logout             v-else-if="content=='logout'"/>
+<nologin            v-else-if="content=='nologin'"/>
+<add_anime            v-else-if="content=='add_anime'"/>
 
 <published          v-else-if="content=='action_published'"/>
 <hidden             v-else-if="content=='action_hidden'"/>
+<edit_anime         v-else-if="content=='edit_anime'"/>
 </div>
 </template>
 
@@ -21,9 +24,12 @@ export default {
     'register_verify' : () => import('@/components/Public/Popup/RegisterVerify'),
     'login' : () => import('@/components/Public/Popup/LogIn'),
     'logout' : () => import('@/components/Public/Popup/Logout'),
+    'nologin' : () => import('@/components/Public/Popup/NoLogin'),
+    'add_anime' : () => import('@/components/Public/Popup/AddAnime'),
 
     'published' : () => import('@/components/Public/PopupAction/Published'),
-    'hidden' : () => import('@/components/Public/PopupAction/Hidden')
+    'hidden' : () => import('@/components/Public/PopupAction/Hidden'),
+    'edit_anime' : () => import('@/components/Public/PopupAction/EditAnime')
   },
   computed: {
     content () {

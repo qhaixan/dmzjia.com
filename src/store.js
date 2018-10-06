@@ -20,6 +20,9 @@ export default new Vuex.Store({
       role: 0,
       randomKey: null
     },
+    action:{
+      key:null
+    },
     controlpanel: {
       menu: {
         drawer: null

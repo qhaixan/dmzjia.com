@@ -1,8 +1,8 @@
 <template lang="html">
 <div class="" style="text-align:center;padding:20px;">
-  <v-btn block color="#219100" @click="this.$store.commit('public_dialogPop',false);$router.push({name:'watch',params: { id: action }})">前往</v-btn>
+  <v-btn block color="#219100" @click="$router.push({name:'watch',params: { id: action }})">前往</v-btn>
   <v-btn block color="#9b0000" @click="hide()">取消发布</v-btn>
-  <v-btn block color="#d18b00">更改</v-btn>
+  <v-btn block color="#d18b00" @click="edit()">更改</v-btn>
 </div>
 </template>
 
@@ -16,6 +16,11 @@ export default {
     }
   },
   methods:{
+    edit(){
+      this.$store.state.action.key = this.action
+      this.$router.push({name:'editAnime'})
+      this.$store.commit('public_dialogPop',false)
+    },
     hide(){
       var self = this
       animeRef.child(this.action).once('value',function(snap){

@@ -26,15 +26,17 @@ export default {
   },
   methods:{
     redirect(){
-      if(!this.$cookies.isKey("uid")) {
+      if(!this.$localStorage.get('RNnryrIfpw',null,String)){
+        this.$store.state.session.uid = null
         this.$router.push({name:'home'})
       }
     }
   },
   mounted(){
-    setTimeout(function () {
-      this.redirect()
-    }, 1000)
+    var self = this
+    this.$nextTick(()=>{
+      self.redirect()
+    })
   },
   watch:{
     uid(v,o){

@@ -79,7 +79,8 @@
       checkSession(){
 
         var uid = this.$localStorage.get('RNnryrIfpw',null,String)
-        if(uid){
+
+        if(uid!="null"&&uid){
           var self = this
 
           this.$store.state.session.uid = uid
@@ -87,7 +88,7 @@
             self.$store.state.session.role = snapshot.val().role
             self.$store.state.session.name = snapshot.val().id
           });
-          this.$localStorage.set('W3pWa9TD8p',this.$store.state.session.role)
+
           //this.$localStorage.set('LhDJ6aj8AJ',this.$store.state.session.name)
           this.uploadUser(uid)
         }
@@ -116,17 +117,16 @@
       }
     },
     mounted(){
+      this.checkSession()
       this.setRandomKey()
       this.checkAgent()
-      var self = this
-      this.$nextTick(()=>{
-        self.checkSession()
-      })
-      this.$localStorage.set('uid',123)
     },
     computed: {
       uid () {
         return this.$store.state.session.uid
+      },
+      role(){
+        return this.$store.state.session.role
       },
       showNav() {
         var path = this.$route.path
@@ -154,22 +154,28 @@
     watch: {
       uid (v, o) {
         if(!v){
-
           this.$localStorage.set('RNnryrIfpw',null)
           this.$localStorage.set('W3pWa9TD8p',0)
           this.$localStorage.set('LhDJ6aj8AJ',null)
 
           //location.reload()
-          this.removeOnline(o)
+
+          if(o){
+            this.removeOnline(o)
+          }
 
           this.$store.state.session.name = null
           this.$store.state.session.role = 0
+          this.$router.push({name:'home'})
           this.$store.commit('public_dialogContent',{content:'logout',width:'250'})
 
         }else{
           this.$localStorage.set('RNnryrIfpw',v)
           this.checkSession()
         }
+      },
+      role(v,o){
+        this.$localStorage.set('W3pWa9TD8p',v)
       }
     }
   }

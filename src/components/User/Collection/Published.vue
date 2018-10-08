@@ -27,9 +27,9 @@ export default {
   mounted(){
     var self = this
     this.$nextTick(() => {
-      if(self.uid==null&&false){
+      if(!self.uid){
         //self.$store.commit('public_dialogContent',{content:'nologin',width:'350'})
-        //self.$router.push({name:'home'})
+        self.$router.push({name:'home'})
 
       }else{
         self.loadList()

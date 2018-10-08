@@ -48,8 +48,8 @@ export default {
 }
 .content{
   transform-origin: 0% 0%;/*x(>),y(v)*/
-  min-height: 100vw;
-  min-width: 100vh;
+  height: 99vw;
+  width: 100vh;
   padding-top: 56.25%;
   /* -webkit-transform: rotate(90deg);
    -moz-transform: rotate(90deg);

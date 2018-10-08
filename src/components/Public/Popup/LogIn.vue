@@ -169,9 +169,9 @@ export default {
     },
   },
   mounted(){
-    if(this.$localStorage.get('RNnryrIfpw',null,String)) {
-      var auth = this.$localStorage.get('RNnryrIfpw')
-      this.$store.state.session.uid = auth
+    var uid = this.$localStorage.get('RNnryrIfpw',null,String)
+    if(uid&&uid!="null") {
+      this.$store.state.session.uid = uid
     }
   }
 }

@@ -31,6 +31,7 @@
     :color="bg"
     >
       <v-btn v-for="r in routes"
+      
         dark
         ripple
         :key="r.link"
@@ -64,7 +65,7 @@
           :style="border('collection')"
           @click="$router.push({name:'collection'})"
         >
-          <span>我的动漫</span>
+          <span>我的</span>
           <v-icon>subscriptions</v-icon>
         </v-btn>
         <v-btn
@@ -76,7 +77,7 @@
           :style="border('profile')"
           @click="$router.push({name:'profile'})"
         >
-          <span>个人资料</span>
+          <span>账号</span>
           <v-icon>person</v-icon>
         </v-btn>
       </template>

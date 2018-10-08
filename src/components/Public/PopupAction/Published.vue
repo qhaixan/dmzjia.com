@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="" style="text-align:center;padding:20px;">
-  <v-btn block color="#219100" @click="$router.push({name:'watch',params: { id: action }})">前往</v-btn>
+  <v-btn block color="#219100" @click="watch()">前往</v-btn>
   <v-btn block color="#9b0000" @click="hide()">取消发布</v-btn>
   <v-btn block color="#d18b00" @click="edit()">更改</v-btn>
 </div>
@@ -16,6 +16,10 @@ export default {
     }
   },
   methods:{
+    watch(){
+      this.$router.push({name:'watch',params: { id: this.action }})
+      this.$store.commit('public_dialogPop',false)
+    },
     edit(){
       this.$store.state.action.key = this.action
       this.$router.push({name:'editAnime'})

@@ -48,9 +48,9 @@ export default {
 }
 .content{
   transform-origin: 0% 0%;/*x(>),y(v)*/
-  height: 99vw;
-  width: 100vh;
-  padding-top: 56.25%;
+  height: 100vw!important;
+  width: 100vh!important;
+  background: red;
   /* -webkit-transform: rotate(90deg);
    -moz-transform: rotate(90deg);
    -ms-transform: rotate(90deg);

@@ -1,6 +1,6 @@
 <template>
   <div class="r_container">
-    <div class="content">
+    <div class="r_content">
       <div v-if="video.url==''" class="bannerz" :style="{ 'background-image': 'url(' + banner + ')' }">
         <span class="hint">请点击列表以开始播放</span>
       </div>
@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style scoped>
-.content{
+.r_content{
   position: absolute;
   top: 0;
   width: 100%;

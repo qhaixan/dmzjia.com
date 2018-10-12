@@ -65,11 +65,10 @@ export default {
 <style scoped>
 .bottomPart{
 
-  max-height: calc( 100vh - ( 100vw * 0.56 ) - 142px );
 }
 .window{
   overflow-y: auto;
-  height: calc( 100vh - ( 100vw * 0.56 ) - 239px );
+  height: calc( 100vh - ( 100vw * 0.56 ) - 192px );
 }
 
 </style>

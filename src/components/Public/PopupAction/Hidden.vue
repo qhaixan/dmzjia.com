@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="" style="text-align:center;padding:20px;">
-  <v-btn block color="#219100" @click="publish()" :disabled="invalid">发布</v-btn>
+  <v-btn block color="#219100" @click="publish()" :disabled="invalid">发布<span v-if="invalid">(没图/没视频)</span></v-btn>
   <v-btn block color="#d18b00" @click="edit()">更改</v-btn>
 </div>
 </template>
@@ -31,7 +31,7 @@ export default {
     checkEpisode(){
       var self = this
       hiddenAniRef.child(this.action).once('value',function(snap){
-        if((Object.values(snap.val().episode).length > 0)&&snap.val().imgH.length>0){
+        if((Object.values(snap.val().episode).length > 0)||snap.val().imgH.length>0||snap.val().imgV.length>0){
           self.invalid = false
         }
       })

@@ -14,7 +14,6 @@
       <v-btn @click="cancel">取消</v-btn>
       <v-btn color="#219100" @click="submit">提交</v-btn>
     </div>
-    {{action}}
   </div>
 </template>
 

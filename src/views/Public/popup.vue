@@ -12,6 +12,7 @@
 <published          v-else-if="content=='action_published'"/>
 <hidden             v-else-if="content=='action_hidden'"/>
 <edit_anime         v-else-if="content=='edit_anime'"/>
+<edit_episode         v-else-if="content=='edit_episode'"/>
 </div>
 </template>
 
@@ -29,7 +30,8 @@ export default {
 
     'published' : () => import('@/components/Public/PopupAction/Published'),
     'hidden' : () => import('@/components/Public/PopupAction/Hidden'),
-    'edit_anime' : () => import('@/components/Public/PopupAction/EditAnime')
+    'edit_anime' : () => import('@/components/Public/PopupAction/EditAnime'),
+    'edit_episode' : () => import('@/components/Public/PopupAction/EditEpisode')
   },
   computed: {
     content () {

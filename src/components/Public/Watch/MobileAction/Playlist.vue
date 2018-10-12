@@ -2,7 +2,7 @@
   <div class="playlist">
     <v-btn
       :disabled="episode==null"
-      :color="$store.state.common.secondaryColor"
+      color="#219100"
       @click="fullscreen"
       block
        >

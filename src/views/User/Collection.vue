@@ -17,10 +17,10 @@
         <Hidden/>
       </v-tab-item>
 
-      <v-tab>收藏</v-tab>
+      <!-- <v-tab>收藏</v-tab>
       <v-tab-item class="window">
         开发中。。。
-      </v-tab-item>
+      </v-tab-item> -->
     </v-tabs>
 
     <v-btn

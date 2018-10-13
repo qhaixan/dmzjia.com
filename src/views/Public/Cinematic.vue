@@ -48,9 +48,8 @@ export default {
 }
 .content{
   transform-origin: 0% 0%;/*x(>),y(v)*/
-  height: 100vw!important;
-  width: 100vh!important;
-  background: red;
+  height: 99vw!important;
+  width: 99.8vh!important;
   /* -webkit-transform: rotate(90deg);
    -moz-transform: rotate(90deg);
    -ms-transform: rotate(90deg);

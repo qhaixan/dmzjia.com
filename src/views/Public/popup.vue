@@ -7,12 +7,13 @@
 <login              v-else-if="content=='login'"/>
 <logout             v-else-if="content=='logout'"/>
 <nologin            v-else-if="content=='nologin'"/>
-<add_anime            v-else-if="content=='add_anime'"/>
+<add_anime          v-else-if="content=='add_anime'"/>
 
 <published          v-else-if="content=='action_published'"/>
 <hidden             v-else-if="content=='action_hidden'"/>
 <edit_anime         v-else-if="content=='edit_anime'"/>
-<edit_episode         v-else-if="content=='edit_episode'"/>
+<edit_episode       v-else-if="content=='edit_episode'"/>
+<edit_profile       v-else-if="content=='edit_profile'"/>
 </div>
 </template>
 
@@ -31,7 +32,8 @@ export default {
     'published' : () => import('@/components/Public/PopupAction/Published'),
     'hidden' : () => import('@/components/Public/PopupAction/Hidden'),
     'edit_anime' : () => import('@/components/Public/PopupAction/EditAnime'),
-    'edit_episode' : () => import('@/components/Public/PopupAction/EditEpisode')
+    'edit_episode' : () => import('@/components/Public/PopupAction/EditEpisode'),
+    'edit_profile' : () => import('@/components/Public/PopupAction/EditProfile')
   },
   computed: {
     content () {

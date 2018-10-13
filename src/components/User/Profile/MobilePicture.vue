@@ -1,10 +1,13 @@
 <template>
   <div class="main">
     <div class="portrait">
-      <img :src="avatar" class="avatar">
-      <div class="username">
-        <span v-if="name">{{name}}</span>
-        <span v-else="name">{{username}}</span>
+      <img :src="avatar" class="avatar" @click="chgAvatar" @error="imageLoadOnError">
+      <div class="username" @click="chgUsername">
+        <span v-if="name.length>0">
+          {{name}}
+        </span><br>
+        <span v-if="name.length>0" style="font-size:50%;margin-top:-10px;">（登入账号：{{username}}）</span>
+        <span v-else>{{username}}</span>
       </div>
     </div>
     <div class="function">
@@ -21,7 +24,7 @@ export default {
   data(){
     return{
       avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxC8tK9WH3CbaNFjiCcOkdiJlCyTL9IObOMJN63ECX_R-DmN8Jhw',
-      name: null
+      name: ''
     }
   },
   mounted(){
@@ -39,17 +42,37 @@ export default {
     }
   },
   methods:{
+    imageLoadOnError (e) {
+      usersRef.child(this.uid).child('avatar').set('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxC8tK9WH3CbaNFjiCcOkdiJlCyTL9IObOMJN63ECX_R-DmN8Jhw')
+    },
+    chgUsername(){
+      var self = this
+      this.$store.commit('public_dialogAction',{content:'edit_profile',width:'350',action:{
+        child:'name',
+        title:'更改昵称',
+        label:'新昵称',
+        value:self.name
+      }})
+    },
+    chgAvatar(){
+      var self = this
+      this.$store.commit('public_dialogAction',{content:'edit_profile',width:'350',action:{
+        child:'avatar',
+        title:'更改头像',
+        label:'图片链接',
+        value:self.avatar
+      }})
+    },
     getName(){
       var self = this
 
-      usersRef.child(this.uid).once('value',function(snapshot) {
+      usersRef.child(this.uid).on('value',function(snapshot) {
 
-        if(snapshot.val().name){
+        if(snapshot.val().name && snapshot.val().name.length>0){
           self.name = snapshot.val().name
         }
-        if(snapshot.val().avatar){
+        if(snapshot.val().avatar && snapshot.val().avatar.length>1){
           self.avatar = snapshot.val().avatar
-
         }
 
       })

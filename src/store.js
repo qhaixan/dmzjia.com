@@ -34,6 +34,15 @@ export default new Vuex.Store({
         content: null,
         width: null,
         action: null
+      },
+      geo:{
+        'geoplugin_request':null,//ip
+        'geoplugin_city':null,
+        'geoplugin_region':null,
+        'geoplugin_countryName':null,
+        'geoplugin_continentName':null,
+        'geoplugin_latitude':null,
+        'geoplugin_longitude':null
       }
     },
     test: {

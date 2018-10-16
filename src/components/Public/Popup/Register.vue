@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="">
   <div class="" style="text-align:center;padding:20px;">
-    <h2>Registration</h2>
+    <h2>用户注册</h2>
   </div>
   <div style="padding:30px;">
     <v-form ref="form" v-model="valid" lazy-validation>
@@ -75,10 +75,11 @@
 
       <div class="" style="text-align:right;">
         <span class="clear" @click="clear">清空</span>
-        <v-btn :disabled="!valid" @click="submit" :loading="isLoading" color="info">
+        <v-btn :disabled="!valid||cooldown!='false'" @click="submit" :loading="isLoading" color="info">
           提交
         </v-btn>
       </div>
+      <span class="warnLimit" v-if="cooldown=='true'">此网络已注册太多次，请明天再试。</span>
 
 
     </v-form>
@@ -93,6 +94,7 @@
 
 <script>
 import { usersRef } from '@/firebaseConfig'
+import { ipRef } from '@/firebaseConfig'
 export default {
   firebase: {
     users: usersRef
@@ -126,9 +128,9 @@ export default {
       min: v => v.length >= 5 || '不可小于5字母',
       match: v => v.length < 0 || '确认密码不相称',
     },
-    isLoading: false
+    isLoading: false,
+    cooldown:'checking'
   }),
-
   methods: {
     submit() {
       this.isLoading = true
@@ -193,6 +195,7 @@ export default {
       this.$store.commit('public_dialogContent',{content:'login',width:'350'})
     },
     verify(ln){
+      this.date('record')
       var self = this
       var service_id = "dmzjia_noreply"
       var template_id = "template_uJaoKiCR"
@@ -213,6 +216,39 @@ export default {
          this.isLoading = false
       })
     },
+    checkIP(date,time){
+      var ip = this.$store.state.public.geo.geoplugin_request
+      var self = this
+      //ipRef.child(date).child('register').child(time).set(ip)
+      ipRef.child(date).child("register").once("value")
+        .then(function(snapshot) {
+          if(snapshot.numChildren()<3){
+            self.cooldown = 'false'
+          }else{
+            self.cooldown = 'true'
+          }
+        });
+    },
+    recordIP(date,time){
+      var ip = this.$store.state.public.geo.geoplugin_request
+      ipRef.child(date).child('register').child(time).set(ip)
+    },
+    date(s){
+      var self = this
+      this.$axios.get("https://script.googleusercontent.com/macros/echo?user_content_key=swkACzAp3h79H6lCIZI67Z5JN668i42g0QKwmtisDTPcMVGuji3XSkAZ3dhT9-TCnDvip4msaNS8GTgpaHloIRcOLX-uCQu4m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJ9GRkcRevgjTvo8Dc32iw_BLJPcPfRdVKhJT5HNzQuXEeN3QFwl2n0M6ZmO-h7C6bwVq0tbM60-xcVIW3tKXBXhhM72BGFhdwi8IO-S-mJz&lib=MwxUjRcLr2qLlnVOLh12wSNkqcO1Ikdrk")
+        .then(response => {
+          var date = response.data.year+'-'+("0" + response.data.month).slice(-2)+'-'+("0" + response.data.day).slice(-2)
+          var time = ("0" + response.data.hours).slice(-2)+':'+("0" + response.data.minutes).slice(-2)+':'+("0" + response.data.seconds).slice(-2)+':'+("0" + response.data.millis).slice(-3)
+          if(s=='check'){
+            self.checkIP(date,time)
+          }else{
+            self.recordIP(date,time)
+          }
+        })
+    },
+  },
+  mounted(){
+    this.date('check')
   }
 }
 </script>
@@ -227,5 +263,10 @@ export default {
 }
 .toLogin:hover {
   cursor: pointer;
+}
+.warnLimit {
+  float:right;
+  font-size: 80%;
+  color:red;
 }
 </style>

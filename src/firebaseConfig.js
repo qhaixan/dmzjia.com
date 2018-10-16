@@ -21,4 +21,5 @@ export const commentsRef = db.ref('comments');
 
 export const featureRef = db.ref('recommendations');
 
+export const ipRef = db.ref('ip');
 export const testAddRef = db.ref('testAdd');

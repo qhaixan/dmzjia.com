@@ -67,7 +67,6 @@
             }
           });
         }
-
       },
       removeOnline(uid){
         if(this.isMobile){
@@ -77,25 +76,19 @@
         }
       },
       checkSession(){
-
         var uid = this.$localStorage.get('RNnryrIfpw',null,String)
-
         if(uid!="null"&&uid){
           var self = this
-
           this.$store.state.session.uid = uid
           usersRef.child(uid).once('value').then(function(snapshot) {
             self.$store.state.session.role = snapshot.val().role
             self.$store.state.session.name = snapshot.val().id
           });
-
-          //this.$localStorage.set('LhDJ6aj8AJ',this.$store.state.session.name)
           this.uploadUser(uid)
         }
-
       },
-
       //auth ends here
+
       checkAgent(){
         if( navigator.userAgent.match(/Android/i)
             || navigator.userAgent.match(/webOS/i)
@@ -114,12 +107,21 @@
       setRandomKey(){
         var key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
         this.$store.state.session.randomKey = key
+      },
+      checkGeo(){
+        var self = this
+        this.$axios.get("http://www.geoplugin.net/json.gp")
+          .then(response => {
+            self.$store.state.public.geo = response.data
+        })
       }
     },
     mounted(){
-      this.checkSession()
-      this.setRandomKey()
       this.checkAgent()
+      this.setRandomKey()
+
+      this.checkGeo()
+      this.checkSession()
     },
     computed: {
       uid () {

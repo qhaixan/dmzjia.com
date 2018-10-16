@@ -79,6 +79,11 @@ export default new Router({
       ]
     },
     {
+      path: '/verify/:ref?',
+      name: 'verify',
+      component: () => import('./views/Public/Verify.vue')
+    },
+    {
       path: '/*', redirect: '/'
     }
   ]

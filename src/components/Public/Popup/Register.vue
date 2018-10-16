@@ -201,7 +201,7 @@ export default {
       var template_id = "template_uJaoKiCR"
       var link = "m.dmzjia.com/verify/"+ln
       var params = {
-        "to_email":"999kaitokid@gmail.com",
+        "to_email":this.email,
         "to_name":this.name,
         "link":"<a href="+link+">"+link+"</a>"
       }

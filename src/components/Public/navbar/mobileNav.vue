@@ -31,7 +31,6 @@
     :color="bg"
     >
       <v-btn v-for="r in routes"
-      
         dark
         ripple
         :key="r.link"

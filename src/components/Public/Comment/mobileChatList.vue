@@ -10,7 +10,7 @@
       </div>
       <div class="msg">
         <div class="name">{{c.name}}</div>
-        <div class="speech-bubble">
+        <div :class="'speech-bubble '+self(c.uid)">
           {{c.content}}
         </div>
         <div class="time">{{c.time}}</div>
@@ -39,6 +39,12 @@ export default {
     //alert(JSON.stringify(this.comments))
   },
   methods:{
+    self(uid){
+      if(uid==this.$store.state.session.uid){
+        return 'self'
+      }
+      return ''
+    },
     loadnew(){
       this.load()
     },
@@ -81,6 +87,7 @@ export default {
         if(batch=='first'){
           self.comments.push({
             avatar : avatar,
+            uid: comment.person,
             content :comment.content,
             time :comment.time,
             name :name
@@ -88,6 +95,7 @@ export default {
         }else{
           self.olderComments.push({
             avatar : avatar,
+            uid: comment.person,
             content :comment.content,
             time :comment.time,
             name :name
@@ -108,10 +116,9 @@ export default {
 }
 .com{
   display: flex;
-  margin-bottom: 5px;
-
 }
 .portrait{
+  padding-top: 1em;
   width: 15vw;
   height: 100%;
   display: flex; flex-direction: column;
@@ -136,7 +143,7 @@ export default {
   white-space: nowrap;
   width: 0;
   color: grey;
-  font-size: 7px;
+  font-size: 9px;
 }
 .speech-bubble {
 	position: relative;
@@ -158,5 +165,19 @@ export default {
   border-top: 0;
 	margin-top: -0.5em;
 	margin-left: -1em;
+}
+@media only screen and (min-width: 425px) {
+  .time{
+    font-size: 12px;
+  }
+  .portrait{
+    width:80px;
+  }
+  .avatar{
+    height:80px;
+  }
+  .msg{
+    max-width: calc( 100% - 80px );
+  }
 }
 </style>

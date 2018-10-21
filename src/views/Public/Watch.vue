@@ -3,6 +3,7 @@
     <template v-if="!isMobile">
       <Player class="playerz"/>
       <Playlist class="playlist"/>
+      <Comment class="comment"/>
     </template>
     <Title v-if="!isMobile" class="title"/>
     <template v-else>
@@ -21,6 +22,7 @@ export default {
     Player,
     Title,
     'Playlist' : () => import('@/components/Public/Watch/Playlist'),
+    'Comment' : () => import('@/views/Public/Comment'),
     'MobileAction' : () => import('@/components/Public/Watch/MobileAction'),
   },
   computed:{

@@ -14,11 +14,13 @@ export default new Vuex.Store({
       title: 'DMZ家',
       secondaryColor: '#d10000',
       bg:'black',
+      avatar:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxC8tK9WH3CbaNFjiCcOkdiJlCyTL9IObOMJN63ECX_R-DmN8Jhw'
     },
     session: {
       uid: null,
       name: null,
       role: 0,
+      avatar: null,
       randomKey: null
     },
     action:{

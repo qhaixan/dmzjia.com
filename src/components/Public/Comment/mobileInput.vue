@@ -1,12 +1,21 @@
 <template>
   <div style="width:100%">
+    <v-alert
+        class="alert"
+        :value="sending"
+        color="warning"
+      >
+      <span style="color:#d10000;">发送中。。。</span>
+    </v-alert>
     <v-text-field
         v-if="active"
         :disabled="sending"
         :placeholder="placeholder()"
         v-model="sending? empty:content"
         :color="$store.state.common.secondaryColor"
-        @blur="active=!active;text=null"
+        @blur="offText"
+        @keydown.native.shift.enter="nextLine"
+        @keydown.native.enter="time"
         autofocus
         solo>
       <v-btn :disabled="!auth || !content" slot="append" @click="time" outline small fab :color="$store.state.common.secondaryColor">
@@ -15,7 +24,6 @@
     </v-text-field>
 
     <v-btn
-
       fab
       fixed
       small
@@ -45,6 +53,14 @@ export default {
     vkey: String
   },
   methods:{
+    nextLine(){
+
+    },
+    offText(){
+      if(this.isMobile){
+        this.active=false
+      }
+    },
     time(){
       this.sending = true
       var self = this
@@ -65,7 +81,8 @@ export default {
       })
       this.content= null
       this.sending= false
-      this.active = false
+      if(this.isMobile)
+        this.active = false
     },
     placeholder(){
       if(!this.sending){
@@ -87,7 +104,9 @@ export default {
     }
   },
   mounted(){
-
+    if(!this.isMobile){
+      this.active=true
+    }
   },
   computed:{
     uid(){
@@ -98,13 +117,24 @@ export default {
         return true
       }
       return false
-    }
+    },
+    isMobile(){
+      return this.$store.state.isMobile
+    },
   }
 }
 </script>
 
 <style scoped>
+.alert{
+  margin-bottom: 30px;
+}
 .c{
   bottom: 70px;
+}
+@media only screen and (min-width: 1024px) {
+  .alert{
+    margin-bottom: 1px;
+  }
 }
 </style>

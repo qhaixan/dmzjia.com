@@ -76,13 +76,19 @@
         }
       },
       checkSession(){
+
         var uid = this.$localStorage.get('RNnryrIfpw',null,String)
+
         if(uid!="null"&&uid){
           var self = this
           this.$store.state.session.uid = uid
+
           usersRef.child(uid).once('value').then(function(snapshot) {
             self.$store.state.session.role = snapshot.val().role
             self.$store.state.session.name = snapshot.val().id
+            if(snapshot.val().avatar){
+              self.$store.state.session.avatar = snapshot.val().avatar
+            }
           });
           this.uploadUser(uid)
         }
@@ -118,11 +124,17 @@
       }
     },
     mounted(){
-      this.checkAgent()
-      this.setRandomKey()
+      var self = this
 
-      this.checkGeo()
+      this.setRandomKey()
       this.checkSession()
+      this.checkAgent()
+      this.checkGeo()
+
+
+      if(window.location.hostname.includes("192.168.")||window.location.hostname.includes("localhost")){
+        document.title = 'localhost DMZ家'
+      }
     },
     computed: {
       uid () {
@@ -168,13 +180,19 @@
           }
 
           this.$store.state.session.name = null
+          this.$store.state.session.avatar = null
           this.$store.state.session.role = 0
           this.$router.push({name:'home'})
           this.$store.commit('public_dialogContent',{content:'logout',width:'250'})
 
         }else{
-          this.$localStorage.set('RNnryrIfpw',v)
-          this.checkSession()
+          var uid = this.$localStorage.get('RNnryrIfpw',null,String)
+          if(uid!="null"&&uid){
+
+          }else{
+            this.$localStorage.set('RNnryrIfpw',v)
+            this.checkSession()
+          }
         }
       },
       role(v,o){

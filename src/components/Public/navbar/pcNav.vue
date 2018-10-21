@@ -6,17 +6,74 @@
       v-model="drawer"
       app
       dark
+      @mouseleave.native="closeDrawer"
     >
       <v-list dense>
         <v-list-tile v-for="r in routes" @click="goRoute(r.route)">
           <v-list-tile-action>
-            <v-icon>{{r.icon}}</v-icon>
+            <v-icon color="#d10000">{{r.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>{{r.text}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+      <hr style="border-color:grey;background-color:grey;color:grey;">
+
+      <v-list dense v-if="uid">
+        <v-list-tile @click="profile">
+          <v-list-tile-action>
+            <v-icon color="#d10000">person</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>我的账号</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="$router.push({name:'collection'})">
+          <v-list-tile-action>
+            <v-icon color="#d10000">subscriptions</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>我的动漫</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="toCP" v-if="role>1">
+          <v-list-tile-action>
+            <v-icon color="#d10000">style</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>管理员页面</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="logout">
+          <v-list-tile-action>
+            <v-icon color="#d10000">exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>注销</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+
+      <v-list dense v-else>
+        <v-list-tile @click="login">
+          <v-list-tile-action>
+            <v-icon color="#d10000">exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>登入</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="register">
+          <v-list-tile-action>
+            <v-icon color="#d10000">person_add</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>注册</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -35,32 +92,7 @@
         @keydown.native="keymonitor"
       ></v-text-field>
       <v-spacer></v-spacer>
-
-
-      <v-menu left offset-y>
-        <v-btn icon slot="activator">
-          <v-icon>person</v-icon>
-        </v-btn>
-        <v-list v-if="uid" dark>
-          <v-list-tile @click="profile">
-            <v-list-tile-title>Profile</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="toCP" v-if="role>1">
-            <v-list-tile-title>Manage</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="logout">
-            <v-list-tile-title>Logout</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-        <v-list v-else dark>
-          <v-list-tile @click="login">
-            <v-list-tile-title>登入</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="register">
-            <v-list-tile-title>注册</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <img :src="avatar" class="avatarIcon" @click="profile">
 
     </v-toolbar>
     <router-link v-for="r in routes" :to="r.link" :key="r.link">{{r.text}} | </router-link>
@@ -73,17 +105,22 @@
 </template>
 
 <script>
+import { usersRef } from '@/firebaseConfig'
 export default {
   data(){
     return {
       drawer: false,
-      query:null
+      query:null,
+      // avatar:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxC8tK9WH3CbaNFjiCcOkdiJlCyTL9IObOMJN63ECX_R-DmN8Jhw'
     }
   },
   props: {
     routes: Array
   },
   methods: {
+    closeDrawer(){
+      this.drawer = false
+    },
     goRoute(r){
       this.drawer = false
       this.$router.push({name:r})
@@ -101,7 +138,11 @@ export default {
       this.$router.push('/controlpanel')
     },
     profile(){
-      this.$router.push({name: 'profile'})
+      if(this.uid){
+        this.$router.push({name: 'profile'})
+      }else{
+        this.login()
+      }
     },
     keymonitor: function(event) {
       if(event.key=="Enter"){
@@ -118,6 +159,9 @@ export default {
       }
     }
   },
+  mounted(){
+
+  },
   computed: {
     role () {
       return this.$store.state.session.role
@@ -127,8 +171,14 @@ export default {
     },
     uid () {
       return this.$store.state.session.uid
+    },
+    avatar () {
+      if(this.$store.state.session.avatar){
+        return this.$store.state.session.avatar
+      }
+      return this.$store.state.common.avatar
     }
-  },
+  }
 }
 </script>
 
@@ -136,5 +186,14 @@ export default {
 #title{
   text-decoration: none;
   color: white;
+}
+.avatarIcon{
+  max-height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.avatarIcon:hover{
+  cursor: pointer;
+  box-shadow: 1px 1px 30px red;
 }
 </style>

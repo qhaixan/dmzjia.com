@@ -147,11 +147,6 @@ export default {
         this.error=true
       }else{
         this.$store.state.session.uid = key
-        this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
-        var self = this
-        setTimeout(function () {
-          self.$store.commit('public_dialogPop',false)
-        }, 1200)
       }
     },
     clear() {
@@ -172,6 +167,20 @@ export default {
     var uid = this.$localStorage.get('RNnryrIfpw',null,String)
     if(uid&&uid!="null") {
       this.$store.state.session.uid = uid
+    }
+  },
+  watch:{
+    uid(v,o){
+      this.$store.commit('public_dialogContent',{content:'register_success',width:'250'})
+      var self = this
+      setTimeout(function () {
+        self.$store.commit('public_dialogPop',false)
+      }, 1200)
+    }
+  },
+  computed:{
+    uid () {
+      return this.$store.state.session.uid
     }
   }
 }

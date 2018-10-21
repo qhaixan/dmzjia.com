@@ -40,4 +40,9 @@ export default {
   text-overflow: ellipsis;
   padding: 5px;
 }
+@media (min-width: 768px) {
+  .title2{
+    text-align: left;
+  }
+}
 </style>

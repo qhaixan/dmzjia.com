@@ -3,7 +3,7 @@
   <h3 style="text-decoration:underline;">所有视频({{episodes.length}}集)</h3>
   <router-link v-for="e in episodes" :to="{ name: 'watch', params: {id:key,episode:e.id} }">
     <div class="label" :style="select(e.id)">
-      {{e.index}}
+      <span>{{e.index}}</span>
     </div>
   </router-link>
 </div>
@@ -46,7 +46,7 @@ export default {
     },
     select(id) {
       if (id == this.episode) {
-        return 'background:'+this.$store.state.common.secondaryColor+';'
+        return 'background:rgba(89, 89, 89,0.4);color:#00ce33;font-weight:700;'
       }
       return ''
     }
@@ -71,11 +71,10 @@ export default {
   border-color: #3d3d3d;
   border-width: thin;
   padding: 5px;
-}
-.playlist :nth-child(1){
-  border-top: solid;
-  border-color: #3d3d3d;
-  border-width: thin;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
 }
 a {
   text-decoration: none;

@@ -7,6 +7,9 @@
 .title {
   grid-area: title;
 }
+.comment {
+  grid-area: comment;
+}
 .watch {
   grid-template-columns: 1fr;
   grid-template-areas:
@@ -26,7 +29,8 @@
     grid-template-columns: 4fr 1fr;
     grid-template-areas:
     "player   playlist"
-    "title    title";
+    "title    title"
+    "comment  comment";
   }
 }
 @media (min-width: 1024px) {

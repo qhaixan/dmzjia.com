@@ -55,4 +55,14 @@ export default {
 .b{
   bottom: 70px;
 }
+@media only screen and (min-width: 1024px) {
+  .tf {
+    bottom:-25px!important;
+    max-width: 1024px;
+    left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto; 
+  }
+}
 </style>

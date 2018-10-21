@@ -1,10 +1,15 @@
 <template>
   <div class="wrapper watch">
-    <Player class="playerz"/>
-    <Title class="title"/>
-
-    <Playlist class="playlist" v-if="!isMobile"/>
-    <MobileAction class="playlist" v-else/>
+    <template v-if="!isMobile">
+      <Player class="playerz"/>
+      <Playlist class="playlist"/>
+    </template>
+    <Title v-if="!isMobile" class="title"/>
+    <template v-else>
+      <Player class="playerz"/>
+      <Title class="title"/>
+      <MobileAction class="playlist"/>
+    </template>
   </div>
 </template>
 

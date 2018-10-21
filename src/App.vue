@@ -102,6 +102,7 @@
         }
         else {
             this.$store.state.isMobile = false
+            this.$store.state.common.bg = 'white'
         }
       },
       setRandomKey(){

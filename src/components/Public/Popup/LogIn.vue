@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="">
   <div class="" style="text-align:center;padding:20px;">
-    <h2>Login</h2>
+    <h2>登入</h2>
   </div>
   <div style="padding:30px;">
     <v-form ref="form" v-model="valid" lazy-validation>

@@ -19,7 +19,6 @@ export default {
 @import './../../static/styles/grid.css';
 @import './../../static/styles/grid-home.css';
 .carousel{
-  height: 0;
-  padding-top: 56.25%;
+  height: 56.25vw;
 }
 </style>

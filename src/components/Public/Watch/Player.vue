@@ -2,7 +2,8 @@
   <div class="r_container">
     <div class="r_content">
       <div v-if="video.url==''" class="bannerz" :style="{ 'background-image': 'url(' + banner + ')' }">
-        <span class="hint">请点击列表以开始播放</span>
+        <span class="hint">请点击<template v-if="isMobile">下边</template><template v-else>右边</template>的列表以开始播放
+        </span>
       </div>
       <iframe v-if="video.source=='Openload'" height="100%" width="100%" :src="'https://openload.co/embed/'+video.url" allowfullscreen="allowfullscreen"></iframe>
       <iframe v-if="video.source=='GoogleDrive'" :src="'https://drive.google.com/file/d/'+video.url+'/preview'" allowfullscreen="allowfullscreen"></iframe>
@@ -57,6 +58,11 @@ export default {
       }
     },
 
+  },
+  computed:{
+    isMobile(){
+      return this.$store.state.isMobile
+    }
   },
   mounted(){
     this.getParams()

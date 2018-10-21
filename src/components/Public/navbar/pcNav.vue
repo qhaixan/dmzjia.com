@@ -5,6 +5,7 @@
       fixed
       v-model="drawer"
       app
+      dark
     >
       <v-list dense>
         <v-list-tile v-for="r in routes" @click="goRoute(r.route)">
@@ -17,9 +18,13 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed clipped-left>
+    <v-toolbar app fixed clipped-left dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title class="ml-0 pl-3" style="width: 300px"><router-link id="title" :to="{ name: 'home', params: {} }"><v-icon>live_tv</v-icon> {{$store.state.common.title}}</router-link></v-toolbar-title>
+      <v-toolbar-title class="ml-0 pl-3" style="width: 300px">
+        <router-link id="title" :to="{ name: 'home', params: {} }">
+          <v-icon style="font-size:140%;" :color="$store.state.common.secondaryColor">live_tv</v-icon> {{$store.state.common.title}}
+        </router-link>
+      </v-toolbar-title>
       <v-text-field
         flat
         dark
@@ -32,11 +37,11 @@
       <v-spacer></v-spacer>
 
 
-      <v-menu bottom offset-y>
+      <v-menu left offset-y>
         <v-btn icon slot="activator">
           <v-icon>person</v-icon>
         </v-btn>
-        <v-list v-if="uid">
+        <v-list v-if="uid" dark>
           <v-list-tile @click="profile">
             <v-list-tile-title>Profile</v-list-tile-title>
           </v-list-tile>
@@ -47,12 +52,12 @@
             <v-list-tile-title>Logout</v-list-tile-title>
           </v-list-tile>
         </v-list>
-        <v-list v-else>
+        <v-list v-else dark>
           <v-list-tile @click="login">
-            <v-list-tile-title>Login</v-list-tile-title>
+            <v-list-tile-title>登入</v-list-tile-title>
           </v-list-tile>
           <v-list-tile @click="register">
-            <v-list-tile-title>Register</v-list-tile-title>
+            <v-list-tile-title>注册</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>

@@ -12,7 +12,8 @@ export default new Vuex.Store({
     isMobile: true,
     common: {
       title: 'DMZ家',
-      secondaryColor: '#d10000'
+      secondaryColor: '#d10000',
+      bg:'black',
     },
     session: {
       uid: null,

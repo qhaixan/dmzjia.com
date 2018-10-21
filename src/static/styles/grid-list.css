@@ -1,0 +1,33 @@
+.notifyQuery {
+  grid-area: notifyQuery;
+}
+.mloader, .loader{
+  grid-area: loader;
+}
+.list-box{
+  grid-area: menu;
+}
+.animelist {
+  grid-template-areas:
+    'notifyQuery'
+    'loader'
+    'menu';
+}
+@media (min-width: 500px) {
+  .animelist {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    'notifyQuery'
+    'loader'
+    'menu';
+  }
+}
+@media (min-width: 700px) {
+  .animelist {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    'notifyQuery'
+    'loader'
+    'menu';
+  }
+}

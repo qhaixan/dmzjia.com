@@ -1,7 +1,7 @@
 <template>
-  <div class="">
+  <div class="wrapper animelist">
     <div v-if="query" class="notifyQuery" :style="'background:'+queryColor+';'">
-      <span v-if="!loading">以"{{query}}"搜查到{{anime.length}}个结果</span>
+      <span v-if="!loading">以"{{query}}"搜查到{{anime.length}}个结果 <span class="clearQuery" @click="clearQuery()">显示所有</span></span>
       <span v-else>搜索中</span>
     </div>
 
@@ -45,6 +45,10 @@ export default {
     }
   },
   methods:{
+    clearQuery(){
+      this.$router.push({ name: 'list'})
+      location.reload()
+    },
     paginate(){
       this.anime = []
       var cursor = this.pageQuery.cursor
@@ -135,7 +139,7 @@ export default {
       else if (this.anime.length==0) {
         return this.$store.state.common.secondaryColor
       }
-      return '#004aa5'
+      return '#00a00a'
     },
     view(){
       if(this.isMobile){
@@ -156,6 +160,16 @@ export default {
 </script>
 
 <style scoped>
+@import './../../static/styles/grid.css';
+@import './../../static/styles/grid-list.css';
+.clearQuery:hover{
+  cursor: pointer;
+  color: #60daff;
+}
+.clearQuery{
+  color:#000f75;
+  font-weight:600;
+}
 .loader{
   width: 100%;
   position: relative;
@@ -209,11 +223,22 @@ a {
 .name {
   padding-left: 5px;
   white-space: nowrap;
-  width: 69vw;
+  width: 70vw;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .name > span {
   color: grey;
+}
+
+@media (min-width: 1024px) {
+  .name {
+    width: 100%;
+  }
+  .list-item:hover{
+    border-bottom: solid;
+    border-width: thin;
+    border-color: #d10000;
+  }
 }
 </style>

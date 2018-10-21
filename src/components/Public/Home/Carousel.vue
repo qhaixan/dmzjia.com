@@ -1,17 +1,24 @@
 <template>
   <v-carousel
+  class="frame"
     hide-delimiters
     :interval="interval"
-    @click.native="click"
     ref="carousel"
     >
     <v-carousel-item
       class="image"
+      @mouseover="slow()"
+      @mouseleave="fast()"
+      v-touch="{
+        left: () => slow(),
+        right: () => slow(),
+      }"
       v-for="(item,i) in cards"
       :key="i"
-      :src="item.img"
+
       @click="$router.push({ name: 'watch', params: { id: item.id } })"
     >
+      <img :src="item.img">
       <div class="title">
         <v-chip
           color="black"
@@ -29,22 +36,20 @@ import { featureRef } from '@/firebaseConfig'
 export default {
   data(){
     return {
-      cards: [],
-      interval:'2000'
+      cards:[
+        {title:null,img:'http://nunsontherun.co.uk/assets/images/site/loading.gif',id:null}
+      ],
+      interval:'500',
+      f:'3000',
+      s:'6000'
     }
   },
   methods:{
-    click (e) {
-      if(e.target.className=='v-icon material-icons theme--dark'){
-        this.interval='5000'
-      }
+    fast(){
+      this.interval=this.f
     },
-    hover (h) {
-      if(h){
-        //this.interval='500000000'
-      }else{
-        //this.interval='2000'
-      }
+    slow(){
+      this.interval=this.s
     },
     loadCarousel(featured){
       this.cards = []
@@ -52,6 +57,10 @@ export default {
       for(var i=0;i<keys.length;i++){
         this.findAnime(keys[i].anime)
       }
+      var self = this
+      setTimeout(function () {
+        self.interval = self.f
+      }, 600)
     },
     findAnime(key){
       var self = this
@@ -67,7 +76,6 @@ export default {
   mounted(){
     var self = this
     featureRef.once("value",function(snapshot){
-
       self.loadCarousel(snapshot.val())
     });
 
@@ -82,6 +90,22 @@ export default {
 </script>
 
 <style scoped>
+.frame{
+  background: black;
+  max-height: calc( 100vw * (9/16) );
+}
+.image{
+  text-align: center;
+}
+.image img{
+  max-width: 100%;
+  height: 100%;
+}
+@media screen and (min-width: 425px) {
+  .frame{
+    max-height: 50vh!important;
+  }
+}
 .font {
   font-size: calc( 100vw / 26 );
 }
@@ -90,8 +114,6 @@ export default {
     font-size: 20px;
   }
 }
-
-
 .title{
   position: absolute;
   bottom: 0;

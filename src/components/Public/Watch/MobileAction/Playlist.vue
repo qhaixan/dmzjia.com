@@ -11,7 +11,7 @@
     <v-layout row wrap>
       <div v-for="e in episodes">
         <router-link :to="{ name: 'watch', params: {id:key,episode:e.id} }">
-          <v-btn :color="select(e.id)" @click="alert(e.id)">
+          <v-btn :color="select(e.id)">
             {{e.index}}
           </v-btn>
         </router-link>

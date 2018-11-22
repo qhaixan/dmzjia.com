@@ -1,11 +1,11 @@
 import { initializeApp } from 'firebase';
 const app = initializeApp({
-  apiKey: "AIzaSyArpaF5cN427SHJ0xD_EuWe_4jQ5pc1uQw",
-  authDomain: "testvue-1ab02.firebaseapp.com",
-  databaseURL: "https://testvue-1ab02.firebaseio.com",
-  projectId: "testvue-1ab02",
-  storageBucket: "testvue-1ab02.appspot.com",
-  messagingSenderId: "1073208552445"
+  //apiKey: "",
+  //authDomain: "",
+  //databaseURL: "",
+  //projectId: "",
+  //storageBucket: "",
+  //messagingSenderId: ""
 });
 
 export const db = app.database();

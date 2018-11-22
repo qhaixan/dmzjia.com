@@ -14,3 +14,9 @@ npm run serve
 ```
 npm run build
 ```
+### Link to the website
+```
+https://m.dmzjia.com/
+or
+https://testvue-1ab02.firebaseapp.com/
+````
